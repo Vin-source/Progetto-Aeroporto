@@ -17,30 +17,27 @@ public class Utente extends Ospite {
 
     public ArrayList<Prenotazione> cercaPrenotazioni(String valore) {
         ArrayList<Prenotazione> prenotazioniTrovate = new ArrayList<>();
-        prenotazioni.forEach(prenotazione -> {
-            if (prenotazione.passeggero.getNome().equals(valore) || prenotazione.volo.getIdVolo().equals(valore)) {
-                prenotazioniTrovate.add(prenotazione);
-            }
-        });
-        return prenotazioniTrovate;
+        if(prenotazioni != null){
+            prenotazioni.forEach(prenotazione -> {
+                if (prenotazione.passeggero.getNome().equals(valore) || prenotazione.volo.getIdVolo().equals(valore)) {
+                    prenotazioniTrovate.add(prenotazione);
+                }
+            });
+            return prenotazioniTrovate;
+        }
+
     }
 
-/*
-    public Prenotazione getPrenotazione(String id){
-        if(!prenotazioni.isEmpty()){
-            for(Prenotazione p : prenotazioni){
-                if(p.getIdPrenotazione().equals(id)){
-                    return p;
-                }
-            }
-        }
-        return null;
-    }
-*/
+
 
     // -------------- OGGETTI ESTERNI ------------------
 
-    public ArrayList<Prenotazione> getPrenotazioni() { return this.prenotazioni; }
+    public ArrayList<Prenotazione> getPrenotazioni() {
+        if(prenotazioni != null){
+            return prenotazioni;
+        }
+        return null;
+    }
     public void setPrenotazioni(ArrayList<Prenotazione> prenotazioni) { this.prenotazioni = prenotazioni; }
 
 }

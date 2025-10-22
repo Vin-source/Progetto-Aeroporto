@@ -1,7 +1,7 @@
 package model;
 
 public class Ospite {
-    protected String id = "0";
+    protected String id;
     protected String email;
     protected String password;
 
