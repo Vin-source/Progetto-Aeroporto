@@ -125,7 +125,7 @@ public class Prenotazione {
             return this.volo.getCodiceVolo();
         }
 
-
+    return null;
     }
 
 }

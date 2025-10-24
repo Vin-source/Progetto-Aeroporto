@@ -19,13 +19,13 @@ public class Utente extends Ospite {
         ArrayList<Prenotazione> prenotazioniTrovate = new ArrayList<>();
         if(prenotazioni != null){
             prenotazioni.forEach(prenotazione -> {
-                if (prenotazione.passeggero.getNome().equals(valore) || prenotazione.volo.getIdVolo().equals(valore)) {
+                if (prenotazione.getPasseggero().getNome().equals(valore) || prenotazione.getVolo().getCodiceVolo().equals(valore)) {
                     prenotazioniTrovate.add(prenotazione);
                 }
             });
             return prenotazioniTrovate;
         }
-
+    return null;
     }
 
 
