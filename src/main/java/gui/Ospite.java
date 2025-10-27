@@ -1,49 +1,50 @@
 package gui;
 
-import controller.Controller;
+// import controller.Controller;
 import model.Volo;
 
-import javax.naming.AuthenticationException;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Ospite extends JFrame {
     public JFrame frame;
     private JPanel loginPanel;
+    private JPanel voliContainer;
     private JTextField email;
     private JPasswordField password;
     private JButton accediButton;
     private JScrollPane listaVoliScroll;
+    private JPanel listaVoli;
 
 
-    private Controller controller;
+
+ //   private Controller controller;
 
     public Ospite() {
-        this.controller = new Controller();
+        // this.controller = new Controller();
+
 
         frame = new JFrame("Login");
+        this.listaVoli = new JPanel();
 
 
-        aggiornaListaVoli(this.controller.getVoli());
+        // aggiornaListaVoli(this.controller.getVoli());
 
         frame.setContentPane(loginPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
 
-        initListener();
-
+        // initListener();
+        ArrayList<Volo> voli = new ArrayList<>();
+        voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
+        aggiornaListaVoli(voli);
         frame.setVisible(true);
     }
 
-    public JPanel getPanel() {
-        return loginPanel;
-    }
 
 
-
+/*
     private void initListener() {
         accediButton.addActionListener(new ActionListener() {
             @Override
@@ -75,10 +76,11 @@ public class Ospite extends JFrame {
             }
         });
     }
-
+*/
 
     private void aggiornaListaVoli(ArrayList<Volo> listaVoli) {
-        listaVoliScroll.removeAll();
+
+        this.listaVoli.removeAll();
 
         for(Volo volo: listaVoli){
             JPanel pannelloVolo = new JPanel();
@@ -115,17 +117,18 @@ public class Ospite extends JFrame {
             pannelloVolo.add(orario);
 
             pannelloVolo.add(new JLabel("Ritardo: "));
-            JTextField ritardo = new JTextField(volo.getRitardo());
+            JTextField ritardo = new JTextField(String.valueOf(volo.getRitardo()));
             ritardo.setEditable(false);
             pannelloVolo.add(ritardo);
 
             JButton prenota = new JButton("Prenota");
             pannelloVolo.add(prenota);
 
-            listaVoliScroll.add(pannelloVolo);
+            this.listaVoli.add(pannelloVolo);
         }
 
-        listaVoliScroll.revalidate();
-        listaVoliScroll.repaint();
+        this.listaVoli.revalidate();
+        this.listaVoli.repaint();
+        this.listaVoliScroll = new JScrollPane(this.listaVoli);
     }
 }

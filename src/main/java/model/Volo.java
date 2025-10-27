@@ -42,14 +42,14 @@ public class Volo {
                 String compagniaAerea,
                 String origine,
                 String destinazione,
-                LocalDate data,
-                LocalTime orarioPrevisto,
+                String data,
+                String orarioPrevisto,
                 int ritardo) {
 
         this.codiceVolo = codiceVolo;
         this.compagniaAerea = compagniaAerea;
-        this.data = data;
-        this.orarioPrevisto = orarioPrevisto;
+        this.data = LocalDate.parse(data, formatterData);
+        this.orarioPrevisto = LocalTime.parse(orarioPrevisto, formatterOra);
         this.ritardo = ritardo;
 
         if(origine.equals("Napoli")){
@@ -107,7 +107,7 @@ public class Volo {
         }
         return null;
     }
-    public void setData(LocalDate data) { this.data = data; }
+    public void setData(String data) { this.data = LocalDate.parse(data, formatterData); }
 
 
     public String getOrarioPrevisto() {
@@ -116,7 +116,7 @@ public class Volo {
         }
          return null;
     }
-    public void setOrarioPrevisto(LocalTime orarioPrevisto) { this.orarioPrevisto = orarioPrevisto; }
+    public void setOrarioPrevisto(String orarioPrevisto) { this.orarioPrevisto = LocalTime.parse(orarioPrevisto, formatterOra); }
 
 
     public int getRitardo() {
