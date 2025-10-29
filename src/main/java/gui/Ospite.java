@@ -5,6 +5,8 @@ import model.Volo;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Ospite extends JFrame {
@@ -48,22 +50,25 @@ public class Ospite extends JFrame {
         voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
         voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
         aggiornaListaVoli(voli);
+        initListener();
     }
 
 
 
-/*
+
     private void initListener() {
         accediButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
+                // try {
                     String emailInserita = email.getText();
                     String passwordInserita = new String(password.getPassword());
 
-                    String result = controller.login(emailInserita, passwordInserita);
+                    email.setText("pippo");
+                    password.setText("mauro");
+                    // String result = controller.login(emailInserita, passwordInserita);
 
-                    if ("amministratore".equals(result)) {
+                    /*if ("amministratore".equals(result)) {
                         Amministratore amministratore = new Amministratore(controller);
                         amministratore.frame.setVisible(true);
                         frame.setVisible(false);
@@ -80,11 +85,11 @@ public class Ospite extends JFrame {
                 }
                 catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Errore imprevisto: " + ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-                }
+                } */
             }
         });
     }
-*/
+
 
 
 
