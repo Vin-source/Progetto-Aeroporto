@@ -112,7 +112,7 @@ public class Volo {
 
     public String getOrarioPrevisto() {
         if(orarioPrevisto != null){
-            this.orarioPrevisto.format(formatterOra);
+            return this.orarioPrevisto.format(formatterOra);
         }
          return null;
     }

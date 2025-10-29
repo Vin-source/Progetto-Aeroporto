@@ -94,19 +94,17 @@ public class Ospite extends JFrame {
             pannelloVolo.setLayout(new GridLayout(1,7, 10, 10));
             pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-            pannelloVolo.add(new JLabel("Codice volo: " + volo.getCodiceVolo()));
-            pannelloVolo.add(new JLabel("Compagnia aerea: " + volo.getCompagniaAerea()));
-            if(volo.getOrigine() != null) pannelloVolo.add(new JLabel("Origine: " + volo.getOrigine()));
-            if(volo.getDestinazione() != null) pannelloVolo.add(new JLabel("Destinazione: " + volo.getDestinazione()));
-            pannelloVolo.add(new JLabel("Data: " + volo.getData()));
-            pannelloVolo.add(new JLabel("Orario di arrivo: " + volo.getOrarioPrevisto()));
-            pannelloVolo.add(new JLabel("Ritardo: " + volo.getRitardo() + " minuti"));
-            JButton prenota = new JButton("Prenota");
+            pannelloVolo.add(new JLabel("CODICE: " + volo.getCodiceVolo().toUpperCase()));
+            pannelloVolo.add(new JLabel("COMPAGNIA AEREA: " + volo.getCompagniaAerea().toUpperCase()));
+            if(volo.getOrigine() != null) pannelloVolo.add(new JLabel("ORIGINE: " + volo.getOrigine().toUpperCase()));
+            if(volo.getDestinazione() != null) pannelloVolo.add(new JLabel("DESTINAZIONE: " + volo.getDestinazione().toUpperCase()));
+            pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
+            pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
+            pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
 
-
-            pannelloVolo.add(prenota);
 
             listaVoliPanel.add(pannelloVolo);
+            listaVoliPanel.add(Box.createVerticalStrut(5));
             listaVoliPanel.revalidate();
             listaVoliPanel.repaint();
         }
