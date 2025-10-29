@@ -11,7 +11,9 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Utente {
+    public JFrame frame;
     private JPanel utenteContainer;
+
     private JButton areaPersonaleButton;
     private JTextField barraDiRicerca;
     private JPanel listaVoliPanel;
@@ -21,12 +23,19 @@ public class Utente {
 
     public Utente(/*Controller controller*/) {
         // this.controller = controller;
-        // frame = new JFrame("Area Utente");
-        // frame.setContentPane(utente);
-        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // frame.pack();
-        // frame.setVisible(true);
+         frame = new JFrame("Area Utente");
+         frame.setContentPane(utenteContainer);
+         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         frame.pack();
+         frame.setVisible(true);
 
+
+        listaVoliPanel.setLayout(new GridLayout(0, 2, 10, 10));
+
+        ArrayList<Volo> voli = new ArrayList<>();
+        voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
+        voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
+        aggiornaListaVoli(voli);
         // Listener Area Personale
         /*
         areaPersonaleButton.addActionListener(e ->{
@@ -53,82 +62,34 @@ public class Utente {
         // Caricamento iniziale dei voli
         // aggiornaListaVoli(controller.getVoli());
     }
-/*
-    private void aggiornaListaVoli(ArrayList<Volo> listaVoli) {
-        listaVoliPanel.removeAll();
-        // ArrayList<Prenotazione> listaVoliPrenotati = controller.getVoliPrenotati();
 
+
+    private void aggiornaListaVoli(ArrayList<Volo> listaVoli) {
         for(Volo volo: listaVoli){
             JPanel pannelloVolo = new JPanel();
-            pannelloVolo.setLayout(new GridLayout(0,2));
+            pannelloVolo.setLayout(new GridLayout(1,7, 10, 10));
+            pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-            pannelloVolo.add(new JLabel("Codice volo: "));
-            JTextField codice = new JTextField(volo.getCodiceVolo());
-            codice.setEditable(false);
-            pannelloVolo.add(codice);
+            pannelloVolo.add(new JLabel("CODICE: " + volo.getCodiceVolo().toUpperCase()));
+            pannelloVolo.add(new JLabel("COMPAGNIA AEREA: " + volo.getCompagniaAerea().toUpperCase()));
+            if(volo.getOrigine() != null) pannelloVolo.add(new JLabel("ORIGINE: " + volo.getOrigine().toUpperCase()));
+            if(volo.getDestinazione() != null) pannelloVolo.add(new JLabel("DESTINAZIONE: " + volo.getDestinazione().toUpperCase()));
+            pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
+            pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
+            pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
+            pannelloVolo.add(new JButton("PRENOTA"));
 
-            pannelloVolo.add(new JLabel("Compagnia aerea: "));
-            JTextField compagnia = new JTextField(volo.getCompagniaAerea());
-            compagnia.setEditable(false);
-            pannelloVolo.add(compagnia);
-
-            pannelloVolo.add(new JLabel("Origine: "));
-            JTextField origine = new JTextField(volo.getOrigine());
-            origine.setEditable(false);
-            pannelloVolo.add(origine);
-
-            pannelloVolo.add(new JLabel("Destinazione: "));
-            JTextField destinazione = new JTextField(volo.getDestinazione());
-            destinazione.setEditable(false);
-            pannelloVolo.add(destinazione);
-
-            pannelloVolo.add(new JLabel("Data: "));
-            JTextField data = new JTextField(volo.getData());
-            data.setEditable(false);
-            pannelloVolo.add(data);
-
-            pannelloVolo.add(new JLabel("Orario di arrivo: "));
-            JTextField orario = new JTextField(volo.getOrarioPrevisto());
-            orario.setEditable(false);
-            pannelloVolo.add(orario);
-
-            pannelloVolo.add(new JLabel("Ritardo: "));
-            JTextField ritardo = new JTextField(volo.getRitardo());
-            ritardo.setEditable(false);
-            pannelloVolo.add(ritardo);
-
-            JButton prenota = new JButton("Prenota");
-            pannelloVolo.add(prenota);
-
-
-            for(Prenotazione p : listaVoliPrenotati){
-                if(p.getVolo().getCodiceVolo().equals(volo.getCodiceVolo())){
-                    JButton modifica = new JButton("Modifica");
-                    modifica.addActionListener(e -> {
-                        ModificaPrenotazione modificaPrenotazioneGUI = new ModificaPrenotazione(controller, frame, volo.getCodiceVolo());
-                        modificaPrenotazioneGUI.frame.setVisible(true);
-                        frame.setVisible(false);
-                    });
-                    pannelloVolo.add(modifica);
-                }
-            }
-
-            prenota.addActionListener(e -> {
-                DatiPrenotazione dati = new DatiPrenotazione(controller, frame, volo.getCodiceVolo());
-                dati.frame.setVisible(true);
-                frame.setVisible(false);
-            });
 
             listaVoliPanel.add(pannelloVolo);
+            listaVoliPanel.add(Box.createVerticalStrut(5));
+            listaVoliPanel.revalidate();
+            listaVoliPanel.repaint();
+            frame.pack();
         }
-
-        listaVoliPanel.revalidate();
-        listaVoliPanel.repaint();
     }
 
-    public JPanel getPanel() {
-        return utente;
-    }
-    */
+
+
+
 
 }

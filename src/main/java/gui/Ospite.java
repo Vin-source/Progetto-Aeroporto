@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Ospite extends JFrame {
     private JPanel ospiteContainer;
-
+    public JFrame frame;
     private JTextField email;
     private JPasswordField password;
     private JButton accediButton;
@@ -33,7 +33,11 @@ public class Ospite extends JFrame {
     public Ospite() {
         // this.controller = new Controller();
 
-
+        frame = new JFrame("La mia GUI Swing");
+        frame.setContentPane(ospiteContainer);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
 
 
 
@@ -52,6 +56,7 @@ public class Ospite extends JFrame {
         voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
         aggiornaListaVoli(voli);
         initListener();
+        frame.pack();
     }
 
 
@@ -68,9 +73,8 @@ public class Ospite extends JFrame {
                     email.setText("pippo");
                     password.setText("mauro");
 
-                    gui.Utente utente = new gui.Utente();
-                    utente.frame.setVisible(true);
-                    ospiteContainer.setVisible(false);
+                    new gui.Utente().frame.setVisible(true);
+                    frame.dispose();
                     // String result = controller.login(emailInserita, passwordInserita);
 
                     /*if ("amministratore".equals(result)) {
