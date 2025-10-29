@@ -43,20 +43,22 @@ public class Utente {
             p.frame.setVisible(true);
             frame.setVisible(false);
         });
+        */
+
 
         // Listener per la barra di ricerca
         barraDiRicerca.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
-                aggiornaListaVoli(controller.cercaVolo(barraDiRicerca.getText()));
+                aggiornaListaVoli(/*controller.cercaVolo(barraDiRicerca.getText())*/voli);
             }
             public void removeUpdate(DocumentEvent e){
-                aggiornaListaVoli(controller.cercaVolo(barraDiRicerca.getText()));
+                aggiornaListaVoli(/*controller.cercaVolo(barraDiRicerca.getText())*/voli);
             }
             public void changedUpdate(DocumentEvent e){
                 // ignorato per campi plain text
             }
         });
-        */
+
          
 
         // Caricamento iniziale dei voli
@@ -65,6 +67,12 @@ public class Utente {
 
 
     private void aggiornaListaVoli(ArrayList<Volo> listaVoli) {
+
+        listaVoliPanel.removeAll();
+        listaVoliPanel.revalidate();
+        listaVoliPanel.repaint();
+
+
         for(Volo volo: listaVoli){
             JPanel pannelloVolo = new JPanel();
             pannelloVolo.setLayout(new GridLayout(1,7, 10, 10));
