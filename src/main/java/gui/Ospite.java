@@ -1,6 +1,7 @@
 package gui;
 
 // import controller.Controller;
+import model.Utente;
 import model.Volo;
 
 import javax.swing.*;
@@ -66,6 +67,10 @@ public class Ospite extends JFrame {
 
                     email.setText("pippo");
                     password.setText("mauro");
+
+                    gui.Utente utente = new gui.Utente();
+                    utente.frame.setVisible(true);
+                    ospiteContainer.setVisible(false);
                     // String result = controller.login(emailInserita, passwordInserita);
 
                     /*if ("amministratore".equals(result)) {
