@@ -25,10 +25,11 @@ public class Utente {
          frame = new JFrame("Area Utente");
          frame.setContentPane(utenteContainer);
          frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-         frame.pack();
 
 
-        listaVoliPanel.setLayout(new GridLayout(0, 2, 10, 10));
+
+        //listaVoliPanel.setLayout(new GridLayout(0, 2, 10, 10));
+        listaVoliPanel.setLayout(new BoxLayout(listaVoliPanel, BoxLayout.Y_AXIS));
 
         ArrayList<Volo> voli = new ArrayList<>();
         voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
@@ -43,6 +44,7 @@ public class Utente {
         // Caricamento iniziale dei voli
         // aggiornaListaVoli(controller.getVoli());
         frame.setVisible(true);
+        frame.pack();
     }
 
     private void initListeners() {
@@ -79,15 +81,13 @@ public class Utente {
     private void aggiornaListaVoli(ArrayList<Volo> listaVoli) {
 
         listaVoliPanel.removeAll();
-        listaVoliPanel.revalidate();
-        listaVoliPanel.repaint();
-        frame.pack(); // ?? funziona ??
 
 
         for(Volo volo: listaVoli){
             JPanel pannelloVolo = new JPanel();
             pannelloVolo.setLayout(new GridLayout(1,7, 10, 10));
             pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
 
             pannelloVolo.add(new JLabel("CODICE: " + volo.getCodiceVolo().toUpperCase()));
             pannelloVolo.add(new JLabel("COMPAGNIA AEREA: " + volo.getCompagniaAerea().toUpperCase()));
@@ -101,10 +101,12 @@ public class Utente {
 
             listaVoliPanel.add(pannelloVolo);
             listaVoliPanel.add(Box.createVerticalStrut(5));
-            listaVoliPanel.revalidate();
-            listaVoliPanel.repaint();
-            frame.pack();
+
         }
+
+        listaVoliPanel.revalidate();
+        listaVoliPanel.repaint();
+        frame.pack();
     }
 
 
