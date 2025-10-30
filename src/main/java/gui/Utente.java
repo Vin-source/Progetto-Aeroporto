@@ -1,7 +1,6 @@
 package gui;
 
 // import controller.Controller;
-import model.Prenotazione;
 import model.Volo;
 
 import javax.swing.*;
@@ -14,10 +13,10 @@ public class Utente {
     public JFrame frame;
     private JPanel utenteContainer;
 
-    private JButton areaPersonaleButton;
     private JTextField barraDiRicerca;
     private JPanel listaVoliPanel;
     private JLabel voli;
+    private JButton areaPersonaleButton;
 
     // private Controller controller;
 
@@ -27,7 +26,6 @@ public class Utente {
          frame.setContentPane(utenteContainer);
          frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
          frame.pack();
-         frame.setVisible(true);
 
 
         listaVoliPanel.setLayout(new GridLayout(0, 2, 10, 10));
@@ -37,13 +35,30 @@ public class Utente {
         voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
         aggiornaListaVoli(voli);
         // Listener Area Personale
-        /*
+
+
+
+         initListeners();
+
+        // Caricamento iniziale dei voli
+        // aggiornaListaVoli(controller.getVoli());
+        frame.setVisible(true);
+    }
+
+    private void initListeners() {
+
+        ArrayList<Volo> voli = new ArrayList<>();
+        voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
+        voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
+
+
         areaPersonaleButton.addActionListener(e ->{
-            AreaPersonale p = new AreaPersonale(controller, frame);
-            p.frame.setVisible(true);
-            frame.setVisible(false);
+            // AreaPersonale p = new AreaPersonale(controller, frame);
+            // p.frame.setVisible(true);
+            // frame.setVisible(false);
+            System.out.println("click");
         });
-        */
+
 
 
         // Listener per la barra di ricerca
@@ -58,11 +73,6 @@ public class Utente {
                 // ignorato per campi plain text
             }
         });
-
-         
-
-        // Caricamento iniziale dei voli
-        // aggiornaListaVoli(controller.getVoli());
     }
 
 
