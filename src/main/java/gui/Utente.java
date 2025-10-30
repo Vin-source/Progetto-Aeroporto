@@ -71,6 +71,7 @@ public class Utente {
         listaVoliPanel.removeAll();
         listaVoliPanel.revalidate();
         listaVoliPanel.repaint();
+        frame.pack(); // ?? funziona ??
 
 
         for(Volo volo: listaVoli){
