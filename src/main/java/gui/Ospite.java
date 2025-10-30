@@ -70,10 +70,14 @@ public class Ospite extends JFrame {
                     String emailInserita = email.getText();
                     String passwordInserita = new String(password.getPassword());
 
-                    email.setText("pippo");
-                    password.setText("mauro");
+                    //email.setText("pippo");
+                    //password.setText("mauro");
 
-                    new gui.Utente().frame.setVisible(true);
+                    if(emailInserita.contains("admin")){
+                        new Amministratore().frame.setVisible(true);
+                    }else {
+                        new gui.Utente().frame.setVisible(true);
+                    }
                     frame.dispose();
                     // String result = controller.login(emailInserita, passwordInserita);
 

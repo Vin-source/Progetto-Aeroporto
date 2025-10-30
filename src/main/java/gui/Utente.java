@@ -25,7 +25,7 @@ public class Utente {
         // this.controller = controller;
          frame = new JFrame("Area Utente");
          frame.setContentPane(utenteContainer);
-         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
          frame.pack();
          frame.setVisible(true);
 

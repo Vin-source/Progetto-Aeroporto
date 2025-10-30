@@ -101,7 +101,11 @@
                 </constraints>
                 <properties/>
                 <border type="none"/>
-                <children/>
+                <children>
+                  <hspacer id="f57dc">
+                    <constraints/>
+                  </hspacer>
+                </children>
               </scrollpane>
             </children>
           </grid>
