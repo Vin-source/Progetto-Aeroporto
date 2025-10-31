@@ -27,6 +27,14 @@ public class Amministratore {
                 frame.dispose();
             }
         });
+
+        inserisciUnNuovoVoloButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new InserisciVolo(frame);
+                frame.setVisible(false);
+            }
+        });
     }
 
 }
