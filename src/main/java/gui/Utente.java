@@ -96,7 +96,12 @@ public class Utente {
             pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
             pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
             pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
-            pannelloVolo.add(new JButton("PRENOTA"));
+            JButton prenotazione = new JButton("PRENOTA");
+            pannelloVolo.add(prenotazione);
+
+            prenotazione.addActionListener(e -> {
+                System.out.println("ciao");
+            }); // event to add
 
 
             listaVoliPanel.add(pannelloVolo);
