@@ -10,13 +10,31 @@ public class ModificaGate {
     private JPanel modificaGate;
     public JFrame frame;
     private JTextField gateAttuale;
+    private JButton annullaButton;
 
-    public ModificaGate() {
+    public ModificaGate(JFrame frameChiamante) {
         frame = new JFrame("Modifica Gate");
         frame.setContentPane(modificaGate);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+
+        confermaGateButton.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               JOptionPane.showMessageDialog(frame, "Il gate è stato modificato");
+               frameChiamante.setVisible(true);
+               frame.dispose();
+           }
+        });
+
+        annullaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frameChiamante.setVisible(true);
+                frame.dispose();
+            }
+        });
     }
 
 /*

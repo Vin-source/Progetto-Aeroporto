@@ -15,15 +15,16 @@ public class InserisciVolo {
     private JComboBox<String> gateVolo;
     private JButton confermaButton;
     private JButton resetButton;
-    private JPanel panelRoot;
+    private JPanel inserisciVoloPanel;
     private JTextField codiceVolo;
+    private JButton annullaButton;
 
     public JFrame frame;
 //    private Controller controller;
 
     public InserisciVolo(JFrame frameChiamante) {
         frame = new JFrame("Schermata InserisciVolo");
-        frame.setContentPane(panelRoot);
+        frame.setContentPane(inserisciVoloPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
@@ -32,8 +33,23 @@ public class InserisciVolo {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(frame,"Volo inserito con successo");
-                frame.dispose();
                 frameChiamante.setVisible(true);
+                frame.dispose();
+            }
+        });
+
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetFields();
+            }
+        });
+
+        annullaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frameChiamante.setVisible(true);
+                frame.dispose();
             }
         });
     }
@@ -94,6 +110,7 @@ public class InserisciVolo {
     }
 */
     private void resetFields() {
+        codiceVolo.setText("");
         compagniaVolo.setText("");
         origineVolo.setText("");
         destinazioneVolo.setText("");
@@ -103,7 +120,7 @@ public class InserisciVolo {
         gateVolo.setSelectedIndex(-1);
     }
 
-    public JPanel getPanel() {
-        return panelRoot;
+    public JPanel getPanel(){
+        return inserisciVoloPanel;
     }
 }
