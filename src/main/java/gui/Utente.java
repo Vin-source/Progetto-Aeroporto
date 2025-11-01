@@ -55,10 +55,9 @@ public class Utente {
 
 
         areaPersonaleButton.addActionListener(e ->{
-            // AreaPersonale p = new AreaPersonale(controller, frame);
-            // p.frame.setVisible(true);
-            // frame.setVisible(false);
-            System.out.println("click");
+             AreaPersonale p = new AreaPersonale(/*controller, */ frame);
+             p.frame.setVisible(true);
+             frame.setVisible(false);
         });
 
 
