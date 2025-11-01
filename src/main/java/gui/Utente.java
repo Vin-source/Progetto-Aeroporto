@@ -24,7 +24,7 @@ public class Utente {
         // this.controller = controller;
          frame = new JFrame("Area Utente");
          frame.setContentPane(utenteContainer);
-         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
 
@@ -55,7 +55,7 @@ public class Utente {
 
 
         areaPersonaleButton.addActionListener(e ->{
-             AreaPersonale p = new AreaPersonale(/*controller, */ frame);
+             AreaPersonale p = new AreaPersonale(/*controller, */ this.frame);
              p.frame.setVisible(true);
              frame.setVisible(false);
         });
