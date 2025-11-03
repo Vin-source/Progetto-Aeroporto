@@ -47,6 +47,10 @@ public class AreaPersonale {
         p.add(p1);
         p.add(p1);
 
+        p.get(0).setVolo(new Volo("ss", "vv", "bb", "asd", "23/02/1993", "23:13", 2));
+        p.get(1).setVolo(new Volo("ss", "vv", "bb", "asd", "23/02/1993", "23:13", 2));
+        p.get(2).setVolo(new Volo("ss", "vv", "bb", "asd", "23/02/1993", "23:13", 2));
+
 
         aggiornaPrenotazioni(p);
         initListeners(framePadre);
@@ -105,8 +109,13 @@ public class AreaPersonale {
             prenotazione.add(new JLabel("COGNOME: " + p.getCognome().toUpperCase()));
             prenotazione.add(new JLabel("CARTA D'IDENTITA: " + p.getCartaIdentita().toUpperCase()));
             prenotazione.add(new JLabel("POSTO ASSEGNATO: " + p.getPostoAssegnato()));
+            JButton modificaPrenotazione = new JButton("MODIFICA");
+            prenotazione.add(modificaPrenotazione);
 
 
+            modificaPrenotazione.addActionListener(e -> {
+                new ModificaPrenotazione(frame, p.getVolo().getCodiceVolo(), p.getIdPrenotazione()).frame.setVisible(true);
+            });
 
 
             listaPrenotazioni.add(prenotazione);
