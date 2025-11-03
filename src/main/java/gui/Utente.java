@@ -111,7 +111,7 @@ public class Utente {
             pannelloVolo.add(prenotazione);
 
             prenotazione.addActionListener(e -> {
-                new EffettuaNuovaPrenotazione(frame).frame.setVisible(true);
+                new EffettuaNuovaPrenotazione(frame, volo.getCodiceVolo()).frame.setVisible(true);
                 frame.dispose();
             }); // event to add
 

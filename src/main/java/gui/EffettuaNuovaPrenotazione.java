@@ -23,21 +23,20 @@ public class EffettuaNuovaPrenotazione {
     private String postoInAereoSelezionato;
     // private Controller controller;
 
-    public EffettuaNuovaPrenotazione(/*Controller controllerEsterno,*/JFrame frameChiamante) {
+    public EffettuaNuovaPrenotazione(/*Controller controllerEsterno,*/JFrame frameChiamante, String codiceVolo) {
         frame = new JFrame("Dati prenotazione");
         frame.setContentPane(Prenotazione);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
 
-
-        postoScelto.setText("X");
-        initListeners(frameChiamante);
+        initListeners(frameChiamante, codiceVolo);
+        postoScelto.setText(" ");
         // this.controller = controllerEsterno;
     }
 
 
-    private void initListeners(JFrame frameChiamante){
+    private void initListeners(JFrame frameChiamante, String codiceVolo){
         prenotaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -61,7 +60,7 @@ public class EffettuaNuovaPrenotazione {
                 }
 
 
-                if (posizioneInAereo == null || posizioneInAereo.isEmpty()) {
+                if (posizioneInAereo.equals(" ")) {
                     JOptionPane.showMessageDialog(null, "Devi selezionare un posto sull'aereo prima di prenotare.");
                     return;
                 }
