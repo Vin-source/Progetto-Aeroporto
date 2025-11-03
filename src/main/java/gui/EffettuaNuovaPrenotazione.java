@@ -32,29 +32,34 @@ public class EffettuaNuovaPrenotazione {
 
 
         postoScelto.setText("X");
+        initListeners(frameChiamante);
         // this.controller = controllerEsterno;
+    }
 
+
+    private void initListeners(JFrame frameChiamante){
         prenotaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nome = EffettuaNuovaPrenotazione.this.nome.getText();
                 String cognome = EffettuaNuovaPrenotazione.this.cognome.getText();
                 String numBagagli = EffettuaNuovaPrenotazione.this.numBagagli.getText();
-                String posizioneInAereo = postoScelto.getText();
                 String cid = cartaIdentita.getText();
+                String posizioneInAereo = postoScelto.getText();
 
-                if (nome.isEmpty() || cognome.isEmpty() || numBagagli.isEmpty()) {
+
+                if (nome.isEmpty() || cognome.isEmpty() || numBagagli.isEmpty() || cid.isEmpty() || posizioneInAereo.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Errore: Devi compilare tutti i campi");
                     return;
                 }
 
-                int numeroBagagli;
-                try {
-                    numeroBagagli = Integer.parseInt(numBagagli);
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Il numero di bagagli deve essere un numero intero.");
+
+                int numeroBagagli = Integer.parseInt(numBagagli);
+                if(numeroBagagli < 0 || numeroBagagli > 5) {
+                    JOptionPane.showMessageDialog(null, "Errore: Inserisci un numero valido di bagagli");
                     return;
                 }
+
 
                 if (posizioneInAereo == null || posizioneInAereo.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Devi selezionare un posto sull'aereo prima di prenotare.");
@@ -64,7 +69,6 @@ public class EffettuaNuovaPrenotazione {
                 // controller.prenotaVolo(codiceVolo, nome, cognome, cid, postoInAereoSelezionato); // prenotazione
 
                 JOptionPane.showMessageDialog(null, "Prenotazione effettuata");
-                resetFields();
 
                 frameChiamante.setVisible(true);
                 frame.dispose();
@@ -74,7 +78,7 @@ public class EffettuaNuovaPrenotazione {
         cancellaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                resetFields();
+                cancellaOperazione(frameChiamante);
             }
         });
 
@@ -88,10 +92,12 @@ public class EffettuaNuovaPrenotazione {
         });
     }
 
-    private void resetFields() {
+    private void cancellaOperazione(JFrame frameChiamante) {
         nome.setText("");
         cognome.setText("");
         numBagagli.setText("");
+        frameChiamante.setVisible(true);
+        frame.dispose();
     }
 
     public JPanel getPanel() {
