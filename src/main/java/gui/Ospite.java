@@ -76,9 +76,9 @@ public class Ospite extends JFrame {
                     if(emailInserita.contains("admin")){
                         new Amministratore().frame.setVisible(true);
                     }else {
-                        new gui.Utente().frame.setVisible(true);
+                        new gui.Utente(Ospite.this).frame.setVisible(true);
                     }
-                    frame.dispose();
+                    frame.setVisible(false);
                     // String result = controller.login(emailInserita, passwordInserita);
 
                     /*if ("amministratore".equals(result)) {

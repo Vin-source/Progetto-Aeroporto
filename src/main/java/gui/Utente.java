@@ -7,6 +7,8 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Utente {
@@ -17,10 +19,11 @@ public class Utente {
     private JPanel listaVoliPanel;
     private JLabel voli;
     private JButton areaPersonaleButton;
+    private JButton logoutButton;
 
     // private Controller controller;
 
-    public Utente(/*Controller controller*/) {
+    public Utente(/*Controller controller*/JFrame frameChiamante) {
         // this.controller = controller;
          frame = new JFrame("Area Utente");
          frame.setContentPane(utenteContainer);
@@ -39,15 +42,16 @@ public class Utente {
 
 
 
-         initListeners();
+         initListeners(frameChiamante);
 
         // Caricamento iniziale dei voli
         // aggiornaListaVoli(controller.getVoli());
         frame.setVisible(true);
         frame.pack();
+
     }
 
-    private void initListeners() {
+    private void initListeners(JFrame frameChiamante) {
 
         ArrayList<Volo> voli = new ArrayList<>();
         voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
@@ -72,6 +76,14 @@ public class Utente {
             }
             public void changedUpdate(DocumentEvent e){
                 // ignorato per campi plain text
+            }
+        });
+
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                this.dispose();
+                frameChiamante.setVisible(true);
             }
         });
     }
