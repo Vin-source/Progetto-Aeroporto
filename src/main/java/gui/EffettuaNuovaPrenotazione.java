@@ -36,7 +36,7 @@ public class EffettuaNuovaPrenotazione {
     }
 
 
-    private void initListeners(JFrame frameChiamante, String codiceVolo){
+    private void initListeners(JFrame frameChiamante, String codiceVolo) {
         prenotaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -84,9 +84,9 @@ public class EffettuaNuovaPrenotazione {
         sceltaPostoInAereo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // SceltaPostoInAereo scelta = new SceltaPostoInAereo(controller, frame, DatiPrenotazione.this, codiceVolo);
-                // scelta.frame.setVisible(true);
-                // frame.setVisible(false);
+                SceltaPostoInAereo scelta = new SceltaPostoInAereo(/*controller,*/frame, EffettuaNuovaPrenotazione.this, codiceVolo);
+                scelta.frame.setVisible(true);
+                frame.setVisible(false);
             }
         });
     }

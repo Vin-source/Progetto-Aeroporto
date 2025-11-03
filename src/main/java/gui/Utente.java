@@ -113,7 +113,7 @@ public class Utente {
             prenotazione.addActionListener(e -> {
                 new EffettuaNuovaPrenotazione(frame, volo.getCodiceVolo()).frame.setVisible(true);
                 frame.dispose();
-            }); // event to add
+            });
 
 
             listaVoliPanel.add(pannelloVolo);
