@@ -120,7 +120,6 @@ public class Ospite extends JFrame {
             pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
             pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
 
-
             listaVoliPanel.add(pannelloVolo);
             listaVoliPanel.add(Box.createVerticalStrut(5));
             listaVoliPanel.revalidate();
