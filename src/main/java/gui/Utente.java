@@ -82,8 +82,8 @@ public class Utente {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                this.dispose();
                 frameChiamante.setVisible(true);
+                frame.dispose();
             }
         });
     }
