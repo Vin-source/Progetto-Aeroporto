@@ -76,7 +76,7 @@ public class Ospite extends JFrame {
                     if(emailInserita.contains("admin")){
                         new Amministratore(frame).frame.setVisible(true);
                     }else {
-                        new gui.Utente().frame.setVisible(true);
+                        new gui.Utente(frame).frame.setVisible(true);
                     }
                     frame.dispose();
                     // String result = controller.login(emailInserita, passwordInserita);
@@ -119,7 +119,6 @@ public class Ospite extends JFrame {
             pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
             pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
             pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
-
 
             listaVoliPanel.add(pannelloVolo);
             listaVoliPanel.add(Box.createVerticalStrut(5));
