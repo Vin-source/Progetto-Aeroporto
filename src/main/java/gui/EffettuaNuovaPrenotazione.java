@@ -95,8 +95,8 @@ public class EffettuaNuovaPrenotazione {
         nome.setText("");
         cognome.setText("");
         numBagagli.setText("");
-        frameChiamante.setVisible(true);
         frame.dispose();
+        frameChiamante.setVisible(true);
     }
 
     public JPanel getPanel() {
@@ -104,7 +104,6 @@ public class EffettuaNuovaPrenotazione {
     }
 
     public void setPostoScelto(String valore) {
-        this.postoInAereoSelezionato = valore;
-        postoScelto.setText(this.postoInAereoSelezionato);
+        postoScelto.setText(valore);
     }
 }

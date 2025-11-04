@@ -24,6 +24,8 @@ public class ModificaPrenotazione {
         // this.controller = controller;
         this.codiceVolo = codiceVolo;
 
+        initListeners(frameChiamante);
+
     }
 
 
