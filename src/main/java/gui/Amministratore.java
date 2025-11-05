@@ -1,5 +1,5 @@
 package gui;
-//import controller.*;
+import controller.Controller;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -9,24 +9,22 @@ public class Amministratore {
     private JButton inserisciUnNuovoVoloButton;
     private JPanel AmministratorePanel;
     public JFrame frame;
-    private JTextField ricercaVolo;
-    private JButton modificaGateButton;
+    private JTextField ricercaVoloButton;
     private JButton logoutButton;
+    private JButton aggiornaUnVoloButton;
+
+    private Controller controller;
 
     //TESTING//
-    public Amministratore(JFrame frameChiamante) {
+    public Amministratore(JFrame frameChiamante, Controller controller) {
+        this.controller = controller;
+
         frame = new JFrame("Pannello Amministratore TEST");
         frame.setContentPane(AmministratorePanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
 
-        modificaGateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ModificaGate(frame);
-                frame.dispose();
-            }
-        });
+
 
         inserisciUnNuovoVoloButton.addActionListener(new ActionListener() {
             @Override
@@ -42,6 +40,14 @@ public class Amministratore {
                 frameChiamante.setVisible(true);
                 frame.dispose();
             }
+        });
+
+        aggiornaUnVoloButton.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               new AggiornaVolo(frame);
+               frame.dispose();
+           }
         });
     }
 

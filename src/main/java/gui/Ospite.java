@@ -1,6 +1,6 @@
 package gui;
 
-// import controller.Controller;
+import controller.Controller;
 import model.Utente;
 import model.Volo;
 
@@ -19,6 +19,7 @@ public class Ospite extends JFrame {
 
 
     private JPanel voliContainer;
+    private Controller controller;
 
 
     // voli
@@ -28,10 +29,9 @@ public class Ospite extends JFrame {
 
 
 
- //   private Controller controller;
 
-    public Ospite() {
-        // this.controller = new Controller();
+    public Ospite(Controller controller) {
+        this.controller = new Controller();
 
         frame = new JFrame("La mia GUI Swing");
         frame.setContentPane(ospiteContainer);
@@ -72,21 +72,23 @@ public class Ospite extends JFrame {
 
                     //email.setText("pippo");
                     //password.setText("mauro");
-
+/*
                     if(emailInserita.contains("admin")){
-                        new Amministratore(frame).frame.setVisible(true);
+                        new Amministratore(frame, controller).frame.setVisible(true);
                     }else {
                         new gui.Utente(frame).frame.setVisible(true);
                     }
                     frame.dispose();
-                    // String result = controller.login(emailInserita, passwordInserita);
+ */
 
-                    /*if ("amministratore".equals(result)) {
-                        Amministratore amministratore = new Amministratore(controller);
+                    String result = controller.login(emailInserita, passwordInserita);
+
+                    if ("amministratore".equals(result)) {
+                        Amministratore amministratore = new Amministratore(frame,controller);
                         amministratore.frame.setVisible(true);
                         frame.setVisible(false);
 
-                    } else if ("utente".equals(result)) {
+                    } /*else if ("utente".equals(result)) {
                         Utente utente = new Utente(controller);
                         utente.frame.setVisible(true);
                         frame.setVisible(false);
