@@ -3,16 +3,19 @@ package gui;
 import model.Volo;
 
 import javax.swing.*;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 public class ModificaVolo {
     public JFrame frame;
 
     private JTextField dataAttuale;
-    private JTextField nuovaData;
+    private JFormattedTextField nuovaData;
     private JTextField orarioAttuale;
-    private JTextField nuovoOrario;
+    private JFormattedTextField nuovoOrario;
     private JTextField ritardoAttuale;
     private JTextField nuovoRitardo;
 
@@ -23,7 +26,6 @@ public class ModificaVolo {
 
     private JLabel gateAttuale;
     private JButton modificaGate;
-
 
 
     public ModificaVolo(/*Controller controller,*/ JFrame frameChiamante, Volo volo) {
@@ -43,6 +45,7 @@ public class ModificaVolo {
         orarioAttuale.setEditable(false);
         ritardoAttuale.setEditable(false);
 
+        initFormatters();
         initListeners(frameChiamante, volo);
     }
 
@@ -57,10 +60,10 @@ public class ModificaVolo {
                 String nuovoRitardoText = nuovoRitardo.getText();
                 int gate = Integer.parseInt(gateAttuale.getText());
 
-                if(nuovaDataText.isEmpty()){
+                if(nuovaDataText.contains("_")){
                     nuovaDataText = volo.getData();
                 }
-                if(nuovoOrarioText.isEmpty()){
+                if(nuovoOrarioText.contains("_")){
                     nuovoOrarioText = volo.getOrarioPrevisto();
                 }
                 if(nuovoRitardoText.isEmpty()){
@@ -93,6 +96,21 @@ public class ModificaVolo {
                 frame.setVisible(false);
             }
         });
+    }
+
+    public void initFormatters() {
+        try {
+            MaskFormatter formatterOra = new MaskFormatter("##:##");
+            MaskFormatter formatterData = new MaskFormatter("##/##/####");
+            formatterData.setPlaceholderCharacter('_');
+            formatterOra.setPlaceholderCharacter('_');
+            nuovaData.setFormatterFactory(new DefaultFormatterFactory(formatterData));
+            nuovoOrario.setFormatterFactory(new DefaultFormatterFactory(formatterOra));
+            nuovaData.setColumns(10);
+            nuovoOrario.setColumns(2);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void impostaNuovoGate(Integer gate){
