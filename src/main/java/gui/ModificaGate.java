@@ -12,20 +12,26 @@ public class ModificaGate {
     private JTextField gateAttuale;
     private JButton annullaButton;
 
-    public ModificaGate(JFrame frameChiamante) {
+    public ModificaGate(JFrame frameChiamante, String gateAttuale) {
         frame = new JFrame("Modifica Gate");
         frame.setContentPane(modificaGate);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
 
+
+        this.gateAttuale.setText(gateAttuale);
+        initListeners(frameChiamante);
+    }
+
+    public void initListeners(JFrame frameChiamante) {
         confermaGateButton.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               JOptionPane.showMessageDialog(frame, "Il gate è stato modificato");
-               frameChiamante.setVisible(true);
-               frame.dispose();
-           }
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(frame, "Il gate è stato modificato");
+                frameChiamante.setVisible(true);
+                frame.dispose();
+            }
         });
 
         annullaButton.addActionListener(new ActionListener() {
@@ -36,29 +42,4 @@ public class ModificaGate {
             }
         });
     }
-
-/*
-    public ModificaGate(Controller controller, AggiornaVolo frameChiamante, String gateAttuale) {
-
-        frame = new JFrame("Modifica Gate");
-        frame.setContentPane(modificaGate);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-
-        this.gateAttuale.setText(gateAttuale);
-
-        confermaGateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String testoGate = gateDisponibili.getSelectedItem().toString();
-                int nuovoGate = Integer.parseInt(testoGate);
-                frameChiamante.impostaNuovoGate(nuovoGate);
-                frameChiamante.frame.setVisible(true);
-                frame.setVisible(false);
-                frame.dispose();
-            }
-        });
-    }
-
- */
 }

@@ -1,6 +1,7 @@
 package gui;
 //import controller.*;
 
+import model.Gate;
 import model.Volo;
 
 import javax.swing.*;
@@ -29,8 +30,10 @@ public class Amministratore {
         listaVoliPanel.setLayout(new BoxLayout(listaVoliPanel, BoxLayout.Y_AXIS));
 
         ArrayList<Volo> voli = new ArrayList<>();
-        voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
-        voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
+        Volo v = new Volo("a", "a", "f", "f", "23/02/1999", "23:32", 0);
+        v.setGate(new Gate(23));
+        voli.add(v);
+        voli.add(v);
 
         initListeners(frameChiamante, voli);
         aggiornaListaVoli(voli);

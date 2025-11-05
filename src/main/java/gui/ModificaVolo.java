@@ -38,6 +38,11 @@ public class ModificaVolo {
         ritardoAttuale.setText(String.valueOf(volo.getRitardo()));
         gateAttuale.setText(String.valueOf(volo.getGate().getNumero()));
 
+        dataAttuale.setEditable(false);
+        orarioAttuale.setEditable(false);
+        orarioAttuale.setEditable(false);
+        ritardoAttuale.setEditable(false);
+
         initListeners(frameChiamante, volo);
     }
 
@@ -73,9 +78,9 @@ public class ModificaVolo {
         modificaGate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // ModificaGate nuovoGate = new ModificaGate(controller, AggiornaVolo.this, gateAttuale.getText());
-                // nuovoGate.frame.setVisible(true);
-                // frame.setVisible(false);
+                ModificaGate nuovoGate = new ModificaGate(/*controller, AggiornaVolo.this, gateAttuale.getText()*/frame, gateAttuale.getText());
+                nuovoGate.frame.setVisible(true);
+                frame.setVisible(false);
             }
         });
     }
