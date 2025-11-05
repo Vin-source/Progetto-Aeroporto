@@ -29,7 +29,7 @@
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Compagnia Aerea"/>
+          <text value="Compagnia Aerea *"/>
         </properties>
       </component>
       <component id="43c64" class="javax.swing.JTextField" binding="compagniaVolo">
@@ -45,7 +45,7 @@
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Origine"/>
+          <text value="Origine *"/>
         </properties>
       </component>
       <component id="f441b" class="javax.swing.JTextField" binding="origineVolo">
@@ -61,7 +61,7 @@
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Destinazione"/>
+          <text value="Destinazione *"/>
         </properties>
       </component>
       <component id="76ee0" class="javax.swing.JTextField" binding="destinazioneVolo">
@@ -77,7 +77,7 @@
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Data del Volo"/>
+          <text value="Data del Volo *"/>
         </properties>
       </component>
       <component id="826bd" class="javax.swing.JTextField" binding="dataVolo">
@@ -93,7 +93,7 @@
           <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Orario previsto"/>
+          <text value="Orario previsto *"/>
         </properties>
       </component>
       <component id="13778" class="javax.swing.JTextField" binding="orarioVolo">

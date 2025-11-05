@@ -41,6 +41,11 @@ public class InserisciVolo {
         confermaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(compagniaVolo.getText().equals("") || origineVolo.getText().equals("") ||
+                destinazioneVolo.getText().equals("") || dataVolo.getText().equals("") || orarioVolo.getText().equals("")) {
+                    JOptionPane.showMessageDialog(frame,"Errore: Popolare tutti i campi necessari");
+                    return;
+                }
                 JOptionPane.showMessageDialog(frame,"Volo inserito con successo");
                 frameChiamante.setVisible(true);
                 frame.dispose();
