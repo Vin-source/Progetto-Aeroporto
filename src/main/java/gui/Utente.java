@@ -28,24 +28,15 @@ public class Utente {
          frame = new JFrame("Area Utente");
          frame.setContentPane(utenteContainer);
          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-
-        //listaVoliPanel.setLayout(new GridLayout(0, 2, 10, 10));
-        listaVoliPanel.setLayout(new BoxLayout(listaVoliPanel, BoxLayout.Y_AXIS));
+         listaVoliPanel.setLayout(new BoxLayout(listaVoliPanel, BoxLayout.Y_AXIS));
 
         ArrayList<Volo> voli = new ArrayList<>();
         voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
         voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
         aggiornaListaVoli(voli);
-        // Listener Area Personale
 
 
-
-         initListeners(frameChiamante);
-
-        // Caricamento iniziale dei voli
-        // aggiornaListaVoli(controller.getVoli());
+        initListeners(frameChiamante);
         frame.setVisible(true);
         frame.pack();
 

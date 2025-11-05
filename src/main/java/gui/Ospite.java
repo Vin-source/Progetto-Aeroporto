@@ -45,8 +45,6 @@ public class Ospite extends JFrame {
 
 
 
-        // initListener();
-
         listaVoliPanel = new JPanel();
         listaVoliPanel.setLayout(new GridLayout(20, 1));
         listaVoliScroll.setViewportView(listaVoliPanel);
@@ -55,23 +53,25 @@ public class Ospite extends JFrame {
         voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
         voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
         aggiornaListaVoli(voli);
-        initListener();
+        initListeners();
         frame.pack();
     }
 
 
 
 
-    private void initListener() {
+    private void initListeners() {
         accediButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // try {
+                try {
                     String emailInserita = email.getText();
                     String passwordInserita = new String(password.getPassword());
 
-                    //email.setText("pippo");
-                    //password.setText("mauro");
+                    if(emailInserita.isEmpty() || passwordInserita.isEmpty()) {
+                        throw new IllegalArgumentException("Username o password mancante!");
+                    }
+
 
                     if(emailInserita.contains("admin")){
                         new Amministratore(frame).frame.setVisible(true);
@@ -91,14 +91,13 @@ public class Ospite extends JFrame {
                         utente.frame.setVisible(true);
                         frame.setVisible(false);
                     }
+                    */
                 } catch (IllegalArgumentException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore: username o password vuoti o non validi!", JOptionPane.ERROR_MESSAGE);
-                }catch(AuthenticationException ex){
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore: Credenziali errate!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore di accesso", JOptionPane.ERROR_MESSAGE);
                 }
-                catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Errore imprevisto: " + ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-                } */
+                catch (Exception _) {
+                    JOptionPane.showMessageDialog(null, "Errore imprevisto: ", "Errore", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }

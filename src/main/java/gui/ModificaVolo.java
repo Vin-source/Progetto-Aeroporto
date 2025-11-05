@@ -57,17 +57,27 @@ public class ModificaVolo {
                 String nuovoRitardoText = nuovoRitardo.getText();
                 int gate = Integer.parseInt(gateAttuale.getText());
 
+                if(nuovaDataText.isEmpty()){
+                    nuovaDataText = volo.getData();
+                }
+                if(nuovoOrarioText.isEmpty()){
+                    nuovoOrarioText = volo.getOrarioPrevisto();
+                }
+                if(nuovoRitardoText.isEmpty()){
+                    nuovoRitardoText = String.valueOf(volo.getRitardo());
+                }
+
                 /*
-                if(nuovaDataText.isEmpty() && nuovoOrarioText.isEmpty() && nuovoRitardoText.isEmpty()){
-                    codiceVolo.setText("Non hai inserito nuovi dati!");
-                } else {
-                        Boolean result = controller.aggiornaVolo(volo.getCodiceVolo(), nuovaDataText, nuovoOrarioText, nuovoRitardoText, gate);
+
+
+
+                    Boolean result = controller.aggiornaVolo(volo.getCodiceVolo(), nuovaDataText, nuovoOrarioText, nuovoRitardoText, gate);
                     if(result){
                         JOptionPane.showMessageDialog(null, "Volo aggiornato con successo.");
                     } else {
                         JOptionPane.showMessageDialog(null, "Errore! Volo non aggiornato");
                     }
-                }
+
                 */
                 frameChiamante.setVisible(true);
                 frame.setVisible(false);
@@ -78,14 +88,14 @@ public class ModificaVolo {
         modificaGate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ModificaGate nuovoGate = new ModificaGate(/*controller, AggiornaVolo.this, gateAttuale.getText()*/frame, gateAttuale.getText());
+                ModificaGate nuovoGate = new ModificaGate(/*controller, AggiornaVolo.this, gateAttuale.getText()*/frame, gateAttuale.getText(), ModificaVolo.this);
                 nuovoGate.frame.setVisible(true);
                 frame.setVisible(false);
             }
         });
     }
 
-    public void impostaNuovoGate(int gate){
+    public void impostaNuovoGate(Integer gate){
         gateAttuale.setText(String.valueOf(gate));
     }
 }

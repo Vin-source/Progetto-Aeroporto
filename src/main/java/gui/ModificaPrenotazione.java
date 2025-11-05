@@ -1,14 +1,16 @@
 package gui;
 // import controller.Controller;
+import model.Prenotazione;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ModificaPrenotazione {
     private JPanel mainPanel;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
+    private JTextField nome;
+    private JTextField cognome;
+    private JTextField cartaIdentita;
     private JButton CONFERMAButton;
     private JButton CANCELLAButton;
     public JFrame frame;
@@ -16,30 +18,47 @@ public class ModificaPrenotazione {
     // private Controller controller;
     private String codiceVolo; // necessario per modificare la prenotazione giusta
 
-    public ModificaPrenotazione(/*Controller controller,*/JFrame frameChiamante, String codiceVolo, String idPrenotazione) {
+    public ModificaPrenotazione(/*Controller controller,*/JFrame frameChiamante, Prenotazione p) {
         frame = new JFrame("Modifica Prenotazione");
         frame.setContentPane(mainPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         // this.controller = controller;
-        this.codiceVolo = codiceVolo;
+        this.codiceVolo = p.getCodiceVolo();
 
-        initListeners(frameChiamante);
+        initListeners(frameChiamante, p);
 
     }
 
 
-    private void initListeners(JFrame frameChiamante) {
+    private void initListeners(JFrame frameChiamante, Prenotazione p) {
 
         CONFERMAButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String nuovoNome = textField1.getText();
-                    String nuovoCognome = textField2.getText();
-                    String cartaIdentita = textField3.getText();
+                    String nuovoNome = nome.getText();
+                    String nuovoCognome = cognome.getText();
+                    String cartaIdentita = ModificaPrenotazione.this.cartaIdentita.getText();
 
-                    System.out.println("Nome: " + nuovoNome);
+
+                    // prima verifica se non c'è nessun nuovo valore,
+                    // dopodichè sostituisco i valori vuoti con i vecchi valori
+                    // così da non creare problemi nell'aggiornamento del database
+                    if(nuovoNome.isEmpty() && nuovoCognome.isEmpty() && cartaIdentita.isEmpty()){
+                        throw new IllegalArgumentException("Riempire almeno un valore!");
+                    }
+                    if(nuovoNome.isEmpty()) {
+                        nuovoNome = p.getNome();
+                    }
+                    if(nuovoCognome.isEmpty()) {
+                        nuovoCognome = p.getCognome();
+                    }
+                    if(cartaIdentita.isEmpty()) {
+                        cartaIdentita = p.getCartaIdentita();
+                    }
+
+
 
                     /* boolean risultato = controller.modificaPrenotazione(codiceVolo, nuovoNome, nuovoCognome, cartaIdentita, idPrenotazione);
                     if (risultato) {
@@ -51,8 +70,11 @@ public class ModificaPrenotazione {
                         JOptionPane.showMessageDialog(null, "Modifica fallita: prenotazione non trovata");
                     }
                     */
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Errore: " + ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                } catch(IllegalArgumentException ex){
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore di Inserimento dati", JOptionPane.ERROR_MESSAGE);
+                }
+                catch (Exception _) {
+                    JOptionPane.showMessageDialog(null, "Errore nel sistema di prenotazione", "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -68,9 +90,9 @@ public class ModificaPrenotazione {
     }
 
     private void resetFields() {
-        textField1.setText("");
-        textField2.setText("");
-        textField3.setText("");
+        nome.setText("");
+        cognome.setText("");
+        cartaIdentita.setText("");
     }
 
     public JPanel getPanel() {

@@ -126,7 +126,7 @@ public class AreaPersonale {
 
 
             modificaPrenotazione.addActionListener(e -> {
-                new ModificaPrenotazione(frame, p.getVolo().getCodiceVolo(), p.getIdPrenotazione()).frame.setVisible(true);
+                new ModificaPrenotazione(frame, p).frame.setVisible(true);
             });
 
 

@@ -12,7 +12,7 @@ public class ModificaGate {
     private JTextField gateAttuale;
     private JButton annullaButton;
 
-    public ModificaGate(JFrame frameChiamante, String gateAttuale) {
+    public ModificaGate(JFrame frameChiamante, String gateAttuale, ModificaVolo modificaVolo) {
         frame = new JFrame("Modifica Gate");
         frame.setContentPane(modificaGate);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -21,13 +21,15 @@ public class ModificaGate {
 
 
         this.gateAttuale.setText(gateAttuale);
-        initListeners(frameChiamante);
+        this.gateAttuale.setEditable(false);
+        initListeners(frameChiamante, modificaVolo);
     }
 
-    public void initListeners(JFrame frameChiamante) {
+    public void initListeners(JFrame frameChiamante, ModificaVolo modificaVolo) {
         confermaGateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                modificaVolo.impostaNuovoGate((Integer.valueOf((String) gateDisponibili.getSelectedItem())));
                 JOptionPane.showMessageDialog(frame, "Il gate è stato modificato");
                 frameChiamante.setVisible(true);
                 frame.dispose();
