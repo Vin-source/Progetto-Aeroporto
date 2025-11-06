@@ -53,11 +53,9 @@ public class Utente {
         barraDiRicerca.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
                 aggiornaListaVoli(controller.getTuttiVoli());
-                System.out.println(barraDiRicerca.getText());
             }
             public void removeUpdate(DocumentEvent e){
                 aggiornaListaVoli(controller.getTuttiVoli());
-                System.out.println(barraDiRicerca.getText());
             }
             public void changedUpdate(DocumentEvent e){
                 // ignorato per campi plain text
