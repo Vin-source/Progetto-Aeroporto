@@ -1,6 +1,7 @@
 package gui;
 
 // import controller.Controller;
+import controller.Controller;
 import model.Utente;
 import model.Volo;
 
@@ -28,20 +29,16 @@ public class Ospite extends JFrame {
 
 
 
- //   private Controller controller;
+    private Controller controller;
 
-    public Ospite() {
-        // this.controller = new Controller();
-
+    public Ospite(Controller controller) {
         frame = new JFrame("La mia GUI Swing");
         frame.setContentPane(ospiteContainer);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
 
-
-
-        // aggiornaListaVoli(this.controller.getVoli());
+        this.controller = controller;
 
 
 
@@ -49,18 +46,16 @@ public class Ospite extends JFrame {
         listaVoliPanel.setLayout(new GridLayout(20, 1));
         listaVoliScroll.setViewportView(listaVoliPanel);
 
-        ArrayList<Volo> voli = new ArrayList<>();
-        voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
-        voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
-        aggiornaListaVoli(voli);
-        initListeners();
+
+        aggiornaListaVoli(controller.getTuttiVoli());
+        initListeners(controller);
         frame.pack();
     }
 
 
 
 
-    private void initListeners() {
+    private void initListeners(Controller controller) {
         accediButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,25 +68,16 @@ public class Ospite extends JFrame {
                     }
 
 
-                    if(emailInserita.contains("admin")){
+                    String result = controller.login(emailInserita, passwordInserita);
+
+                    if ("amministratore".equals(result)) {
                         new Amministratore(frame).frame.setVisible(true);
-                    }else {
+                    } else if ("utente".equals(result)) {
                         new gui.Utente(frame).frame.setVisible(true);
                     }
+
                     frame.dispose();
-                    // String result = controller.login(emailInserita, passwordInserita);
 
-                    /*if ("amministratore".equals(result)) {
-                        Amministratore amministratore = new Amministratore(controller);
-                        amministratore.frame.setVisible(true);
-                        frame.setVisible(false);
-
-                    } else if ("utente".equals(result)) {
-                        Utente utente = new Utente(controller);
-                        utente.frame.setVisible(true);
-                        frame.setVisible(false);
-                    }
-                    */
                 } catch (IllegalArgumentException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore di accesso", JOptionPane.ERROR_MESSAGE);
                 }
