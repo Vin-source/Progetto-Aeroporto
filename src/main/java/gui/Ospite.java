@@ -73,7 +73,7 @@ public class Ospite extends JFrame {
                     if ("amministratore".equals(result)) {
                         new Amministratore(frame).frame.setVisible(true);
                     } else if ("utente".equals(result)) {
-                        new gui.Utente(frame).frame.setVisible(true);
+                        new gui.Utente(controller, frame).frame.setVisible(true);
                     }
 
                     frame.dispose();

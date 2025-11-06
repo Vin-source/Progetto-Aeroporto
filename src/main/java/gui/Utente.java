@@ -1,6 +1,6 @@
 package gui;
 
-// import controller.Controller;
+import controller.Controller;
 import model.Volo;
 
 import javax.swing.*;
@@ -21,21 +21,17 @@ public class Utente {
     private JButton areaPersonaleButton;
     private JButton logoutButton;
 
-    // private Controller controller;
+    private Controller controller;
 
-    public Utente(/*Controller controller*/JFrame frameChiamante) {
-        // this.controller = controller;
+    public Utente(Controller controller, JFrame frameChiamante) {
+         this.controller = controller;
          frame = new JFrame("Area Utente");
          frame.setContentPane(utenteContainer);
          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
          listaVoliPanel.setLayout(new BoxLayout(listaVoliPanel, BoxLayout.Y_AXIS));
 
-        ArrayList<Volo> voli = new ArrayList<>();
-        voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
-        voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
-        aggiornaListaVoli(voli);
 
-
+        aggiornaListaVoli(this.controller.getTuttiVoli());
         initListeners(frameChiamante);
         frame.setVisible(true);
         frame.pack();
@@ -43,10 +39,6 @@ public class Utente {
     }
 
     private void initListeners(JFrame frameChiamante) {
-
-        ArrayList<Volo> voli = new ArrayList<>();
-        voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
-        voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
 
 
         areaPersonaleButton.addActionListener(e ->{
@@ -60,10 +52,12 @@ public class Utente {
         // Listener per la barra di ricerca
         barraDiRicerca.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
-                aggiornaListaVoli(/*controller.cercaVolo(barraDiRicerca.getText())*/voli);
+                aggiornaListaVoli(controller.getTuttiVoli());
+                System.out.println(barraDiRicerca.getText());
             }
             public void removeUpdate(DocumentEvent e){
-                aggiornaListaVoli(/*controller.cercaVolo(barraDiRicerca.getText())*/voli);
+                aggiornaListaVoli(controller.getTuttiVoli());
+                System.out.println(barraDiRicerca.getText());
             }
             public void changedUpdate(DocumentEvent e){
                 // ignorato per campi plain text
