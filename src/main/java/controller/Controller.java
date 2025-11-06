@@ -43,4 +43,22 @@ public class Controller {
         }
         return "errore";
     }
+
+    //CREAZIONE DI UN VOLO TESTING
+    public Boolean creaNuovoVolo(String codiceVolo, String compagniaAerea, String origine, String destinazione, String data, String ora, String ritardo, String numeroGate){
+        if(destinazione.equals("Napoli")){
+            LocalDate data5 = LocalDate.parse(data, formatterData);
+            LocalTime ora5 = LocalTime.parse(ora, formatterOra);
+            int ritardoParsed = Integer.parseInt(ritardo);
+            int numeroGateParsed = Integer.parseInt(numeroGate);
+
+            Volo volo = new Volo(codiceVolo, compagniaAerea, origine, destinazione, data5, ora5, ritardoParsed);
+
+            this.amministratore.getVoli().add(volo);
+
+            return true;
+        }
+
+        return false;
+    };
 }

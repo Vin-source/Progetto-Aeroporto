@@ -1,9 +1,12 @@
 package gui;
-//import controller.*;
+import controller.Controller;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class InserisciVolo {
     private JTextField compagniaVolo;
@@ -20,9 +23,11 @@ public class InserisciVolo {
     private JButton annullaButton;
 
     public JFrame frame;
-//    private Controller controller;
+    private Controller controller;
 
-    public InserisciVolo(JFrame frameChiamante) {
+    public InserisciVolo(JFrame frameChiamante, Controller controller) {
+        this.controller = controller;
+
         frame = new JFrame("Schermata InserisciVolo");
         frame.setContentPane(inserisciVoloPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -32,9 +37,29 @@ public class InserisciVolo {
         confermaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(frame,"Volo inserito con successo");
-                frameChiamante.setVisible(true);
-                frame.dispose();
+                try {
+                    String codVoloInserito = codiceVolo.getText();
+                    String compagniaAInserita = compagniaVolo.getText();
+                    String origineInserita = origineVolo.getText();
+                    String destinazioneInserita = destinazioneVolo.getText();
+                    String dataInserita = dataVolo.getText();
+                    String orarioInserito = orarioVolo.getText();
+                    String ritardoInserito = ritardoVolo.getText();
+                    String gateVoloInserito = gateVolo.getSelectedItem().toString();
+
+                    JOptionPane.showMessageDialog(frame, "Pulsante premuto"); //solo per testing
+                    boolean conferma = controller.creaNuovoVolo(codVoloInserito, compagniaAInserita, origineInserita, destinazioneInserita, dataInserita, orarioInserito, ritardoInserito, gateVoloInserito);
+                    if (conferma == true) {
+                        JOptionPane.showMessageDialog(frame, "Volo inserito con successo");
+                        frameChiamante.setVisible(true);
+                        frame.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Errore: Dati non validi. Controlla e riprova.", "Errore Inserimento", JOptionPane.ERROR_MESSAGE);
+                    }
+                }catch(NullPointerException ex){
+                    JOptionPane.showMessageDialog(frame,"Errore: Dati non validi. Controlla e riprova.\n(Formato data d/MM/yyyy, orario HH:mm, ritardo e gate numerici)","Errore Inserimento", JOptionPane.ERROR_MESSAGE);
+                    ex.printStackTrace();
+                }
             }
         });
 

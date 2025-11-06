@@ -29,7 +29,7 @@ public class Amministratore {
         inserisciUnNuovoVoloButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new InserisciVolo(frame);
+                new InserisciVolo(frame,controller);
                 frame.setVisible(false);
             }
         });
