@@ -18,7 +18,7 @@ public class Volo {
 
 
     // Uniformati con Controller (prima era HH:mm:ss)
-    private final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("d/MM/yyyy");
     private final DateTimeFormatter formatterOra = DateTimeFormatter.ofPattern("HH:mm");
 
 
@@ -42,14 +42,14 @@ public class Volo {
                 String compagniaAerea,
                 String origine,
                 String destinazione,
-                String data,
-                String orarioPrevisto,
+                LocalDate data,
+                LocalTime orarioPrevisto,
                 int ritardo) {
 
         this.codiceVolo = codiceVolo;
         this.compagniaAerea = compagniaAerea;
-        this.data = LocalDate.parse(data, formatterData);
-        this.orarioPrevisto = LocalTime.parse(orarioPrevisto, formatterOra);
+        this.data = data;
+        this.orarioPrevisto = orarioPrevisto;
         this.ritardo = ritardo;
 
         if(origine.equals("Napoli")){

@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Ospite extends JFrame {
     private JPanel ospiteContainer;
@@ -31,7 +34,7 @@ public class Ospite extends JFrame {
 
 
     public Ospite(Controller controller) {
-        this.controller = new Controller();
+        this.controller = controller;
 
         frame = new JFrame("La mia GUI Swing");
         frame.setContentPane(ospiteContainer);
@@ -51,9 +54,19 @@ public class Ospite extends JFrame {
         listaVoliPanel.setLayout(new GridLayout(20, 1));
         listaVoliScroll.setViewportView(listaVoliPanel);
 
+
+        DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        DateTimeFormatter formatterOra = DateTimeFormatter.ofPattern("HH:mm");
+
+        LocalDate data1 = LocalDate.parse("12/10/1999", formatterData);
+        LocalTime ora1 = LocalTime.parse("13:23", formatterOra);
+
+        LocalDate data2 = LocalDate.parse("16/10/1999", formatterData);
+        LocalTime ora2 = LocalTime.parse("17:30", formatterOra);
+
         ArrayList<Volo> voli = new ArrayList<>();
-        voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
-        voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
+        voli.add(new Volo("a", "a", "a", "q", data1, ora1, 2));
+        voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", data2,ora2, 23));
         aggiornaListaVoli(voli);
         initListener();
         frame.pack();

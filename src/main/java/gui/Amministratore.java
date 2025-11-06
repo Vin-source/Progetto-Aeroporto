@@ -42,6 +42,8 @@ public class Amministratore {
             }
         });
 
+
+        /*
         aggiornaUnVoloButton.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
@@ -49,6 +51,8 @@ public class Amministratore {
                frame.dispose();
            }
         });
+
+         */
     }
 
 }
