@@ -42,7 +42,7 @@ public class Utente {
 
 
         areaPersonaleButton.addActionListener(e ->{
-             AreaPersonale p = new AreaPersonale(/*controller, */ this.frame);
+             AreaPersonale p = new AreaPersonale(this.controller, this.frame);
              p.frame.setVisible(true);
              frame.setVisible(false);
         });

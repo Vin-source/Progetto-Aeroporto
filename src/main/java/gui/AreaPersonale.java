@@ -1,6 +1,6 @@
 package gui;
 
-// import controller.Controller;
+import controller.Controller;
 import model.Prenotazione;
 import model.Volo;
 
@@ -25,11 +25,11 @@ public class AreaPersonale {
     private JPanel listaPrenotazioni;
     private JButton indietroButton;
 
-    // Controller controller;
+    Controller controller;
     JFrame frame;
 
-    public AreaPersonale(/*Controller controller,*/JFrame framePadre){
-        // this.controller = controller;
+    public AreaPersonale(Controller controller, JFrame framePadre){
+        this.controller = controller;
 
         frame = new JFrame("Area Personale");
         frame.setContentPane(AreaPersonale);
@@ -37,25 +37,15 @@ public class AreaPersonale {
         frame.setVisible(true);
 
 
-        email.setText("Pippo");
+        email.setText(this.controller.getEmail());
         id.setText("Pippo");
         email.setEditable(false);
         id.setEditable(false);
 
         listaPrenotazioni.setLayout(new BoxLayout(listaPrenotazioni, BoxLayout.Y_AXIS));
-        ArrayList<Prenotazione> p = new ArrayList<>();
-        Prenotazione p1 = new Prenotazione("Mimmo", "Raia", "a436ffr", "6F");
-        p1.setIdPrenotazione("asdhreui");
-        p.add(p1);
-        p.add(p1);
-        p.add(p1);
-
-        p.get(0).setVolo(new Volo("ss", "vv", "bb", "asd", "23/02/1993", "23:13", 2));
-        p.get(1).setVolo(new Volo("ss", "vv", "bb", "asd", "23/02/1993", "23:13", 2));
-        p.get(2).setVolo(new Volo("ss", "vv", "bb", "asd", "23/02/1993", "23:13", 2));
 
 
-        aggiornaPrenotazioni(p);
+        aggiornaPrenotazioni(this.controller.getTutteLePrenotazioni());
         initListeners(framePadre);
 
 
@@ -66,18 +56,13 @@ public class AreaPersonale {
 
 
     public void initListeners(JFrame framePadre) {
-        ArrayList<Prenotazione> p = new ArrayList<>();
-        Prenotazione p1 = new Prenotazione("Mimmo", "Raia", "a436ffr", "6F");
-        p1.setIdPrenotazione("asdhreui");
-        p.add(p1);
-        p.add(p1);
-        p.add(p1);
+
         cercaPrenotazione.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
-                aggiornaPrenotazioni(/*controller.cercaPrenotazione(cercaPrenotazione.getText())*/p);
+                aggiornaPrenotazioni(controller.ricercaPrenotazioni(cercaPrenotazione.getText()));
             }
             public void removeUpdate(DocumentEvent e){
-                aggiornaPrenotazioni(/*controller.cercaPrenotazione(cercaPrenotazione.getText())*/p);
+                aggiornaPrenotazioni(controller.ricercaPrenotazioni(cercaPrenotazione.getText()));
             }
             public void changedUpdate(DocumentEvent e){
                 // ignorato per campi plain text
