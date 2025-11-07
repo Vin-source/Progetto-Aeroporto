@@ -55,7 +55,7 @@ public class Controller {
     }
 
     public void effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo){
-
+        // le chiavi esterne sono il codiceVolo e l'id(o email) utente preso dal controller
     }
 
 }
