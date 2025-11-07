@@ -1,5 +1,5 @@
 package gui;
-// import controller.Controller;
+import controller.Controller;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,18 +21,18 @@ public class EffettuaNuovaPrenotazione {
 
 
     private String postoInAereoSelezionato;
-    // private Controller controller;
+    private Controller controller;
 
-    public EffettuaNuovaPrenotazione(/*Controller controllerEsterno,*/JFrame frameChiamante, String codiceVolo) {
+    public EffettuaNuovaPrenotazione(Controller controller, JFrame frameChiamante, String codiceVolo) {
         frame = new JFrame("Dati prenotazione");
         frame.setContentPane(Prenotazione);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+        this.controller = controller;
 
         initListeners(frameChiamante, codiceVolo);
         postoScelto.setText(" ");
-        // this.controller = controllerEsterno;
     }
 
 
@@ -65,7 +65,7 @@ public class EffettuaNuovaPrenotazione {
                     return;
                 }
 
-                // controller.prenotaVolo(codiceVolo, nome, cognome, cid, postoInAereoSelezionato); // prenotazione
+                controller.effettuaPrenotazione(codiceVolo, nome, cognome, cid, postoInAereoSelezionato); // prenotazione
 
                 JOptionPane.showMessageDialog(null, "Prenotazione effettuata");
 

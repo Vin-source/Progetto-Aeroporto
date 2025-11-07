@@ -54,4 +54,8 @@ public class Controller {
         return utente.cercaPrenotazioni(valore);
     }
 
+    public void effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo){
+
+    }
+
 }
