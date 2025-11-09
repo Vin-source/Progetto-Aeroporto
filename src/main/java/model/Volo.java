@@ -52,13 +52,8 @@ public class Volo {
         this.orarioPrevisto = orarioPrevisto;
         this.ritardo = ritardo;
 
-        if(origine.equals("Napoli")){
-            this.destinazione = destinazione;
-            this.origine = null;
-        }else{
-            this.origine = origine;
-            this.destinazione = null;
-        }
+        this.origine = origine;
+        this.destinazione = destinazione;
 
         prenotazioni = new ArrayList<>();
     }

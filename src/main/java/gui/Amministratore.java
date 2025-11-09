@@ -2,8 +2,11 @@ package gui;
 import controller.Controller;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import model.Volo;
+import java.util.ArrayList;
 
 public class Amministratore {
     private JButton inserisciUnNuovoVoloButton;
@@ -24,9 +27,12 @@ public class Amministratore {
         frame = new JFrame("Pannello Amministratore TEST");
         frame.setContentPane(AmministratorePanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        contenitoreVoliPanel.setLayout(new GridLayout(0,1,5,5));
+        creaPannelli();
+
         frame.pack();
-
-
+        frame.setVisible(true);
 
         inserisciUnNuovoVoloButton.addActionListener(new ActionListener() {
             @Override
@@ -46,7 +52,7 @@ public class Amministratore {
 
 
 
-        aggiornaUnVoloButton.addActionListener(new ActionListener() {
+       /* aggiornaUnVoloButton.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
                pannelloContenitoreVoli.removeAll();
@@ -57,9 +63,59 @@ public class Amministratore {
                new AggiornaVolo(frame);
                frame.dispose();
            }
-        });
+        });*/
 
 
+    }
+
+    private void creaPannelli(){
+        ArrayList<Volo> listaVoli = controller.getTuttiVoli();
+
+        contenitoreVoliPanel.removeAll();
+
+        for(Volo volo: listaVoli){
+            JPanel pannelloVolo = new JPanel();
+            pannelloVolo.setLayout(new GridLayout(8,2, 5, 5));
+            pannelloVolo.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+            pannelloVolo.add(new JLabel("Codice volo: "));
+            pannelloVolo.add(new JTextField(volo.getCodiceVolo()));
+
+            pannelloVolo.add(new JLabel("Compagnia aerea: "));
+            pannelloVolo.add(new JTextField(volo.getCompagniaAerea()));
+
+            pannelloVolo.add(new JLabel("Origine: "));
+            pannelloVolo.add(new JTextField(volo.getOrigine()));
+
+            pannelloVolo.add(new JLabel("Destinazione: "));
+            pannelloVolo.add(new JTextField(volo.getDestinazione()));
+
+            pannelloVolo.add(new JLabel("Data: "));
+            pannelloVolo.add(new JTextField(volo.getData()));
+
+            pannelloVolo.add(new JLabel("Orario di arrivo previsto: "));
+            pannelloVolo.add(new JTextField(volo.getOrarioPrevisto()));
+
+            pannelloVolo.add(new JLabel("Ritardo: "));
+            pannelloVolo.add(new JTextField(String.valueOf(volo.getRitardo())));
+
+            JButton aggiorna = new JButton("Aggiorna");
+
+            aggiorna.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    AggiornaVolo nuovoVolo = new AggiornaVolo(controller, frame, volo);
+                    nuovoVolo.frame.setVisible(true);
+                    frame.setVisible(false);
+                }
+            });
+
+            pannelloVolo.add(aggiorna);
+            contenitoreVoliPanel.add(pannelloVolo);
+        }
+
+        contenitoreVoliPanel.revalidate();
+        contenitoreVoliPanel.repaint();
     }
 
 }
