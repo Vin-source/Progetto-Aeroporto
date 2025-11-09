@@ -12,6 +12,8 @@ public class Amministratore {
     private JTextField ricercaVoloButton;
     private JButton logoutButton;
     private JButton aggiornaUnVoloButton;
+    private JPanel contenitoreVoliPanel;
+    private JScrollPane ScrollVoliPane;
 
     private Controller controller;
 
@@ -43,16 +45,21 @@ public class Amministratore {
         });
 
 
-        /*
+
         aggiornaUnVoloButton.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+               pannelloContenitoreVoli.removeAll();
+
+               ArrayList<Volo> listaVoli = this.controller.getTuttiIVoli();
+
+
                new AggiornaVolo(frame);
                frame.dispose();
            }
         });
 
-         */
+
     }
 
 }
@@ -83,7 +90,7 @@ public class Amministratore {
     }
 
     private void creaPannelli(){
-        ArrayList<Volo> listaVoli = controller.getVoli();
+        ArrayList<Volo> listaVoli = controller.getTuttiVoli();
 
         for(Volo volo: listaVoli){
             JPanel pannelloVolo = new JPanel();

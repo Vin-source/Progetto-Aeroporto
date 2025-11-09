@@ -3,6 +3,8 @@ import model.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 
 
 public class Controller {
@@ -46,19 +48,27 @@ public class Controller {
 
     //CREAZIONE DI UN VOLO TESTING
     public Boolean creaNuovoVolo(String codiceVolo, String compagniaAerea, String origine, String destinazione, String data, String ora, String ritardo, String numeroGate){
-        if(destinazione.equals("Napoli")){
-            LocalDate data5 = LocalDate.parse(data, formatterData);
-            LocalTime ora5 = LocalTime.parse(ora, formatterOra);
-            int ritardoParsed = Integer.parseInt(ritardo);
-            int numeroGateParsed = Integer.parseInt(numeroGate);
+        try {
+            if (destinazione.equals("Napoli")) {
+                LocalDate data5 = LocalDate.parse(data, formatterData);
+                LocalTime ora5 = LocalTime.parse(ora, formatterOra);
+                int ritardoParsed = Integer.parseInt(ritardo);
+                int numeroGateParsed = Integer.parseInt(numeroGate);
 
-            Volo volo = new Volo(codiceVolo, compagniaAerea, origine, destinazione, data5, ora5, ritardoParsed);
+                Volo volo = new Volo(codiceVolo, compagniaAerea, origine, destinazione, data5, ora5, ritardoParsed);
 
-            this.amministratore.getVoli().add(volo);
+                this.amministratore.getVoli().add(volo);
 
-            return true;
+                return true;
+            }
+        }catch(DateTimeParseException | NumberFormatException e) {
+            System.err.println("Errore nel parsing del controller: "+e.getMessage());
         }
-
         return false;
-    };
+    }
+
+    //VISUALIZZAZIONE DEI VOLI
+    public ArrayList<Volo> getTuttiVoli(){
+        return this.amministratore.getVoli();
+    }
 }
