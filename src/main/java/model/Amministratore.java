@@ -2,9 +2,19 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ * Amministratore registrato nel sistema
+ */
 public class Amministratore extends Ospite {
     private ArrayList<Volo> voli;
 
+    /**
+     * Costruttore della classe Amministratore.java
+     *
+     * @param id       id dell'amministratore
+     * @param email    email dell'amministratore
+     * @param password password dell'amministratore
+     */
     public Amministratore(String id, String email, String password) {
         super(email, password);
         this.id = id;
@@ -13,6 +23,14 @@ public class Amministratore extends Ospite {
     }
 
 
+    /**
+     * Ricerca i voli disponibili sulla base
+     * del codice volo o della compagnia aerea
+     *
+     * @param codiceVoloCercato     il codice del volo cercato
+     * @param compagniaAereaCercata la compagnia aerea cercata
+     * @return arrayList dei voli cercati
+     */
     public ArrayList<Volo> ricercaRapida(String codiceVoloCercato, String compagniaAereaCercata) {
         ArrayList<Volo> voliTrovati = new ArrayList<>();
         if(voli != null){
