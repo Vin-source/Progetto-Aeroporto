@@ -94,4 +94,40 @@ public class Controller {
         return voliFiltrati;
     }
 
+    public Boolean aggiornaVolo(String codiceVolo, String nuovaData, String nuovoOrario,
+                                String nuovoRitardo, String nuovoNumeroGateS) {
+        try {
+            Volo voloDaAggiornare = null;
+            for (Volo v : this.amministratore.getVoli()) {
+                if (v.getCodiceVolo().equals(codiceVolo)) {
+                    voloDaAggiornare = v;
+                    break;
+                }
+            }
+
+            if (voloDaAggiornare == null) {
+                return false;
+            }
+
+            voloDaAggiornare.setData(nuovaData);
+            voloDaAggiornare.setOrarioPrevisto(nuovoOrario);
+            voloDaAggiornare.setRitardo(Integer.parseInt(nuovoRitardo));
+
+            // 3. Gestisci l'aggiornamento del Gate
+            int nuovoNumeroGateInt = Integer.parseInt(nuovoNumeroGateS);
+            if (voloDaAggiornare.getGate() != null) {
+                voloDaAggiornare.getGate().setNumero(nuovoNumeroGateInt);
+            } else {
+                voloDaAggiornare.setGate(new Gate(nuovoNumeroGateInt));
+            }
+
+            return true;
+
+        } catch (DateTimeParseException | NumberFormatException e) {
+            System.err.println("Errore aggiornamento: " + e.getMessage());
+            return false;
+        }
+    }
+
+
 }

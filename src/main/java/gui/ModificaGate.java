@@ -1,5 +1,5 @@
 package gui;
-//import controller.Controller;
+import controller.Controller;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +12,10 @@ public class ModificaGate {
     private JTextField gateAttuale;
     private JButton annullaButton;
 
-    public ModificaGate(JFrame frameChiamante, String gateAttuale, ModificaVolo modificaVolo) {
+    private Controller controller;
+
+    public ModificaGate(JFrame frameChiamante,Controller controller, String gateAttuale, ModificaVolo modificaVolo) {
+        this.controller = controller;
         frame = new JFrame("Modifica Gate");
         frame.setContentPane(modificaGate);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

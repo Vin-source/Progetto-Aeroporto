@@ -1,6 +1,7 @@
 package gui;
-// import controller.*;
+import controller.Controller;
 import model.Volo;
+import model.Gate;
 
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
@@ -27,12 +28,13 @@ public class ModificaVolo {
     private JLabel gateAttuale;
     private JButton modificaGate;
 
+    private Controller controller;
 
-    public ModificaVolo(/*Controller controller,*/ JFrame frameChiamante, Volo volo) {
+    public ModificaVolo(JFrame frameChiamante, Controller controller,Volo volo) {
+        this.controller = controller;
         frame = new JFrame("Aggiorna Volo");
         frame.setContentPane(aggiornaVoloPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         codiceVolo.setText(volo.getCodiceVolo());
         dataAttuale.setText(volo.getData());
@@ -42,11 +44,13 @@ public class ModificaVolo {
 
         dataAttuale.setEditable(false);
         orarioAttuale.setEditable(false);
-        orarioAttuale.setEditable(false);
         ritardoAttuale.setEditable(false);
 
         initFormatters();
         initListeners(frameChiamante, volo);
+
+        frame.pack();
+        frame.setVisible(true);
     }
 
 
@@ -58,7 +62,7 @@ public class ModificaVolo {
                 String nuovaDataText = nuovaData.getText();
                 String nuovoOrarioText = nuovoOrario.getText();
                 String nuovoRitardoText = nuovoRitardo.getText();
-                int gate = Integer.parseInt(gateAttuale.getText());
+                String gateText = gateAttuale.getText();
 
                 if(nuovaDataText.contains("_")){
                     nuovaDataText = volo.getData();
@@ -70,18 +74,18 @@ public class ModificaVolo {
                     nuovoRitardoText = String.valueOf(volo.getRitardo());
                 }
 
-                /*
 
 
 
-                    Boolean result = controller.aggiornaVolo(volo.getCodiceVolo(), nuovaDataText, nuovoOrarioText, nuovoRitardoText, gate);
+
+                    Boolean result = controller.aggiornaVolo(volo.getCodiceVolo(), nuovaDataText, nuovoOrarioText, nuovoRitardoText, gateText);
                     if(result){
-                        JOptionPane.showMessageDialog(null, "Volo aggiornato con successo.");
+                        JOptionPane.showMessageDialog(frame, "Volo aggiornato con successo.");
                     } else {
-                        JOptionPane.showMessageDialog(null, "Errore! Volo non aggiornato");
+                        JOptionPane.showMessageDialog(frame, "Errore! Volo non aggiornato");
                     }
 
-                */
+
                 frameChiamante.setVisible(true);
                 frame.setVisible(false);
                 frame.dispose();
@@ -91,8 +95,7 @@ public class ModificaVolo {
         modificaGate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ModificaGate nuovoGate = new ModificaGate(/*controller, AggiornaVolo.this, gateAttuale.getText()*/frame, gateAttuale.getText(), ModificaVolo.this);
-                nuovoGate.frame.setVisible(true);
+                new ModificaGate(frame, controller, volo.getGate()),ModificaVolo.this);
                 frame.setVisible(false);
             }
         });

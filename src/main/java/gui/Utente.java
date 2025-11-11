@@ -1,6 +1,6 @@
 package gui;
 
-// import controller.Controller;
+import controller.Controller;
 import model.Volo;
 
 import javax.swing.*;
@@ -21,13 +21,13 @@ public class Utente {
     private JButton areaPersonaleButton;
     private JButton logoutButton;
 
-    // private Controller controller;
+    private Controller controller;
 
-    public Utente(/*Controller controller*/JFrame frameChiamante) {
-        // this.controller = controller;
+    public Utente(JFrame frameChiamante, Controller controller) {
+         this.controller = controller;
          frame = new JFrame("Area Utente");
          frame.setContentPane(utenteContainer);
-         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
          listaVoliPanel.setLayout(new BoxLayout(listaVoliPanel, BoxLayout.Y_AXIS));
 
         ArrayList<Volo> voli = new ArrayList<>();
