@@ -1,5 +1,6 @@
 package gui;
 // import controller.Controller;
+import controller.Controller;
 import model.Prenotazione;
 
 import javax.swing.*;
@@ -15,15 +16,15 @@ public class ModificaPrenotazione {
     private JButton CANCELLAButton;
     public JFrame frame;
 
-    // private Controller controller;
+    private Controller controller;
     private String codiceVolo; // necessario per modificare la prenotazione giusta
 
-    public ModificaPrenotazione(/*Controller controller,*/JFrame frameChiamante, Prenotazione p) {
+    public ModificaPrenotazione(Controller controller, JFrame frameChiamante, Prenotazione p) {
         frame = new JFrame("Modifica Prenotazione");
         frame.setContentPane(mainPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
-        // this.controller = controller;
+        this.controller = controller;
         this.codiceVolo = p.getCodiceVolo();
 
         initListeners(frameChiamante, p);
@@ -60,16 +61,17 @@ public class ModificaPrenotazione {
 
 
 
-                    /* boolean risultato = controller.modificaPrenotazione(codiceVolo, nuovoNome, nuovoCognome, cartaIdentita, idPrenotazione);
+                    boolean risultato = controller.modificaPrenotazione(codiceVolo, nuovoNome, nuovoCognome, cartaIdentita, p.getIdPrenotazione());
                     if (risultato) {
                         JOptionPane.showMessageDialog(null, "Prenotazione modificata con successo");
                         resetFields();
-                        frame.dispose();
                         frameChiamante.setVisible(true);
+                        frame.dispose();
+
                     } else {
                         JOptionPane.showMessageDialog(null, "Modifica fallita: prenotazione non trovata");
                     }
-                    */
+
                 } catch(IllegalArgumentException ex){
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore di Inserimento dati", JOptionPane.ERROR_MESSAGE);
                 }

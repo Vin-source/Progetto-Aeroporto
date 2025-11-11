@@ -58,4 +58,17 @@ public class Controller {
         // le chiavi esterne sono il codiceVolo e l'id(o email) utente preso dal controller
     }
 
+    public boolean modificaPrenotazione(String codiceVolo, String nome, String cognome, String cartaIdentita, String idPrenotazione){
+        return true;
+    }
+
+    public ArrayList<String> getPostiOccupati(String codiceVolo){
+        ArrayList<String> postiOccupati =  new ArrayList<>();
+        postiOccupati.add("A2");
+        postiOccupati.add("A3");
+        postiOccupati.add("A4");
+        postiOccupati.add("E5");
+        return postiOccupati;
+    }
+
 }

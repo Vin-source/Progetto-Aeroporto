@@ -111,7 +111,7 @@ public class AreaPersonale {
 
 
             modificaPrenotazione.addActionListener(e -> {
-                new ModificaPrenotazione(frame, p).frame.setVisible(true);
+                new ModificaPrenotazione(this.controller, frame, p).frame.setVisible(true);
             });
 
 
