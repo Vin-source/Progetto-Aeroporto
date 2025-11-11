@@ -2,6 +2,7 @@ package model;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class Volo {
@@ -13,21 +14,6 @@ public class Volo {
     private LocalTime orarioPrevisto;
     private int ritardo;
     private String[] postiOccupati = new String[30];
-
-
-
-
-    // Uniformati con Controller (prima era HH:mm:ss)
-    private final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private final DateTimeFormatter formatterOra = DateTimeFormatter.ofPattern("HH:mm");
-
-
-
-
-
-
-
-
     private Amministratore amministratore;
     private ArrayList<Prenotazione> prenotazioni;
     private Gate gate;
@@ -35,6 +21,9 @@ public class Volo {
 
 
 
+    // Uniformati con Controller (prima era HH:mm:ss)
+    private final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("d/MM/yyyy");
+    private final DateTimeFormatter formatterOra = DateTimeFormatter.ofPattern("HH:mm");
 
 
 
@@ -44,7 +33,7 @@ public class Volo {
                 String destinazione,
                 String data,
                 String orarioPrevisto,
-                int ritardo) {
+                int ritardo) throws DateTimeParseException {
 
         this.codiceVolo = codiceVolo;
         this.compagniaAerea = compagniaAerea;
@@ -72,15 +61,20 @@ public class Volo {
         }
         return null;
     }
-    public void setCodiceVolo(String codiceVolo) { this.codiceVolo = codiceVolo;}
 
-    public String getCompagniaAerea() {
+    public void setCodiceVolo(String codiceVolo) {
+        this.codiceVolo = codiceVolo;
+    }
+
+    public String getCompagniaAerea(){
         if(compagniaAerea != null){
             return this.compagniaAerea;
         }
         return null;
     }
-    public void setCompagniaAerea(String compagniaAerea) { this.compagniaAerea = compagniaAerea; }
+    public void setCompagniaAerea(String compagniaAerea){
+        this.compagniaAerea = compagniaAerea;
+    }
 
 
     public String getOrigine() {
@@ -89,89 +83,117 @@ public class Volo {
         }
         return null;
     }
-    public void setOrigine(String origine) { this.origine = origine;}
+
+    public void setOrigine(String origine){
+        this.origine = origine;
+    }
 
 
-    public String getDestinazione() {
+    public String getDestinazione(){
         if(destinazione != null){
             return this.destinazione;
         }
         return null;
     }
-    public void setDestinazione(String destinazione) { this.destinazione = destinazione; }
+
+    public void setDestinazione(String destinazione){
+        this.destinazione = destinazione;
+    }
 
 
-    public String getData() {
+    public String getData(){
         if(data != null){
             return this.data.format(formatterData);
         }
         return null;
     }
-    public void setData(String data) { this.data = LocalDate.parse(data, formatterData); }
+
+    public void setData(String data){
+        this.data = LocalDate.parse(data, formatterData);
+    }
 
 
-    public String getOrarioPrevisto() {
+    public String getOrarioPrevisto(){
         if(orarioPrevisto != null){
             return this.orarioPrevisto.format(formatterOra);
         }
          return null;
     }
-    public void setOrarioPrevisto(String orarioPrevisto) { this.orarioPrevisto = LocalTime.parse(orarioPrevisto, formatterOra); }
+
+    public void setOrarioPrevisto(String orarioPrevisto){
+        this.orarioPrevisto = LocalTime.parse(orarioPrevisto, formatterOra);
+    }
 
 
-    public int getRitardo() {
+    public int getRitardo(){
         if(ritardo >= 0){
             return this.ritardo;
         }
         return -1;
     }
-    public void setRitardo(int ritardo) { this.ritardo = ritardo; }
+
+    public void setRitardo(int ritardo){
+        this.ritardo = ritardo;
+    }
 
 
-    public String[] getPostiOccupati() {
+    public String[] getPostiOccupati(){
         if(postiOccupati != null && (postiOccupati.length > 0)){
             return this.postiOccupati;
         }
         return null;
     }
-    public void setPostiOccupati(String[] posti) { this.postiOccupati = posti; }
+
+    public void setPostiOccupati(String[] posti){
+        this.postiOccupati = posti;
+    }
 
 
 
 
 
     // ---------------------- METODI OGGETTI ESTERNI ------------------------
-    public Amministratore getAmministratore() {
+    public Amministratore getAmministratore(){
         if(amministratore != null){
             return this.amministratore;
         }
         return null;
     }
-    public void setAmministratore(Amministratore amministratore) { this.amministratore = amministratore; }
 
-    public ArrayList<Prenotazione> getPrenotazioni() {
+    public void setAmministratore(Amministratore amministratore){
+        this.amministratore = amministratore;
+    }
+
+    public ArrayList<Prenotazione> getPrenotazioni(){
         if(prenotazioni != null){
             return this.prenotazioni;
         }
         return null;
     }
-    public void setPrenotazioni(ArrayList<Prenotazione> prenotazioni) { this.prenotazioni = prenotazioni; }
 
-    public Gate getGate() {
+    public void setPrenotazioni(ArrayList<Prenotazione> prenotazioni){
+        this.prenotazioni = prenotazioni;
+    }
+
+    public Gate getGate(){
         if(gate != null){
             return this.gate;
         }
         return null;
     }
-    public void setGate(Gate gate) { this.gate = gate; }
 
-    public StatoVolo getStatoVolo() {
+    public void setGate(Gate gate){
+        this.gate = gate;
+    }
+
+    public StatoVolo getStatoVolo(){
         if(statoVolo != null){
             return this.statoVolo;
         }
         return null;
     }
-    public void setStatoVolo(StatoVolo v) { this.statoVolo = v; }
 
-
+    public void setStatoVolo(StatoVolo v) {
+        this.statoVolo = v;
+    }
 }

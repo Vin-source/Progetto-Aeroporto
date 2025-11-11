@@ -1,5 +1,5 @@
 package gui;
-//import controller.*;
+import controller.Controller;
 
 import model.Gate;
 import model.Volo;
@@ -12,7 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+
 public class Amministratore {
+
     public JFrame frame;
     private JPanel AmministratorePanel;
     private JButton inserisciUnNuovoVoloButton;
@@ -20,31 +22,37 @@ public class Amministratore {
     private JTextField ricercaVoli;
     private JPanel listaVoliPanel;
 
+    private Controller controller;
+
     //TESTING//
-    public Amministratore(JFrame frameChiamante) {
+    public Amministratore(JFrame frameChiamante, Controller controller) {
+        this.controller = controller;
         frame = new JFrame("Pannello Amministratore TEST");
         frame.setContentPane(AmministratorePanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.pack();
 
         listaVoliPanel.setLayout(new BoxLayout(listaVoliPanel, BoxLayout.Y_AXIS));
 
-        ArrayList<Volo> voli = new ArrayList<>();
-        Volo v = new Volo("a", "a", "f", "f", "23/02/1999", "23:32", 0);
-        v.setGate(new Gate(23));
-        voli.add(v);
-        voli.add(v);
+        aggiornaListaVoli(this.controller.getTuttiVoli());
 
-        initListeners(frameChiamante, voli);
-        aggiornaListaVoli(voli);
+//        ArrayList<Volo> voli = new ArrayList<>();
+//        Volo v = new Volo("a", "a", "f", "f", "23/02/1999", "23:32", 0);
+//        v.setGate(new Gate(23));
+//        voli.add(v);
+//        voli.add(v);
+
+        initListeners(frameChiamante);
+        //aggiornaListaVoli(voli);
+        frame.pack();
+        frame.setVisible(true);
     }
 
-    public void initListeners(JFrame frameChiamante, ArrayList<Volo> voli) {
+    public void initListeners(JFrame frameChiamante) {
 
         inserisciUnNuovoVoloButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new InserisciVolo(frame);
+                new InserisciVolo(frame, controller);
                 frame.setVisible(false);
             }
         });
@@ -57,12 +65,21 @@ public class Amministratore {
             }
         });
 
+        //DA RIVEDERE
         ricercaVoli.getDocument().addDocumentListener(new DocumentListener() {
+            private void filtraVoli(){
+                String testoRicerca = ricercaVoli.getText();
+                ArrayList<Volo> voliFiltrati = controller.cercaVoli(testoRicerca);
+                aggiornaListaVoli(voliFiltrati);
+            }
+
             public void insertUpdate(DocumentEvent e) {
-                aggiornaListaVoli(/*controller.cercaVolo(barraDiRicerca.getText())*/voli);
+                filtraVoli();
+               // aggiornaListaVoli(/*controller.cercaVolo(barraDiRicerca.getText())*/voli);
             }
             public void removeUpdate(DocumentEvent e){
-                aggiornaListaVoli(/*controller.cercaVolo(barraDiRicerca.getText())*/voli);
+                filtraVoli();
+               // aggiornaListaVoli(/*controller.cercaVolo(barraDiRicerca.getText())*/voli);
             }
             public void changedUpdate(DocumentEvent e){
                 // ignorato per campi plain text
@@ -78,7 +95,7 @@ public class Amministratore {
 
         for(Volo volo: listaVoli){
             JPanel pannelloVolo = new JPanel();
-            pannelloVolo.setLayout(new GridLayout(1,7, 10, 10));
+            pannelloVolo.setLayout(new GridLayout(1,8, 10, 10));
             pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
 
@@ -89,11 +106,12 @@ public class Amministratore {
             pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
             pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
             pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
+
             JButton modifica = new JButton("MODIFICA");
             pannelloVolo.add(modifica);
 
             modifica.addActionListener(e -> {
-                new ModificaVolo(frame, volo).frame.setVisible(true);
+                new ModificaVolo(frame,controller,volo);
                 frame.dispose();
             });
 
@@ -105,8 +123,6 @@ public class Amministratore {
 
         listaVoliPanel.revalidate();
         listaVoliPanel.repaint();
-        frame.pack();
     }
 }
 
-    //private Controller controller;

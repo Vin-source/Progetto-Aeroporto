@@ -1,7 +1,6 @@
 package gui;
 
-// import controller.Controller;
-import model.Utente;
+import controller.Controller;
 import model.Volo;
 
 import javax.swing.*;
@@ -28,16 +27,14 @@ public class Ospite extends JFrame {
 
 
 
- //   private Controller controller;
+    private Controller controller;
 
-    public Ospite() {
-        // this.controller = new Controller();
+    public Ospite(Controller controller) {
+        this.controller = controller;
 
         frame = new JFrame("La mia GUI Swing");
         frame.setContentPane(ospiteContainer);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
 
 
 
@@ -49,12 +46,12 @@ public class Ospite extends JFrame {
         listaVoliPanel.setLayout(new GridLayout(20, 1));
         listaVoliScroll.setViewportView(listaVoliPanel);
 
-        ArrayList<Volo> voli = new ArrayList<>();
-        voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
-        voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
-        aggiornaListaVoli(voli);
+        aggiornaListaVoli(this.controller.getTuttiVoli());
+
         initListeners();
+
         frame.pack();
+        frame.setVisible(true);
     }
 
 
@@ -72,13 +69,22 @@ public class Ospite extends JFrame {
                         throw new IllegalArgumentException("Username o password mancante!");
                     }
 
-
+/*
                     if(emailInserita.contains("admin")){
-                        new Amministratore(frame).frame.setVisible(true);
+                        new Amministratore(frame, controller).frame.setVisible(true);
                     }else {
-                        new gui.Utente(frame).frame.setVisible(true);
+                        new gui.Utente(frame,).frame.setVisible(true);
                     }
-                    frame.dispose();
+
+ */
+                    String result = controller.login(emailInserita, passwordInserita);
+                    if("amministratore".equals(result)) {
+                        new Amministratore(frame, controller);
+                        frame.setVisible(false);
+                    }else if("utente".equals(result)) {
+                        new Utente(frame, controller);
+                        frame.setVisible(false);
+                    }
                     // String result = controller.login(emailInserita, passwordInserita);
 
                     /*if ("amministratore".equals(result)) {
@@ -121,9 +127,9 @@ public class Ospite extends JFrame {
 
             listaVoliPanel.add(pannelloVolo);
             listaVoliPanel.add(Box.createVerticalStrut(5));
-            listaVoliPanel.revalidate();
-            listaVoliPanel.repaint();
         }
+        listaVoliPanel.revalidate();
+        listaVoliPanel.repaint();
     }
 
     public JPanel getMainPanel() {
