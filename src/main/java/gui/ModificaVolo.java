@@ -9,7 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 
+/**
+ * La classe ModificaVolo della gui
+ */
 public class ModificaVolo {
+    /**
+     * Il frame della classe ModificaVolo
+     */
     public JFrame frame;
 
     private JTextField dataAttuale;
@@ -28,6 +34,13 @@ public class ModificaVolo {
     private JButton modificaGate;
 
 
+    /**
+     * Costruisce l'interfaccia che si apre quando
+     * l'Amministratore vuole modificare un volo
+     * @param frameChiamante Il frame dell'Ammistratore che vuole
+     *                       modificare il volo
+     * @param volo Il volo da modificare
+     */
     public ModificaVolo(/*Controller controller,*/ JFrame frameChiamante, Volo volo) {
         frame = new JFrame("Aggiorna Volo");
         frame.setContentPane(aggiornaVoloPanel);
@@ -50,6 +63,12 @@ public class ModificaVolo {
     }
 
 
+    /**
+     * Metodo che contiene gli action listener della form ModificaVolo
+     *
+     * @param frameChiamante Il frame di Amministratore
+     * @param volo           Il volo da modificare
+     */
     public void initListeners(JFrame frameChiamante, Volo volo) {
 
         confermaCambiamentiVolo.addActionListener(new ActionListener() {
@@ -98,6 +117,9 @@ public class ModificaVolo {
         });
     }
 
+    /**
+     * Metodo che contiene i formatter della data e dell'ora
+     */
     public void initFormatters() {
         try {
             MaskFormatter formatterOra = new MaskFormatter("##:##");
@@ -113,6 +135,11 @@ public class ModificaVolo {
         }
     }
 
+    /**
+     * Metodo che setta il nuovo gate associato al volo
+     *
+     * @param gate Il gate da modificare
+     */
     public void impostaNuovoGate(Integer gate){
         gateAttuale.setText(String.valueOf(gate));
     }

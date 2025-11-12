@@ -8,6 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 
+/**
+ * Classe della gui che permette di Inserire
+ * un nuovo volo
+ */
 public class InserisciVolo {
     private JPanel inserisciVoloPanel;
 
@@ -25,9 +29,17 @@ public class InserisciVolo {
     private JButton annullaButton;
 
 
+    /**
+     * Il frame della pagina InserisciVolo
+     */
     public JFrame frame;
 //    private Controller controller;
 
+    /**
+     * Costruisce la finestra per l'insermento di un volo
+     *
+     * @param frameChiamante Il frame di Amministratore usato per tornare indietro
+     */
     public InserisciVolo(JFrame frameChiamante) {
         frame = new JFrame("Schermata InserisciVolo");
         frame.setContentPane(inserisciVoloPanel);
@@ -41,6 +53,11 @@ public class InserisciVolo {
     }
 
 
+    /**
+     * Metodo che contiene gli ActionListener dei vari button
+     *
+     * @param frameChiamante Il frame di Amministratore usato per tornare indietro
+     */
     public void initListeners(JFrame frameChiamante) {
         confermaButton.addActionListener(new ActionListener() {
             @Override
@@ -73,6 +90,9 @@ public class InserisciVolo {
     }
 
 
+    /**
+     * Init formatters.
+     */
     public void initFormatters() {
         try {
             MaskFormatter formatterOra = new MaskFormatter("##:##");
@@ -89,6 +109,9 @@ public class InserisciVolo {
     }
 
 
+    /**
+     * Metodo usato per resettare i campi del form InserisciVolo
+     */
     private void resetFields() {
         codiceVolo.setText("");
         compagniaVolo.setText("");
@@ -100,6 +123,11 @@ public class InserisciVolo {
         gateVolo.setSelectedIndex(-1);
     }
 
+    /**
+     * Ritorna i pannelli di InserisciVolo
+     *
+     * @return I pannelli di InserisciVolo
+     */
     public JPanel getPanel(){
         return inserisciVoloPanel;
     }

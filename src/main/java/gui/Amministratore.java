@@ -12,7 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * La classe Amministratore della gui
+ */
 public class Amministratore {
+    /**
+     * The Frame.
+     */
     public JFrame frame;
     private JPanel AmministratorePanel;
     private JButton inserisciUnNuovoVoloButton;
@@ -20,7 +26,12 @@ public class Amministratore {
     private JTextField ricercaVoli;
     private JPanel listaVoliPanel;
 
-    //TESTING//
+    /**
+     * Costruisce la finestra che si apre
+     * quando l'ospite si logga come amministratore
+     * @param frameChiamante Il frame di Ospite.java
+     */
+//TESTING//
     public Amministratore(JFrame frameChiamante) {
         frame = new JFrame("Pannello Amministratore TEST");
         frame.setContentPane(AmministratorePanel);
@@ -39,6 +50,12 @@ public class Amministratore {
         aggiornaListaVoli(voli);
     }
 
+    /**
+     * Metodo che contiene gli ActionListener
+     *
+     * @param frameChiamante Il frame chiamante di Ospite.java
+     * @param voli           I voli contenuti nell'arraylist
+     */
     public void initListeners(JFrame frameChiamante, ArrayList<Volo> voli) {
 
         inserisciUnNuovoVoloButton.addActionListener(new ActionListener() {
@@ -71,6 +88,10 @@ public class Amministratore {
     }
 
 
+    /**
+     * Metodo che permette di aggiornare la lista dei voli
+     * @param listaVoli ArrayList contenente la lista dei voli
+     */
     private void aggiornaListaVoli(ArrayList<Volo> listaVoli) {
 
         listaVoliPanel.removeAll();
