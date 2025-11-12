@@ -52,10 +52,10 @@ public class Utente {
         // Listener per la barra di ricerca
         barraDiRicerca.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
-                aggiornaListaVoli(controller.getTuttiVoli());
+                aggiornaListaVoli(controller.cercaVoli(barraDiRicerca.getText()));
             }
             public void removeUpdate(DocumentEvent e){
-                aggiornaListaVoli(controller.getTuttiVoli());
+                aggiornaListaVoli(controller.cercaVoli(barraDiRicerca.getText()));
             }
             public void changedUpdate(DocumentEvent e){
                 // ignorato per campi plain text

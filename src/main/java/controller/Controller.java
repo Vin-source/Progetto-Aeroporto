@@ -71,4 +71,11 @@ public class Controller {
         return postiOccupati;
     }
 
+    public ArrayList<Volo> cercaVoli(String valore){
+        // chiamata al db
+        ArrayList<Volo> voli = new ArrayList<>();
+        voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
+        voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
+        return voli;
+    }
 }
