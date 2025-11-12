@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * La gui EffettuaNuovaPrenotazione
+ */
 public class EffettuaNuovaPrenotazione {
     private JPanel Prenotazione;
 
@@ -17,12 +20,22 @@ public class EffettuaNuovaPrenotazione {
     private JButton cancellaButton;
     private JButton sceltaPostoInAereo;
     private JLabel postoScelto;
+    /**
+     * Il frame per EffettuaNuovaPrenotazione
+     */
     public JFrame frame;
 
 
     private String postoInAereoSelezionato;
     // private Controller controller;
 
+    /**
+     * Costruttore di EffettuaNuovaPrenotazione.java
+     *
+     * @param frameChiamante Il frame padre (Utente.java)
+     * @param codiceVolo     Il codice del volo selezionato nel frame padre
+     * @param controller     Il controller che effettuerà i cambiamenti nel DB/Model
+     */
     public EffettuaNuovaPrenotazione(/*Controller controllerEsterno,*/JFrame frameChiamante, String codiceVolo) {
         frame = new JFrame("Dati prenotazione");
         frame.setContentPane(Prenotazione);
@@ -36,6 +49,12 @@ public class EffettuaNuovaPrenotazione {
     }
 
 
+    /**
+     * Inizializza gli actionListener della pagina
+     *
+     * @param frameChiamante il frame padre
+     * @param codiceVolo il codice del volo selezionato
+     */
     private void initListeners(JFrame frameChiamante, String codiceVolo) {
         prenotaButton.addActionListener(new ActionListener() {
             @Override
@@ -99,10 +118,20 @@ public class EffettuaNuovaPrenotazione {
         frameChiamante.setVisible(true);
     }
 
+    /**
+     * Ritorna il panel della pagina
+     *
+     * @return prenotazione
+     */
     public JPanel getPanel() {
         return Prenotazione;
     }
 
+    /**
+     * Salva il posto in aereo selezionato dall'utente
+     *
+     * @param valore Il posto selezionato
+     */
     public void setPostoScelto(String valore) {
         postoScelto.setText(valore);
     }

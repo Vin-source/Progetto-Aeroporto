@@ -11,7 +11,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * La Gui Utente
+ */
 public class Utente {
+    /**
+     * Frame dell'utente
+     */
     public JFrame frame;
     private JPanel utenteContainer;
 
@@ -23,6 +29,12 @@ public class Utente {
 
     // private Controller controller;
 
+    /**
+     * Costruttore della classe Utente
+     *
+     * @param frameChiamante Il frame padre (Ospite.java)
+     * @param controller Il controller che effettua chiamate al DB e comunica con il package Model
+     */
     public Utente(/*Controller controller*/JFrame frameChiamante) {
         // this.controller = controller;
          frame = new JFrame("Area Utente");
@@ -42,6 +54,11 @@ public class Utente {
 
     }
 
+    /**
+     * Inizializza gli actionListener
+     *
+     * @param frameChiamante il frame Padre
+     */
     private void initListeners(JFrame frameChiamante) {
 
         ArrayList<Volo> voli = new ArrayList<>();
@@ -80,6 +97,12 @@ public class Utente {
     }
 
 
+    /**
+     * Rappresenta tutti i voli nella gui Utente.
+     * Implementato come {@link #aggiornaListaVoli(ArrayList)} aggiornaListaVoli} con l'aggiunta
+     * di un bottone per la prenotazione del volo corrispondente
+     * @param listaVoli ArrayList dei voli disponibili
+     */
     private void aggiornaListaVoli(ArrayList<Volo> listaVoli) {
 
         listaVoliPanel.removeAll();

@@ -15,7 +15,9 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 
-
+/**
+ * La gui AreaPersonale
+ */
 public class AreaPersonale {
     private JPanel AreaPersonale;
     private JTextField id;
@@ -25,9 +27,18 @@ public class AreaPersonale {
     private JPanel listaPrenotazioni;
     private JButton indietroButton;
 
-    // Controller controller;
+    /**
+     * Il frame di AreaPersonale.java
+     */
+// Controller controller;
     JFrame frame;
 
+    /**
+     * Costruttore di AreaPersonale
+     *
+     * @param framePadre Il frame padre (Utente.java)
+     * @param controller Il controller che effettua collegamenti con DB/Model
+     */
     public AreaPersonale(/*Controller controller,*/JFrame framePadre){
         // this.controller = controller;
 
@@ -65,6 +76,11 @@ public class AreaPersonale {
     }
 
 
+    /**
+     * Inizializza i Listener
+     *
+     * @param framePadre Il frame padre
+     */
     public void initListeners(JFrame framePadre) {
         ArrayList<Prenotazione> p = new ArrayList<>();
         Prenotazione p1 = new Prenotazione("Mimmo", "Raia", "a436ffr", "6F");
@@ -106,6 +122,12 @@ public class AreaPersonale {
     }
 
 
+    /**
+     * Crea i JPanel per ogni prenotazione e li popola con i dati
+     * corrispondenti comunicando con il package model
+     *
+     * @param prenotazioni ArrayList delle prenotazioni effettuate dallo specifico utente
+     */
     public void aggiornaPrenotazioni(ArrayList<Prenotazione> prenotazioni) {
         listaPrenotazioni.removeAll();
 

@@ -6,6 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * La gui SceltaPostoInAereo
+ * Inserito in una nuova pagina per rendere comoda
+ * la scelta del posto nell'aereo selezionato in fase di prenotazione
+ */
 public class SceltaPostoInAereo {
     private String postoScelto = "";
     private JButton a1;
@@ -46,8 +51,19 @@ public class SceltaPostoInAereo {
             e1, e2, e3, e4, e5, e6};
     private JPanel scegliPostoPanel;
     private JButton confermaButton;
+    /**
+     * Il frame della pagina SceltaPostoInAereo.java
+     */
     public JFrame frame;
 
+    /**
+     * Costruttore della pagina
+     *
+     * @param frameChiamante       Il frame padre (EffettuaNuovaPrenotazione.java)
+     * @param metodoSelezionePosto Il metodo selezionePosto che applicherà i cambiamenti nel frame padre
+     * @param codiceVolo           Il codice del volo selezionato in fase di prenotazione
+     *
+     */
     public SceltaPostoInAereo(/*Controller controller,*/ JFrame frameChiamante, EffettuaNuovaPrenotazione metodoSelezionePosto, String codiceVolo) {
 
         frame = new JFrame("Scelta Posto in Aereo");
@@ -88,6 +104,12 @@ public class SceltaPostoInAereo {
     }
 
 
+    /**
+     * Inizializza gli actionListeners
+     *
+     * @param metodoSelezionePosto Il metodo che applica il posto selezionato
+     * @param frameChiamante       Il frame padre
+     */
     public void initListeners(EffettuaNuovaPrenotazione metodoSelezionePosto, JFrame frameChiamante){
         confermaButton.addActionListener(new ActionListener() {
             @Override
@@ -124,8 +146,12 @@ public class SceltaPostoInAereo {
     }
 
 
-
-    //aggiunto getPanel
+    /**
+     * Ritorna il panel dell'attuale pagina
+     *
+     * @return scegliPostoPanel
+     */
+//aggiunto getPanel
     public JPanel getPanel(){
         return scegliPostoPanel;
     }

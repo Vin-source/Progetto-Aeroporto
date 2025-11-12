@@ -6,6 +6,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * La gui ModificaPrenotazione
+ */
 public class ModificaPrenotazione {
     private JPanel mainPanel;
     private JTextField nome;
@@ -13,11 +16,21 @@ public class ModificaPrenotazione {
     private JTextField cartaIdentita;
     private JButton CONFERMAButton;
     private JButton CANCELLAButton;
+    /**
+     * Il frame di ModificaPrenotazione
+     */
     public JFrame frame;
 
     // private Controller controller;
     private String codiceVolo; // necessario per modificare la prenotazione giusta
 
+    /**
+     * Costruttore di ModificaPrenotazione.java
+     *
+     * @param frameChiamante Il frame padre (AreaPersonale.java)
+     * @param p              La prenotazione selezionata nel frame padre
+     * @param controller     Il controller che modifica la prenotazione nel DB/Model
+     */
     public ModificaPrenotazione(/*Controller controller,*/JFrame frameChiamante, Prenotazione p) {
         frame = new JFrame("Modifica Prenotazione");
         frame.setContentPane(mainPanel);
@@ -30,7 +43,12 @@ public class ModificaPrenotazione {
 
     }
 
-
+    /**
+     * Inizializza i Listener
+     *
+     * @param frameChiamante il frame padre
+     * @param p la prenotazione selezionata nel frame padre
+     */
     private void initListeners(JFrame frameChiamante, Prenotazione p) {
 
         CONFERMAButton.addActionListener(new ActionListener() {
@@ -95,6 +113,11 @@ public class ModificaPrenotazione {
         cartaIdentita.setText("");
     }
 
+    /**
+     * Ritorna il panel di ModificaPrenotazione.java
+     *
+     * @return mainPanel
+     */
     public JPanel getPanel() {
         return mainPanel;
     }

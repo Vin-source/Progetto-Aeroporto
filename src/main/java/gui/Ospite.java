@@ -10,8 +10,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Gui Ospite
+ */
 public class Ospite extends JFrame {
     private JPanel ospiteContainer;
+    /**
+     * Frame di Ospite
+     */
     public JFrame frame;
     private JTextField email;
     private JPasswordField password;
@@ -30,6 +36,15 @@ public class Ospite extends JFrame {
 
  //   private Controller controller;
 
+    /**
+     * Costruttore della classe Ospite
+     * <p>
+     *
+     * Il costruttore inizializza gli elementi, i listener per i bottoni
+     * e chiama il metodo aggiornaListaVoli per mostrare i voli disponibili
+     *
+     * @param controller Il controller che verrà passato dal Main method
+     */
     public Ospite() {
         // this.controller = new Controller();
 
@@ -58,8 +73,9 @@ public class Ospite extends JFrame {
     }
 
 
-
-
+    /**
+     * Inizializza tutti gli actionListener
+     */
     private void initListeners() {
         accediButton.addActionListener(new ActionListener() {
             @Override
@@ -103,8 +119,14 @@ public class Ospite extends JFrame {
     }
 
 
-
-
+    /**
+     * Metodo per popolare la pagina Ospite di tutti i voli disponibili
+     * Crea un JPanel per ogni elemento
+     * e lo popola con informazioni utilizzando i metodi dell'oggetto volo corrispondente
+     *
+     *
+     * @param listaVoli ArrayList dei Voli disponibili
+     */
     private void aggiornaListaVoli(ArrayList<Volo> listaVoli) {
         for(Volo volo: listaVoli){
             JPanel pannelloVolo = new JPanel();
@@ -126,6 +148,11 @@ public class Ospite extends JFrame {
         }
     }
 
+    /**
+     * Ritorna il panel principale della pagina Ospite
+     *
+     * @return Oggetto panel
+     */
     public JPanel getMainPanel() {
         return ospiteContainer;
     }
