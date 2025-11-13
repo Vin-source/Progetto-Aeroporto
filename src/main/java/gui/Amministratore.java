@@ -11,6 +11,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 
 public class Amministratore {
@@ -33,7 +35,7 @@ public class Amministratore {
 
         listaVoliPanel.setLayout(new BoxLayout(listaVoliPanel, BoxLayout.Y_AXIS));
 
-        aggiornaListaVoli(this.controller.getTuttiVoli());
+        //aggiornaListaVoli(this.controller.getTuttiVoli());
 
 //        ArrayList<Volo> voli = new ArrayList<>();
 //        Volo v = new Volo("a", "a", "f", "f", "23/02/1999", "23:32", 0);
@@ -44,6 +46,15 @@ public class Amministratore {
         initListeners(frameChiamante);
         //aggiornaListaVoli(voli);
         frame.pack();
+       // frame.setVisible(true);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                creaPannelli();
+            }
+        });
+
+
         frame.setVisible(true);
     }
 
@@ -87,6 +98,55 @@ public class Amministratore {
         });
     }
 
+    private void creaPannelli() {
+        // Chiede i dati *freschi* ogni volta
+        ArrayList<Volo> listaVoli = controller.getTuttiVoli();
+
+        // Svuota la vecchia lista
+        listaVoliPanel.removeAll();
+
+
+        for(Volo volo: listaVoli){
+            JPanel pannelloVolo = new JPanel();
+            pannelloVolo.setLayout(new GridLayout(1, 8, 10, 10)); // 8 colonne
+            pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+
+            pannelloVolo.add(new JLabel("CODICE: " + volo.getCodiceVolo().toUpperCase()));
+            pannelloVolo.add(new JLabel("COMPAGNIA: " + volo.getCompagniaAerea().toUpperCase()));
+
+            // --- CORREZIONE LAYOUT ---
+            // Aggiungi SEMPRE 8 componenti per non rompere il GridLayout
+            String origine = (volo.getOrigine() != null) ? volo.getOrigine().toUpperCase() : "N/D";
+            String dest = (volo.getDestinazione() != null) ? volo.getDestinazione().toUpperCase() : "N/D";
+            pannelloVolo.add(new JLabel("ORIGINE: " + origine));
+            pannelloVolo.add(new JLabel("DESTINAZIONE: " + dest));
+            // ------------------------
+
+            pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
+            pannelloVolo.add(new JLabel("ORA: " + volo.getOrarioPrevisto().toUpperCase()));
+
+            // --- CORREZIONE TIPO (int -> String) ---
+            pannelloVolo.add(new JLabel("RITARDO: " + String.valueOf(volo.getRitardo()) + " min"));
+
+            JButton modifica = new JButton("MODIFICA");
+            pannelloVolo.add(modifica);
+
+            // --- CORREZIONE BUG DISPOSE ---
+            modifica.addActionListener(e -> {
+                new ModificaVolo(frame, controller, volo);
+                frame.setVisible(false); // <-- USA setVisible(false), NON dispose()
+            });
+            // -------------------------------
+
+            listaVoliPanel.add(pannelloVolo);
+            listaVoliPanel.add(Box.createVerticalStrut(5));
+        }
+
+        listaVoliPanel.revalidate();
+        listaVoliPanel.repaint();
+    }
+
 
     private void aggiornaListaVoli(ArrayList<Volo> listaVoli) {
 
@@ -112,7 +172,7 @@ public class Amministratore {
 
             modifica.addActionListener(e -> {
                 new ModificaVolo(frame,controller,volo);
-                frame.dispose();
+                frame.setVisible(false);
             });
 
 

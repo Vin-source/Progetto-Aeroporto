@@ -40,7 +40,12 @@ public class ModificaVolo {
         dataAttuale.setText(volo.getData());
         orarioAttuale.setText(volo.getOrarioPrevisto());
         ritardoAttuale.setText(String.valueOf(volo.getRitardo()));
-        gateAttuale.setText(String.valueOf(volo.getGate().getNumero()));
+
+        if (volo.getGate() != null) {
+            gateAttuale.setText(String.valueOf(volo.getGate().getNumero()));
+        } else {
+            gateAttuale.setText("Gate non assegnato");
+        }
 
         dataAttuale.setEditable(false);
         orarioAttuale.setEditable(false);
@@ -95,7 +100,7 @@ public class ModificaVolo {
         modificaGate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ModificaGate(frame, controller, volo.getGate()),ModificaVolo.this);
+                new ModificaGate(frame, controller, gateAttuale.getText(),ModificaVolo.this);
                 frame.setVisible(false);
             }
         });

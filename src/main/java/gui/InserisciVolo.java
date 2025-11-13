@@ -1,5 +1,5 @@
 package gui;
-//import controller.*;
+import controller.Controller;
 
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
@@ -7,6 +7,7 @@ import javax.swing.text.MaskFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 public class InserisciVolo {
     private JPanel inserisciVoloPanel;
@@ -26,18 +27,20 @@ public class InserisciVolo {
 
 
     public JFrame frame;
-//    private Controller controller;
+    private Controller controller;
 
-    public InserisciVolo(JFrame frameChiamante) {
+    public InserisciVolo(JFrame frameChiamante, Controller controller) {
+        this.controller = controller;
         frame = new JFrame("Schermata InserisciVolo");
         frame.setContentPane(inserisciVoloPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-
 
         initFormatters();
+        popolaGateDisponibili();
         initListeners(frameChiamante);
+
+        frame.pack();
+        frame.setVisible(true);
     }
 
 
@@ -45,14 +48,34 @@ public class InserisciVolo {
         confermaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(compagniaVolo.getText().equals("") || origineVolo.getText().equals("") ||
-                destinazioneVolo.getText().equals("") || dataVolo.getText().contains("_") || orarioVolo.getText().contains("_")) {
-                    JOptionPane.showMessageDialog(frame,"Errore: Popolare tutti i campi necessari");
+                String codVolo = codiceVolo.getText();
+                String compagnia = compagniaVolo.getText();
+                String origine = origineVolo.getText();
+                String destinazione = destinazioneVolo.getText();
+                String data = dataVolo.getText();
+                String orario = orarioVolo.getText();
+                String ritardo = ritardoVolo.getText();
+                String gate = (String) gateVolo.getSelectedItem();
+
+                if (codVolo.isEmpty() || compagnia.isEmpty() || origine.isEmpty() || destinazione.isEmpty()
+                        || data.contains("_") || orario.contains("_") || ritardo.isEmpty() || gate == null) {
+                    JOptionPane.showMessageDialog(frame, "Errore: Popolare tutti i campi.", "Errore", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                JOptionPane.showMessageDialog(frame,"Volo inserito con successo");
-                frameChiamante.setVisible(true);
-                frame.dispose();
+
+
+                Boolean result = controller.creaNuovoVolo(
+                        codVolo, compagnia, origine, destinazione,
+                        data, orario, ritardo, gate
+                );
+
+                if (result) {
+                    JOptionPane.showMessageDialog(frame, "Volo inserito con successo");
+                    frameChiamante.setVisible(true);
+                    frame.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Errore: Dati non validi.Controlla formato data/ora e che i numeri siano corretti.", "Errore di Salvataggio", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
@@ -72,6 +95,19 @@ public class InserisciVolo {
         });
     }
 
+
+
+    private void popolaGateDisponibili() {
+        ArrayList<String> listaGate = controller.getGateDisponibili();
+
+        gateVolo.removeAllItems(); // Svuota
+
+        gateVolo.addItem(null);
+
+        for (String gateNum : listaGate) {
+            gateVolo.addItem(gateNum);
+        }
+    }
 
     public void initFormatters() {
         try {
@@ -97,7 +133,7 @@ public class InserisciVolo {
         dataVolo.setText("");
         orarioVolo.setText("");
         ritardoVolo.setText("");
-        gateVolo.setSelectedIndex(-1);
+        gateVolo.setSelectedIndex(0);
     }
 
     public JPanel getPanel(){

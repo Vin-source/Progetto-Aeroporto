@@ -27,9 +27,22 @@ public class Controller {
 //        LocalDate data3 = LocalDate.parse("26/11/2067", formatterData);
 //        LocalTime ora3 = LocalTime.parse("09:45", formatterOra);
 
-        amministratore.getVoli().add(new Volo("Volo1","Alitalia","Spagna","Napoli","07/02/2067","11:00",0));
-        amministratore.getVoli().add(new Volo("Volo2", "EasyJet", "Lapponia", "Napoli","12/05/2067","14:00",30));
-        amministratore.getVoli().add(new Volo("Volo3","ArabLines","Berlino","Napoli","26/11/2067","09:45",10));
+        try {
+            Volo v1 = new Volo("Volo1","Alitalia","Spagna","Napoli","07/02/2067","11:00",0);
+            v1.setGate(new Gate(1));
+            amministratore.getVoli().add(v1);
+
+            Volo v2 = new Volo("Volo2", "EasyJet", "Lapponia", "Napoli","12/05/2067","14:00",30);
+            v2.setGate(new Gate(2));
+            amministratore.getVoli().add(v2);
+
+            Volo v3 = new Volo("Volo3","ArabLines","Berlino","Napoli","26/11/2067","09:45",10);
+            v3.setGate(new Gate(3));
+            amministratore.getVoli().add(v3);
+
+        } catch (DateTimeParseException e) {
+            System.err.println("Errore fatale nel parsing dei dati di test: " + e.getMessage());
+        }
     }
 
 
@@ -47,22 +60,29 @@ public class Controller {
     }
 
     //CREAZIONE DI UN VOLO TESTING
-    public Boolean creaNuovoVolo(String codiceVolo, String compagniaAerea, String origine, String destinazione, String data, String ora, String ritardo, String numeroGate){
+
+    public Boolean creaNuovoVolo(String codiceVolo, String compagniaAerea, String origine, String destinazione,
+                                 String data, String ora, String ritardo, String numeroGate){
         try {
-            if (destinazione.equals("Napoli")) {
-                int ritardoParsed = Integer.parseInt(ritardo);
-                int numeroGateParsed = Integer.parseInt(numeroGate);
-
-                Volo volo = new Volo(codiceVolo, compagniaAerea, origine, destinazione, data, ora, ritardoParsed);
-
-                this.amministratore.getVoli().add(volo);
-
-                return true;
+            if (!origine.equalsIgnoreCase("Napoli") && !destinazione.equalsIgnoreCase("Napoli")) {
+                throw new Exception("Volo non valido: deve essere un arrivo o una partenza da Napoli.");
             }
-        }catch(DateTimeParseException | NumberFormatException e) {
-            System.err.println("Errore nel parsing del controller: "+e.getMessage());
+
+            int ritardoParsed = Integer.parseInt(ritardo);
+            int numeroGateParsed = Integer.parseInt(numeroGate);
+
+            Volo volo = new Volo(codiceVolo, compagniaAerea, origine, destinazione, data, ora, ritardoParsed);
+
+            volo.setGate(new Gate(numeroGateParsed));
+
+            this.amministratore.getVoli().add(volo);
+
+            return true;
+
+        } catch(Exception e) {
+            System.err.println("Errore creazione volo (intercettato da Controller): "+e.getMessage());
+            return false;
         }
-        return false;
     }
 
     //VISUALIZZAZIONE DEI VOLI TESTING
@@ -130,4 +150,12 @@ public class Controller {
     }
 
 
+    public ArrayList<String> getGateDisponibili() {
+        ArrayList<String> gates = new ArrayList<>();
+        // Simuliamo 20 gate
+        for (int i = 1; i <= 9; i++) {
+            gates.add(String.valueOf(i));
+        }
+        return gates;
+    }
 }

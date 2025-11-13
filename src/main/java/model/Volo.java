@@ -27,6 +27,8 @@ public class Volo {
 
 
 
+// In model/Volo.java
+
     public Volo(String codiceVolo,
                 String compagniaAerea,
                 String origine,
@@ -41,13 +43,11 @@ public class Volo {
         this.orarioPrevisto = LocalTime.parse(orarioPrevisto, formatterOra);
         this.ritardo = ritardo;
 
-        if(origine.equals("Napoli")){
-            this.destinazione = destinazione;
-            this.origine = null;
-        }else{
-            this.origine = origine;
-            this.destinazione = null;
-        }
+
+        this.origine = origine;
+        this.destinazione = destinazione;
+
+
 
         prenotazioni = new ArrayList<>();
     }
