@@ -106,7 +106,7 @@ public class Controller {
 
 
     //RICERCA DEI VOLI TESTING
-    public ArrayList<Volo> cercaVoli(String testoRicerca) {
+/*    public ArrayList<Volo> cercaVoli(String testoRicerca) {
         ArrayList<Volo> voliFiltrati = new ArrayList<>();
         String ricercaLower = testoRicerca.toLowerCase();
 
@@ -128,6 +128,8 @@ public class Controller {
         }
         return voliFiltrati;
     }
+    */
+
 
     public Boolean aggiornaVolo(String codiceVolo, String nuovaData, String nuovoOrario,
                                 String nuovoRitardo, String nuovoNumeroGateS) {
