@@ -26,7 +26,8 @@ public class Controller {
         // controlla utente e password nel db
         //  non ricordo se era l'id condiviso o diverse table
         utente = new Utente("sfsd", "asdsrew", "der00");
-        return "utente";
+        amministratore = new Amministratore("wqe", "sdfswe", "sdwer");
+        return "amministratore";
     }
 
     public ArrayList<Volo> getTuttiVoli() {
@@ -86,6 +87,11 @@ public class Controller {
                 throw new Exception("Volo non valido: deve essere un arrivo o una partenza da Napoli.");
             }
 
+            ArrayList<Volo> voli = new ArrayList<>();
+            voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
+            voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
+            this.amministratore.setVoli(voli);
+
             int ritardoParsed = Integer.parseInt(ritardo);
             int numeroGateParsed = Integer.parseInt(numeroGate);
 
@@ -133,6 +139,12 @@ public class Controller {
 
     public Boolean aggiornaVolo(String codiceVolo, String nuovaData, String nuovoOrario,
                                 String nuovoRitardo, String nuovoNumeroGateS) {
+
+        ArrayList<Volo> voli = new ArrayList<>();
+        voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
+        voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
+        this.amministratore.setVoli(voli);
+
         try {
             Volo voloDaAggiornare = null;
             for (Volo v : this.amministratore.getVoli()) {
@@ -151,12 +163,13 @@ public class Controller {
             voloDaAggiornare.setRitardo(Integer.parseInt(nuovoRitardo));
 
             // 3. Gestisci l'aggiornamento del Gate
-            int nuovoNumeroGateInt = Integer.parseInt(nuovoNumeroGateS);
-            if (voloDaAggiornare.getGate() != null) {
-                voloDaAggiornare.getGate().setNumero(nuovoNumeroGateInt);
-            } else {
-                voloDaAggiornare.setGate(new Gate(nuovoNumeroGateInt));
+            if(!nuovoNumeroGateS.equals("Gate non assegnato")) {
+                int nuovoNumeroGateInt = Integer.parseInt(nuovoNumeroGateS);
+                if (voloDaAggiornare.getGate() != null) {
+                    voloDaAggiornare.getGate().setNumero(nuovoNumeroGateInt);
+                }
             }
+
 
             return true;
 

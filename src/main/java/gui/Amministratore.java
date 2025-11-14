@@ -27,7 +27,7 @@ public class Amministratore {
     private Controller controller;
 
     //TESTING//
-    public Amministratore(JFrame frameChiamante, Controller controller) {
+    public Amministratore(Controller controller, JFrame frameChiamante) {
         this.controller = controller;
         frame = new JFrame("Pannello Amministratore TEST");
         frame.setContentPane(AmministratorePanel);
@@ -35,13 +35,6 @@ public class Amministratore {
 
         listaVoliPanel.setLayout(new BoxLayout(listaVoliPanel, BoxLayout.Y_AXIS));
 
-        //aggiornaListaVoli(this.controller.getTuttiVoli());
-
-//        ArrayList<Volo> voli = new ArrayList<>();
-//        Volo v = new Volo("a", "a", "f", "f", "23/02/1999", "23:32", 0);
-//        v.setGate(new Gate(23));
-//        voli.add(v);
-//        voli.add(v);
 
         initListeners(frameChiamante);
         //aggiornaListaVoli(voli);
@@ -86,11 +79,11 @@ public class Amministratore {
 
             public void insertUpdate(DocumentEvent e) {
                 filtraVoli();
-               // aggiornaListaVoli(/*controller.cercaVolo(barraDiRicerca.getText())*/voli);
+                aggiornaListaVoli(controller.cercaVoli(ricercaVoli.getText()));
             }
             public void removeUpdate(DocumentEvent e){
                 filtraVoli();
-               // aggiornaListaVoli(/*controller.cercaVolo(barraDiRicerca.getText())*/voli);
+                aggiornaListaVoli(controller.cercaVoli(ricercaVoli.getText()));
             }
             public void changedUpdate(DocumentEvent e){
                 // ignorato per campi plain text

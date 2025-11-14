@@ -31,6 +31,8 @@ public class Amministratore extends Ospite {
         return voli;
     }
 
-
+    public void setVoli(ArrayList<Volo> voli){
+        this.voli = voli;
+    }
 
 }
