@@ -1,9 +1,6 @@
 package controller;
 
-import model.Amministratore;
-import model.Prenotazione;
-import model.Utente;
-import model.Volo;
+import model.*;
 
 import java.util.ArrayList;
 
@@ -78,4 +75,118 @@ public class Controller {
         voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
         return voli;
     }
+
+
+    //CREAZIONE DI UN VOLO TESTING
+
+    public Boolean creaNuovoVolo(String codiceVolo, String compagniaAerea, String origine, String destinazione,
+                                 String data, String ora, String ritardo, String numeroGate){
+        try {
+            if (!origine.equalsIgnoreCase("Napoli") && !destinazione.equalsIgnoreCase("Napoli")) {
+                throw new Exception("Volo non valido: deve essere un arrivo o una partenza da Napoli.");
+            }
+
+            int ritardoParsed = Integer.parseInt(ritardo);
+            int numeroGateParsed = Integer.parseInt(numeroGate);
+
+            Volo volo = new Volo(codiceVolo, compagniaAerea, origine, destinazione, data, ora, ritardoParsed);
+
+            volo.setGate(new Gate(numeroGateParsed));
+
+            this.amministratore.getVoli().add(volo);
+
+            return true;
+
+        } catch(Exception e) {
+            System.err.println("Errore creazione volo (intercettato da Controller): "+e.getMessage());
+            return false;
+        }
+    }
+
+
+
+    //RICERCA DEI VOLI TESTING
+    public ArrayList<Volo> cercaVoli(String testoRicerca) {
+        ArrayList<Volo> voliFiltrati = new ArrayList<>();
+        String ricercaLower = testoRicerca.toLowerCase();
+
+
+        if (ricercaLower.isEmpty()) {
+            return getTuttiVoli();
+        }
+
+        for (Volo volo : this.amministratore.getVoli()) {
+            boolean origineTrovata = volo.getOrigine() != null && volo.getOrigine().toLowerCase().contains(ricercaLower);
+            boolean destinazioneTrovata = volo.getDestinazione() != null && volo.getDestinazione().toLowerCase().contains(ricercaLower);
+
+            if (volo.getCodiceVolo().toLowerCase().contains(ricercaLower) ||
+                    volo.getCompagniaAerea().toLowerCase().contains(ricercaLower) ||
+                    origineTrovata || destinazioneTrovata)
+            {
+                voliFiltrati.add(volo);
+            }
+        }
+        return voliFiltrati;
+    }
+
+    public Boolean aggiornaVolo(String codiceVolo, String nuovaData, String nuovoOrario,
+                                String nuovoRitardo, String nuovoNumeroGateS) {
+        try {
+            Volo voloDaAggiornare = null;
+            for (Volo v : this.amministratore.getVoli()) {
+                if (v.getCodiceVolo().equals(codiceVolo)) {
+                    voloDaAggiornare = v;
+                    break;
+                }
+            }
+
+            if (voloDaAggiornare == null) {
+                return false;
+            }
+
+            voloDaAggiornare.setData(nuovaData);
+            voloDaAggiornare.setOrarioPrevisto(nuovoOrario);
+            voloDaAggiornare.setRitardo(Integer.parseInt(nuovoRitardo));
+
+            // 3. Gestisci l'aggiornamento del Gate
+            int nuovoNumeroGateInt = Integer.parseInt(nuovoNumeroGateS);
+            if (voloDaAggiornare.getGate() != null) {
+                voloDaAggiornare.getGate().setNumero(nuovoNumeroGateInt);
+            } else {
+                voloDaAggiornare.setGate(new Gate(nuovoNumeroGateInt));
+            }
+
+            return true;
+
+        } catch (NumberFormatException e) {
+            System.err.println("Errore aggiornamento: " + e.getMessage());
+            return false;
+        }
+    }
+
+
+    public ArrayList<String> getGateDisponibili() {
+        ArrayList<String> gates = new ArrayList<>();
+        // Simuliamo 20 gate
+        for (int i = 1; i <= 9; i++) {
+            gates.add(String.valueOf(i));
+        }
+        return gates;
+    }
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
