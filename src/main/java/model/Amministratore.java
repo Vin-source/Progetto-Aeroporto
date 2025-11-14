@@ -27,6 +27,10 @@ public class Amministratore extends Ospite {
         return null;
     }
 
+    public ArrayList<Volo> getVoli() {
+        return voli;
+    }
+
 
 
 }
