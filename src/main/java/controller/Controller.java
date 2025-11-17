@@ -3,11 +3,14 @@ package controller;
 import model.*;
 
 import java.util.ArrayList;
+import dao.LoginDAO;
+import implementazionePostgresDAO.LoginImplementazionePostgresDAO;
 
 public class Controller {
     private Amministratore amministratore;
     private Utente utente;
 
+    private LoginDAO loginDAO;
 
     public Controller() {
     }
@@ -134,8 +137,6 @@ public class Controller {
         }
         return voliFiltrati;
     }
-    */
-
 
     public Boolean aggiornaVolo(String codiceVolo, String nuovaData, String nuovoOrario,
                                 String nuovoRitardo, String nuovoNumeroGateS) {
@@ -170,7 +171,6 @@ public class Controller {
                 }
             }
 
-
             return true;
 
         } catch (NumberFormatException e) {
@@ -188,20 +188,4 @@ public class Controller {
         }
         return gates;
     }
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
