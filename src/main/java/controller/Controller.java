@@ -10,15 +10,15 @@ public class Controller {
     private Amministratore amministratore;
     private Utente utente;
 
-    private LoginDAO loginDAO;
+
 
     public Controller() {
     }
 
     public String getEmail() {
-        if(this.utente != null) {
+        if (this.utente != null) {
             return this.utente.getEmail();
-        }else if(this.amministratore != null) {
+        } else if (this.amministratore != null) {
             return this.amministratore.getEmail();
         }
         return null;
@@ -26,6 +26,7 @@ public class Controller {
 
 
     public String login(String username, String password) {
+        LoginDAO loginDAO;
         // controlla utente e password nel db
         //  non ricordo se era l'id condiviso o diverse table
         utente = new Utente("sfsd", "asdsrew", "der00");
@@ -55,16 +56,16 @@ public class Controller {
         return utente.cercaPrenotazioni(valore);
     }
 
-    public void effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo){
+    public void effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo) {
         // le chiavi esterne sono il codiceVolo e l'id(o email) utente preso dal controller
     }
 
-    public boolean modificaPrenotazione(String codiceVolo, String nome, String cognome, String cartaIdentita, String idPrenotazione){
+    public boolean modificaPrenotazione(String codiceVolo, String nome, String cognome, String cartaIdentita, String idPrenotazione) {
         return true;
     }
 
-    public ArrayList<String> getPostiOccupati(String codiceVolo){
-        ArrayList<String> postiOccupati =  new ArrayList<>();
+    public ArrayList<String> getPostiOccupati(String codiceVolo) {
+        ArrayList<String> postiOccupati = new ArrayList<>();
         postiOccupati.add("A2");
         postiOccupati.add("A3");
         postiOccupati.add("A4");
@@ -72,7 +73,7 @@ public class Controller {
         return postiOccupati;
     }
 
-    public ArrayList<Volo> cercaVoli(String valore){
+    public ArrayList<Volo> cercaVoli(String valore) {
         // chiamata al db
         ArrayList<Volo> voli = new ArrayList<>();
         voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
@@ -84,7 +85,7 @@ public class Controller {
     //CREAZIONE DI UN VOLO TESTING
 
     public Boolean creaNuovoVolo(String codiceVolo, String compagniaAerea, String origine, String destinazione,
-                                 String data, String ora, String ritardo, String numeroGate){
+                                 String data, String ora, String ritardo, String numeroGate) {
         try {
             if (!origine.equalsIgnoreCase("Napoli") && !destinazione.equalsIgnoreCase("Napoli")) {
                 throw new Exception("Volo non valido: deve essere un arrivo o una partenza da Napoli.");
@@ -106,12 +107,11 @@ public class Controller {
 
             return true;
 
-        } catch(Exception e) {
-            System.err.println("Errore creazione volo (intercettato da Controller): "+e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore creazione volo (intercettato da Controller): " + e.getMessage());
             return false;
         }
     }
-
 
 
     //RICERCA DEI VOLI TESTING
@@ -137,6 +137,10 @@ public class Controller {
         }
         return voliFiltrati;
     }
+
+
+
+ */
 
     public Boolean aggiornaVolo(String codiceVolo, String nuovaData, String nuovoOrario,
                                 String nuovoRitardo, String nuovoNumeroGateS) {
