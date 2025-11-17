@@ -41,6 +41,7 @@ public class InserisciVolo {
      * Costruisce la finestra per l'insermento di un volo
      *
      * @param frameChiamante Il frame di Amministratore usato per tornare indietro
+     * @param controller     Il controller che effettua le chiamate al model/db
      */
     public InserisciVolo(JFrame frameChiamante, Controller controller) {
         this.controller = controller;
@@ -133,6 +134,9 @@ public class InserisciVolo {
         }
     }
 
+    /**
+     * Mostra a schermo quelli che sono i gate non occupati da altri voli
+     */
     private void popolaGateDisponibili() {
         ArrayList<String> listaGate = controller.getGateDisponibili();
 

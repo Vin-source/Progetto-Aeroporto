@@ -41,6 +41,7 @@ public class ModificaVolo {
      * l'Amministratore vuole modificare un volo
      * @param frameChiamante Il frame dell'Ammistratore che vuole
      *                       modificare il volo
+     * @param controller il controller che effettua chiamate al model/db
      * @param volo Il volo da modificare
      */
     public ModificaVolo(JFrame frameChiamante, Controller controller,Volo volo) {

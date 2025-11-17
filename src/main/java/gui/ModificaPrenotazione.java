@@ -112,6 +112,10 @@ public class ModificaPrenotazione {
         });
     }
 
+    /**
+     * Pulisce i valori inseriti nella pagina gui
+     *
+     */
     private void resetFields() {
         nome.setText("");
         cognome.setText("");

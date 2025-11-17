@@ -86,7 +86,7 @@ public class Amministratore {
             }
         });
 
-        //DA RIVEDERE
+
         ricercaVoli.getDocument().addDocumentListener(new DocumentListener() {
             private void filtraVoli(){
                 String testoRicerca = ricercaVoli.getText();
@@ -108,6 +108,11 @@ public class Amministratore {
         });
     }
 
+
+    /**
+     * Metodo che permette di aggiornare la lista dei voli
+     *
+     */
     private void creaPannelli() {
         // Chiede i dati *freschi* ogni volta
         ArrayList<Volo> listaVoli = controller.getTuttiVoli();

@@ -25,6 +25,7 @@ public class ModificaGate {
      * Costruisce la pagina per modificare i gate dei voli
      *
      * @param frameChiamante Il frame di Amministratore
+     * @param controller     Il controller che effettua le chiamate al model/db
      * @param gateAttuale    Il gate attuale
      * @param modificaVolo   Il volo da modificare
      */
@@ -49,6 +50,9 @@ public class ModificaGate {
     }
 
 
+    /**
+     * Popola il menu a tendina dei gate con i gate disponibili
+     */
     private void popolaGateDisponibili() {
 
         gateDisponibili.removeAllItems();

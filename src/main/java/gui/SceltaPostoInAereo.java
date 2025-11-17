@@ -62,6 +62,7 @@ public class SceltaPostoInAereo {
     /**
      * Costruttore della pagina
      *
+     * @param controller           Il controller che effettua chiamate al model/db
      * @param frameChiamante       Il frame padre (EffettuaNuovaPrenotazione.java)
      * @param metodoSelezionePosto Il metodo selezionePosto che applicherà i cambiamenti nel frame padre
      * @param codiceVolo           Il codice del volo selezionato in fase di prenotazione

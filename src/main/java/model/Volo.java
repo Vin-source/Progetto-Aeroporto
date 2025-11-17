@@ -89,7 +89,11 @@ public class Volo {
     }
 
 
-
+    /**
+     * Ritorna la compagnia aerea
+     *
+     * @return la compagnia aerea associata al volo
+     */
     public String getCompagniaAerea(){
         if(compagniaAerea != null){
             return this.compagniaAerea;
@@ -258,7 +262,11 @@ public class Volo {
     }
 
 
-
+    /**
+     * Salva un nuovo array di posti occupati nell'aereo corrispondente
+     *
+     * @param posti un nuovo array di posti occupati
+     */
     public void setPostiOccupati(String[] posti){
         this.postiOccupati = posti;
     }
@@ -336,7 +344,11 @@ public class Volo {
     }
 
 
-
+    /**
+     * ritorna lo stato attuale del volo
+     *
+     * @return variabile statoVolo
+     */
     public StatoVolo getStatoVolo(){
         if(statoVolo != null){
             return this.statoVolo;

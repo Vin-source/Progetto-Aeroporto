@@ -45,10 +45,22 @@ public class Amministratore extends Ospite {
         return null;
     }
 
+
+    /**
+     * Ritorna tutti i voli associati all'amministratore corrente
+     *
+     * @return voli
+     */
     public ArrayList<Volo> getVoli() {
         return voli;
     }
 
+
+    /**
+     * Salva i voli nella variabile voli dell'amministratore
+     *
+     * @param voli il nuovo oggetto contenente i voli da memorizzare
+     */
     public void setVoli(ArrayList<Volo> voli){
         this.voli = voli;
     }

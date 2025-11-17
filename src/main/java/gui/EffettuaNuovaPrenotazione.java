@@ -112,6 +112,13 @@ public class EffettuaNuovaPrenotazione {
         });
     }
 
+
+    /**
+     * Effettua una cancellazione della prenotazione di un volo
+     * Pulisce tutti i campi nella gui e ritorna alla schermata precedente
+     *
+     * @param frameChiamante il frame padre che ha generato la schermata attuale
+     */
     private void cancellaOperazione(JFrame frameChiamante) {
         nome.setText("");
         cognome.setText("");
