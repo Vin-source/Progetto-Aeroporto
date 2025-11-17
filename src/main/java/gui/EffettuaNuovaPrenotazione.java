@@ -1,5 +1,5 @@
 package gui;
-// import controller.Controller;
+import controller.Controller;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,7 +27,8 @@ public class EffettuaNuovaPrenotazione {
 
 
     private String postoInAereoSelezionato;
-    // private Controller controller;
+    private Controller controller;
+
 
     /**
      * Costruttore di EffettuaNuovaPrenotazione.java
@@ -36,16 +37,17 @@ public class EffettuaNuovaPrenotazione {
      * @param codiceVolo     Il codice del volo selezionato nel frame padre
      * @param controller     Il controller che effettuerà i cambiamenti nel DB/Model
      */
-    public EffettuaNuovaPrenotazione(/*Controller controllerEsterno,*/JFrame frameChiamante, String codiceVolo) {
+    public EffettuaNuovaPrenotazione(Controller controller, JFrame frameChiamante, String codiceVolo) {
+
         frame = new JFrame("Dati prenotazione");
         frame.setContentPane(Prenotazione);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+        this.controller = controller;
 
         initListeners(frameChiamante, codiceVolo);
         postoScelto.setText(" ");
-        // this.controller = controllerEsterno;
     }
 
 
@@ -84,7 +86,7 @@ public class EffettuaNuovaPrenotazione {
                     return;
                 }
 
-                // controller.prenotaVolo(codiceVolo, nome, cognome, cid, postoInAereoSelezionato); // prenotazione
+                controller.effettuaPrenotazione(codiceVolo, nome, cognome, cid, postoInAereoSelezionato); // prenotazione
 
                 JOptionPane.showMessageDialog(null, "Prenotazione effettuata");
 
@@ -103,7 +105,7 @@ public class EffettuaNuovaPrenotazione {
         sceltaPostoInAereo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SceltaPostoInAereo scelta = new SceltaPostoInAereo(/*controller,*/frame, EffettuaNuovaPrenotazione.this, codiceVolo);
+                SceltaPostoInAereo scelta = new SceltaPostoInAereo(controller, frame, EffettuaNuovaPrenotazione.this, codiceVolo);
                 scelta.frame.setVisible(true);
                 frame.setVisible(false);
             }

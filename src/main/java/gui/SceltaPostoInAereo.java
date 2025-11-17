@@ -1,5 +1,7 @@
 package gui;
 // import controller.Controller;
+import controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -55,6 +57,7 @@ public class SceltaPostoInAereo {
      * Il frame della pagina SceltaPostoInAereo.java
      */
     public JFrame frame;
+    private Controller controller;
 
     /**
      * Costruttore della pagina
@@ -64,22 +67,20 @@ public class SceltaPostoInAereo {
      * @param codiceVolo           Il codice del volo selezionato in fase di prenotazione
      *
      */
-    public SceltaPostoInAereo(/*Controller controller,*/ JFrame frameChiamante, EffettuaNuovaPrenotazione metodoSelezionePosto, String codiceVolo) {
+    public SceltaPostoInAereo(Controller controller, JFrame frameChiamante, EffettuaNuovaPrenotazione metodoSelezionePosto, String codiceVolo) {
+
 
         frame = new JFrame("Scelta Posto in Aereo");
         frame.setContentPane(scegliPostoPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
+        this.controller = controller;
 
 
 
         //Chiamata al Controller per ottenere i posti occupati
-        // ArrayList<String> postiOccupati = controller.getPostiOccupatiVolo(codiceVolo);
-        ArrayList<String> postiOccupati =  new ArrayList<>();
-        postiOccupati.add("A2");
-        postiOccupati.add("A3");
-        postiOccupati.add("A4");
-        postiOccupati.add("E5");
+        ArrayList<String> postiOccupati = controller.getPostiOccupati(codiceVolo);
+
 
         initListeners(metodoSelezionePosto, frameChiamante);
 

@@ -1,5 +1,6 @@
 package model;
 
+import controller.Controller;
 import gui.Ospite;
 
 import javax.swing.*;
@@ -7,7 +8,8 @@ import javax.swing.*;
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            gui.Ospite ospite = new Ospite();
+            Controller controller = new Controller();
+            gui.Ospite ospite = new Ospite(controller);
         });
     }
 }
