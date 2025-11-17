@@ -1,31 +1,26 @@
 package controller;
 import model.*;
+
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import dao.LoginDAO;
+import implementazionePostgresDAO.LoginImplementazionePostgresDAO;
 
 
 public class Controller {
-    private Utente utente;
+    //private Utente utente;
     private Amministratore amministratore;
-
-  //  private final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("d/MM/yyyy");
-  //  private final DateTimeFormatter formatterOra = DateTimeFormatter.ofPattern("HH:mm");
+    private LoginDAO loginDAO;
 
     public Controller() {
+        this.loginDAO = new LoginImplementazionePostgresDAO();
         amministratore = new Amministratore("IdProva", "admin@gmail.com", "password");
-        utente = new Utente("IdProva", "utente@gmail.com", "password");
+      //  utente = new Utente("IdProva", "utente@gmail.com", "password");
 
-//        LocalDate data1 = LocalDate.parse("07/02/2067", formatterData);
-//        LocalTime ora1 = LocalTime.parse("11:00", formatterOra);
-//
-//        LocalDate data2 = LocalDate.parse("12/05/2067", formatterData);
-//        LocalTime ora2 = LocalTime.parse("14:00", formatterOra);
-//
-//        LocalDate data3 = LocalDate.parse("26/11/2067", formatterData);
-//        LocalTime ora3 = LocalTime.parse("09:45", formatterOra);
 
         try {
             Volo v1 = new Volo("Volo1","Alitalia","Spagna","Napoli","07/02/2067","11:00",0);
@@ -48,7 +43,27 @@ public class Controller {
 
     //LOGIN TESTING
     public String login(String email, String password) {
+        try {
+            // Chiama il DAO per interrogare il DB
+            String ruolo = loginDAO.getUtentiDB(email, password);
 
+            if ("amministratore".equals(ruolo)) {
+                return "amministratore";
+            } else if ("utente".equals(ruolo)) {
+                return "utente";
+            } else {
+                // Se 'ruolo' è null (utente non trovato o password errata)
+                return "errore";
+            }
+
+        } catch (SQLException e) {
+            // Se c'è un errore SQL (es. connessione fallita, tabella non trovata)
+            System.err.println("Errore SQL durante il login: " + e.getMessage());
+            e.printStackTrace();
+            return "errore"; // Ritorna "errore" anche per problemi tecnici
+        }
+
+/*
         if(amministratore.getEmail().equals(email) && amministratore.getPassword().equals(password)) {
             return "amministratore";
         }
@@ -57,6 +72,8 @@ public class Controller {
             return "utente";
         }
         return "errore";
+
+ */
     }
 
     //CREAZIONE DI UN VOLO TESTING
