@@ -29,17 +29,17 @@ public class Amministratore {
     private JTextField ricercaVoli;
     private JPanel listaVoliPanel;
 
+    private Controller controller;
+
+
     /**
      * Costruisce la finestra che si apre
      * quando l'ospite si logga come amministratore
      * @param frameChiamante Il frame di Ospite.java
+     * @param controller Il controller che effettua chiamate model/db
      */
-//TESTING//
-    public Amministratore(JFrame frameChiamante) {
-    private Controller controller;
-
-    //TESTING//
     public Amministratore(Controller controller, JFrame frameChiamante) {
+
         this.controller = controller;
         frame = new JFrame("Pannello Amministratore TEST");
         frame.setContentPane(AmministratorePanel);
@@ -67,7 +67,6 @@ public class Amministratore {
      * Metodo che contiene gli ActionListener
      *
      * @param frameChiamante Il frame chiamante di Ospite.java
-     * @param voli           I voli contenuti nell'arraylist
      */
     public void initListeners(JFrame frameChiamante) {
 
