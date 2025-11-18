@@ -42,6 +42,7 @@ public class LoginImplementazionePostgresDAO implements LoginDAO {
         return null;
     }
 
+    /*
     @Override
     public String getIdOspite(String email, String password) throws SQLException {
 
@@ -63,6 +64,6 @@ public class LoginImplementazionePostgresDAO implements LoginDAO {
 
         return null;
     }
-
+*/
 }
 

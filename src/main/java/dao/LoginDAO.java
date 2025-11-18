@@ -13,5 +13,5 @@ public interface LoginDAO {
 //    String loginDB(String username, String password) throws SQLException;
 
     public String getUtentiDB(String email, String password) throws SQLException;
-    public String getIdOspite(String email, String password) throws SQLException;
+    // public String getIdOspite(String email, String password) throws SQLException;
 }
