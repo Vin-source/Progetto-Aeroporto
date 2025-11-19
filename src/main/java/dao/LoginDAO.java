@@ -12,6 +12,6 @@ public interface LoginDAO {
     // Verifica le credenziali di accesso e ritorna il ruolo dell'utente.
 //    String loginDB(String username, String password) throws SQLException;
 
-    public String getUtentiDB(String email, String password) throws SQLException;
+    public String getUtentiDB(String email, String password);
     // public String getIdOspite(String email, String password) throws SQLException;
 }

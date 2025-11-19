@@ -97,6 +97,8 @@ public class Ospite extends JFrame {
                         new Amministratore(controller, frame).frame.setVisible(true);
                     } else if ("utente".equals(result)) {
                         new gui.Utente(controller, frame).frame.setVisible(true);
+                    }else{
+                        throw new IllegalArgumentException("Utente non trovato");
                     }
 
                     frame.dispose();

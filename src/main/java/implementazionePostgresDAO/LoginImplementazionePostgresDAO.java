@@ -21,7 +21,7 @@ public class LoginImplementazionePostgresDAO implements LoginDAO {
     }
 
     @Override
-    public String getUtentiDB(String email, String password) throws SQLException {
+    public String getUtentiDB(String email, String password) {
 
         String sql = "SELECT ruolo FROM utenti WHERE email = ? AND password = ?";
 
@@ -36,7 +36,11 @@ public class LoginImplementazionePostgresDAO implements LoginDAO {
                     return rs.getString("ruolo"); // "amministratore" o "utente"
                 }
 
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
         }
 
         return null;

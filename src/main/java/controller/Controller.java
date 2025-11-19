@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import dao.LoginDAO;
 import implementazionePostgresDAO.LoginImplementazionePostgresDAO;
@@ -25,16 +26,20 @@ public class Controller {
     }
 
 
-    public String login(String username, String password) {
-        LoginDAO loginDAO;
+    public String login(String username, String password){
+        LoginDAO loginDAO = new LoginImplementazionePostgresDAO();
 
+        String ruolo = loginDAO.getUtentiDB(username, password);
 
-
-        // controlla utente e password nel db
-        //  non ricordo se era l'id condiviso o diverse table
-        utente = new Utente("sfsd", "asdsrew", "der00");
-        amministratore = new Amministratore("wqe", "sdfswe", "sdwer");
-        return "amministratore";
+        if(ruolo.equals("amministratore")){
+            amministratore = new Amministratore("456", username, password);
+            return "amministratore";
+        }else if(ruolo.equals("utente")) {
+            utente = new Utente("123", username, password);
+            return "utente";
+        }
+        return null;
+        //da continuare
     }
 
     public ArrayList<Volo> getTuttiVoli() {

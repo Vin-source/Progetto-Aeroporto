@@ -64,7 +64,7 @@ public class AreaPersonale {
 
 
         frame.pack();
-
+        frame.setVisible(true);
     }
 
 
@@ -121,7 +121,7 @@ public class AreaPersonale {
 
         for(Prenotazione p : prenotazioni){
             JPanel prenotazione = new JPanel();
-            prenotazione.setLayout(new GridLayout(1,4, 10, 10));
+            prenotazione.setLayout(new GridLayout(1,6, 10, 10));
             prenotazione.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             prenotazione.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
 
