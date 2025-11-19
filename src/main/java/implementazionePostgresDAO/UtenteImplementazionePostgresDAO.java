@@ -24,7 +24,7 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
         }
     }
 
-    public ArrayList<Volo> getVoliDB() throws SQLException{
+    public ArrayList<Volo> getVoliDB(){
         ArrayList<Volo> voli = new ArrayList<>();
         String sql = "SELECT * FROM VOLO";
 
@@ -45,8 +45,15 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
                 }
 
 
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return voli;
     }
+
+
+
 }

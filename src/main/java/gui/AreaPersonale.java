@@ -121,7 +121,7 @@ public class AreaPersonale {
 
         for(Prenotazione p : prenotazioni){
             JPanel prenotazione = new JPanel();
-            prenotazione.setLayout(new GridLayout(1,6, 10, 10));
+            prenotazione.setLayout(new GridLayout(1,7, 10, 10));
             prenotazione.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             prenotazione.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
 
@@ -130,6 +130,7 @@ public class AreaPersonale {
             prenotazione.add(new JLabel("COGNOME: " + p.getCognome().toUpperCase()));
             prenotazione.add(new JLabel("CARTA D'IDENTITA: " + p.getCartaIdentita().toUpperCase()));
             prenotazione.add(new JLabel("POSTO ASSEGNATO: " + p.getPostoAssegnato()));
+            prenotazione.add(new JLabel("STATO: " + p.getStatoPrenotazione()));
             JButton modificaPrenotazione = new JButton("MODIFICA");
             prenotazione.add(modificaPrenotazione);
 

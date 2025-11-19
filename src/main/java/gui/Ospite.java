@@ -125,7 +125,7 @@ public class Ospite extends JFrame {
     private void aggiornaListaVoli(ArrayList<Volo> listaVoli) {
         for(Volo volo: listaVoli){
             JPanel pannelloVolo = new JPanel();
-            pannelloVolo.setLayout(new GridLayout(1,7, 10, 10));
+            pannelloVolo.setLayout(new GridLayout(1,8, 10, 10));
             pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
             pannelloVolo.add(new JLabel("CODICE: " + volo.getCodiceVolo().toUpperCase()));
@@ -135,6 +135,7 @@ public class Ospite extends JFrame {
             pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
             pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
             pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
+            pannelloVolo.add(new JLabel("STATO: " + volo.getStatoVolo()));
 
             listaVoliPanel.add(pannelloVolo);
             listaVoliPanel.add(Box.createVerticalStrut(5));

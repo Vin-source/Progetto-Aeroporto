@@ -123,7 +123,7 @@ public class Amministratore {
 
         for(Volo volo: listaVoli){
             JPanel pannelloVolo = new JPanel();
-            pannelloVolo.setLayout(new GridLayout(1, 8, 10, 10)); // 8 colonne
+            pannelloVolo.setLayout(new GridLayout(1, 9, 10, 10)); // 8 colonne
             pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 
@@ -143,6 +143,7 @@ public class Amministratore {
 
             // --- CORREZIONE TIPO (int -> String) ---
             pannelloVolo.add(new JLabel("RITARDO: " + String.valueOf(volo.getRitardo()) + " min"));
+            pannelloVolo.add(new JLabel("STATO: " + volo.getStatoVolo()));
 
             JButton modifica = new JButton("MODIFICA");
             pannelloVolo.add(modifica);
@@ -174,7 +175,7 @@ public class Amministratore {
 
         for(Volo volo: listaVoli){
             JPanel pannelloVolo = new JPanel();
-            pannelloVolo.setLayout(new GridLayout(1,8, 10, 10));
+            pannelloVolo.setLayout(new GridLayout(1,9, 10, 10));
             pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
 
@@ -185,6 +186,7 @@ public class Amministratore {
             pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
             pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
             pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
+            pannelloVolo.add(new JLabel("STATO: " + volo.getStatoVolo()));
 
             JButton modifica = new JButton("MODIFICA");
             pannelloVolo.add(modifica);

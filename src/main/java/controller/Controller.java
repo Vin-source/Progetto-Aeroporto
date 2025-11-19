@@ -1,5 +1,7 @@
 package controller;
 
+import dao.UtenteDAO;
+import implementazionePostgresDAO.UtenteImplementazionePostgresDAO;
 import model.*;
 
 import java.sql.SQLException;
@@ -43,9 +45,11 @@ public class Controller {
     }
 
     public ArrayList<Volo> getTuttiVoli() {
-        ArrayList<Volo> voli = new ArrayList<>();
-        voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
-        voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
+        UtenteDAO u = new UtenteImplementazionePostgresDAO();
+        ArrayList<Volo> voli;
+
+        voli = u.getVoliDB();
+
         return voli;
     }
 

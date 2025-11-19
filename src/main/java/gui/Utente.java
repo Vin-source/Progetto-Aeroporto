@@ -103,7 +103,7 @@ public class Utente {
 
         for(Volo volo: listaVoli){
             JPanel pannelloVolo = new JPanel();
-            pannelloVolo.setLayout(new GridLayout(1,7, 10, 10));
+            pannelloVolo.setLayout(new GridLayout(1,8, 10, 10));
             pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
 
@@ -114,6 +114,7 @@ public class Utente {
             pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
             pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
             pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
+            pannelloVolo.add(new JLabel("STATO: " + volo.getStatoVolo()));
             JButton prenotazione = new JButton("PRENOTA");
             pannelloVolo.add(prenotazione);
 
