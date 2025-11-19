@@ -106,7 +106,7 @@ public class Ospite extends JFrame {
                 } catch (IllegalArgumentException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore di accesso", JOptionPane.ERROR_MESSAGE);
                 }
-                catch (Exception _) {
+                catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Errore imprevisto: ", "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }

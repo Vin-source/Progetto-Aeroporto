@@ -23,7 +23,7 @@ public class LoginImplementazionePostgresDAO implements LoginDAO {
     @Override
     public String getUtentiDB(String email, String password) {
 
-        String sql = "SELECT ruolo FROM utenti WHERE email = ? AND password = ?";
+        String sql = "SELECT ruolo FROM utente WHERE email = ? AND password = ?";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
 
