@@ -25,20 +25,19 @@ public class LoginImplementazionePostgresDAO implements LoginDAO {
 
         String sql = "SELECT ruolo FROM utente WHERE email = ? AND password = ?";
 
-        try (PreparedStatement st = connection.prepareStatement(sql)) {
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
 
             st.setString(1, email);
             st.setString(2, password);
 
-            try (ResultSet rs = st.executeQuery()) {
+            ResultSet rs = st.executeQuery();
 
                 if (rs.next()) {
                     return rs.getString("ruolo"); // "amministratore" o "utente"
                 }
 
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+
         }catch (SQLException e){
             throw new RuntimeException(e);
         }

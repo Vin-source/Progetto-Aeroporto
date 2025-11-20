@@ -55,10 +55,11 @@ public class Controller {
     }
 
     public ArrayList<Prenotazione> getTutteLePrenotazioni() {
-        ArrayList<Prenotazione> p = new ArrayList<>();
-        Prenotazione pr = new Prenotazione("sdf", "asd", "ert", "srwe");
-        pr.setIdPrenotazione("sdfwer00");
-        p.add(pr);
+        ArrayList<Prenotazione> p;
+
+        UtenteDAO u = new UtenteImplementazionePostgresDAO();
+
+        p = u.getPrenotazioniDB(utente.getEmail());
 
         utente.setPrenotazioni(p);
         // devo anche settare prenotazioni nel model utente
@@ -94,7 +95,6 @@ public class Controller {
         for(Volo v : voli){
             if(v.getCompagniaAerea().toLowerCase().contains(valore.toLowerCase()) ||
                     v.getCodiceVolo().toLowerCase().contains(valore.toLowerCase())){
-                System.out.println(v.getCompagniaAerea());
                 voliTrovati.add(v);
             }
         }
