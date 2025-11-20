@@ -92,7 +92,9 @@ public class Controller {
         ArrayList<Volo> voliTrovati = new ArrayList<>();
 
         for(Volo v : voli){
-            if(v.getCompagniaAerea().contains(valore) || v.getCodiceVolo().contains(valore)){
+            if(v.getCompagniaAerea().toLowerCase().contains(valore.toLowerCase()) ||
+                    v.getCodiceVolo().toLowerCase().contains(valore.toLowerCase())){
+                System.out.println(v.getCompagniaAerea());
                 voliTrovati.add(v);
             }
         }
