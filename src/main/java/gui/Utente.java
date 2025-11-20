@@ -100,33 +100,45 @@ public class Utente {
 
         listaVoliPanel.removeAll();
 
-
-        for(Volo volo: listaVoli){
+        if(listaVoli == null){
             JPanel pannelloVolo = new JPanel();
             pannelloVolo.setLayout(new GridLayout(1,8, 10, 10));
             pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
 
-            pannelloVolo.add(new JLabel("CODICE: " + volo.getCodiceVolo().toUpperCase()));
-            pannelloVolo.add(new JLabel("COMPAGNIA AEREA: " + volo.getCompagniaAerea().toUpperCase()));
-            if(volo.getOrigine() != null) pannelloVolo.add(new JLabel("ORIGINE: " + volo.getOrigine().toUpperCase()));
-            if(volo.getDestinazione() != null) pannelloVolo.add(new JLabel("DESTINAZIONE: " + volo.getDestinazione().toUpperCase()));
-            pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
-            pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
-            pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
-            pannelloVolo.add(new JLabel("STATO: " + volo.getStatoVolo()));
-            JButton prenotazione = new JButton("PRENOTA");
-            pannelloVolo.add(prenotazione);
-
-            prenotazione.addActionListener(e -> {
-                new EffettuaNuovaPrenotazione(controller, frame, volo.getCodiceVolo()).frame.setVisible(true);
-                frame.dispose();
-            });
-
+            pannelloVolo.add(new JLabel("Non ci sono voli attualmente disponibili. Ci scusiamo per il disagio!"));
 
             listaVoliPanel.add(pannelloVolo);
             listaVoliPanel.add(Box.createVerticalStrut(5));
 
+        }else{
+            for(Volo volo: listaVoli){
+                JPanel pannelloVolo = new JPanel();
+                pannelloVolo.setLayout(new GridLayout(1,8, 10, 10));
+                pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
+
+                pannelloVolo.add(new JLabel("CODICE: " + volo.getCodiceVolo().toUpperCase()));
+                pannelloVolo.add(new JLabel("COMPAGNIA AEREA: " + volo.getCompagniaAerea().toUpperCase()));
+                if(volo.getOrigine() != null) pannelloVolo.add(new JLabel("ORIGINE: " + volo.getOrigine().toUpperCase()));
+                if(volo.getDestinazione() != null) pannelloVolo.add(new JLabel("DESTINAZIONE: " + volo.getDestinazione().toUpperCase()));
+                pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
+                pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
+                pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
+                pannelloVolo.add(new JLabel("STATO: " + volo.getStatoVolo()));
+                JButton prenotazione = new JButton("PRENOTA");
+                pannelloVolo.add(prenotazione);
+
+                prenotazione.addActionListener(e -> {
+                    new EffettuaNuovaPrenotazione(controller, frame, volo.getCodiceVolo()).frame.setVisible(true);
+                    frame.dispose();
+                });
+
+
+                listaVoliPanel.add(pannelloVolo);
+                listaVoliPanel.add(Box.createVerticalStrut(5));
+
+            }
         }
 
         listaVoliPanel.revalidate();
