@@ -4,6 +4,7 @@ import dao.UtenteDAO;
 import implementazionePostgresDAO.UtenteImplementazionePostgresDAO;
 import model.*;
 
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import dao.LoginDAO;
@@ -86,11 +87,17 @@ public class Controller {
     }
 
     public ArrayList<Volo> cercaVoli(String valore) {
-        // chiamata al db
-        ArrayList<Volo> voli = new ArrayList<>();
-        voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
-        voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
-        return voli;
+        UtenteDAO u = new UtenteImplementazionePostgresDAO();
+        ArrayList<Volo> voli = u.getVoliDB();
+        ArrayList<Volo> voliTrovati = new ArrayList<>();
+
+        for(Volo v : voli){
+            if(v.getCompagniaAerea().contains(valore) || v.getCodiceVolo().contains(valore)){
+                voliTrovati.add(v);
+            }
+        }
+
+        return voliTrovati;
     }
 
 
