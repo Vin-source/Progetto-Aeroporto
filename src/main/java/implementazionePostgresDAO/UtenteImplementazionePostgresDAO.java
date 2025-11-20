@@ -98,5 +98,23 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
     }
 
 
+    public boolean effettuaPrenotazioneDB(String codiceVolo, String nome, String cognome, String cid, String posto){
+        String sql = "INSERT INTO prenotazione VALUES (?,?,?,?,?)";
+        try{
+            PreparedStatement prenotazioneSQL = connection.prepareStatement(sql);
+            prenotazioneSQL.setInt(1, Integer.parseInt(codiceVolo));
+            prenotazioneSQL.setString(2, nome);
+            prenotazioneSQL.setString(3, cognome);
+            prenotazioneSQL.setString(4, cid);
+            prenotazioneSQL.setString(5, posto);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return true;
+    }
+
+
 
 }

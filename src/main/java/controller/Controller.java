@@ -62,7 +62,7 @@ public class Controller {
         p = u.getPrenotazioniDB(utente.getEmail());
 
         utente.setPrenotazioni(p);
-        // devo anche settare prenotazioni nel model utente
+        // Salvo le prenotazioni ottenute nell'oggetto utente
         return p;
     }
 
@@ -74,8 +74,13 @@ public class Controller {
         return p;
     }
 
-    public void effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo) {
-        // le chiavi esterne sono il codiceVolo e l'id(o email) utente preso dal controller
+    public boolean effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo) {
+        UtenteDAO u = new UtenteImplementazionePostgresDAO();
+
+        if(u.effettuaPrenotazioneDB(codiceVolo, nome, cognome, cid, postoInAereo)){
+            return true;
+        }
+        return false;
     }
 
     public boolean modificaPrenotazione(String codiceVolo, String nome, String cognome, String cartaIdentita, String idPrenotazione) {
