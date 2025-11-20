@@ -67,7 +67,11 @@ public class Controller {
     }
 
     public ArrayList<Prenotazione> ricercaPrenotazioni(String valore) {
-        return utente.cercaPrenotazioni(valore);
+        ArrayList<Prenotazione> p;
+
+        p = utente.cercaPrenotazioni(valore);
+
+        return p;
     }
 
     public void effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo) {

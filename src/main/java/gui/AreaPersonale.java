@@ -118,31 +118,46 @@ public class AreaPersonale {
     public void aggiornaPrenotazioni(ArrayList<Prenotazione> prenotazioni) {
         listaPrenotazioni.removeAll();
 
-
-        for(Prenotazione p : prenotazioni){
+        if(prenotazioni == null){
             JPanel prenotazione = new JPanel();
             prenotazione.setLayout(new GridLayout(1,7, 10, 10));
             prenotazione.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             prenotazione.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
 
-            prenotazione.add(new JLabel("ID: " + p.getIdPrenotazione().toUpperCase()));
-            prenotazione.add(new JLabel("NOME: " + p.getNome().toUpperCase()));
-            prenotazione.add(new JLabel("COGNOME: " + p.getCognome().toUpperCase()));
-            prenotazione.add(new JLabel("CARTA D'IDENTITA: " + p.getCartaIdentita().toUpperCase()));
-            prenotazione.add(new JLabel("POSTO ASSEGNATO: " + p.getPostoAssegnato()));
-            prenotazione.add(new JLabel("STATO: " + p.getStatoPrenotazione()));
-            JButton modificaPrenotazione = new JButton("MODIFICA");
-            prenotazione.add(modificaPrenotazione);
 
-
-            modificaPrenotazione.addActionListener(e -> {
-                new ModificaPrenotazione(this.controller, frame, p).frame.setVisible(true);
-            });
-
+            prenotazione.add(new JLabel("Non hai nessuna prenotazione effettuata!"));
 
             listaPrenotazioni.add(prenotazione);
             listaPrenotazioni.add(Box.createVerticalStrut(5));
+        }
+        else{
 
+
+            for(Prenotazione p : prenotazioni){
+                JPanel prenotazione = new JPanel();
+                prenotazione.setLayout(new GridLayout(1,7, 10, 10));
+                prenotazione.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                prenotazione.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
+
+                prenotazione.add(new JLabel("ID: " + p.getIdPrenotazione().toUpperCase()));
+                prenotazione.add(new JLabel("NOME: " + p.getNome().toUpperCase()));
+                prenotazione.add(new JLabel("COGNOME: " + p.getCognome().toUpperCase()));
+                prenotazione.add(new JLabel("CARTA D'IDENTITA: " + p.getCartaIdentita().toUpperCase()));
+                prenotazione.add(new JLabel("POSTO ASSEGNATO: " + p.getPostoAssegnato()));
+                prenotazione.add(new JLabel("STATO: " + p.getStatoPrenotazione()));
+                JButton modificaPrenotazione = new JButton("MODIFICA");
+                prenotazione.add(modificaPrenotazione);
+
+
+                modificaPrenotazione.addActionListener(e -> {
+                    new ModificaPrenotazione(this.controller, frame, p).frame.setVisible(true);
+                });
+
+
+                listaPrenotazioni.add(prenotazione);
+                listaPrenotazioni.add(Box.createVerticalStrut(5));
+
+            }
         }
 
         listaPrenotazioni.revalidate();

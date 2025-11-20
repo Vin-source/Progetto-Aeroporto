@@ -53,7 +53,7 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
         ArrayList<Prenotazione> prenotazioniFinali = new ArrayList<>();
 
         String sql = "SELECT * FROM prenotazione WHERE email_utente = ? ";
-        String sql2 = "SELECT posto FROM associa WHERE id_prenotazione = ?";
+        String sql2 = "SELECT * FROM associa JOIN volo ON volo.codice_volo = associa.codice_volo" + " WHERE id_prenotazione = ?";
 
 
         try{
@@ -75,6 +75,16 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
                     ResultSet postoRisultante = postoDB.executeQuery();
                     if (postoRisultante.next()){
                         p.setPostoAssegnato(postoRisultante.getString("posto"));
+                        Volo v = new Volo(String.valueOf(postoRisultante.getInt("codice_volo")),
+                                postoRisultante.getString("compagnia_aerea"),
+                                postoRisultante.getString("origine"),
+                                postoRisultante.getString("destinazione"),
+                                postoRisultante.getString("data_aereo"),
+                                postoRisultante.getString("ora_aereo"),
+                                postoRisultante.getInt("ritardo"));
+                        StatoVolo s = StatoVolo.valueOf(postoRisultante.getString("stato_volo"));
+                        v.setStatoVolo(s);
+                        p.setVolo(v);
                     }
 
                     prenotazioniFinali.add(p);

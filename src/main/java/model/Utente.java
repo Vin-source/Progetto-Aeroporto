@@ -36,15 +36,20 @@ public class Utente extends Ospite {
      */
     public ArrayList<Prenotazione> cercaPrenotazioni(String valore) {
         ArrayList<Prenotazione> prenotazioniTrovate = new ArrayList<>();
-        if(prenotazioni != null){
+        if(!prenotazioni.isEmpty()){
+            if(valore.isEmpty()){
+                return prenotazioni;
+            }
             prenotazioni.forEach(prenotazione -> {
-                if (prenotazione.getPasseggero().getNome().equals(valore) || prenotazione.getVolo().getCodiceVolo().equals(valore)) {
+                if (prenotazione.getNome().toLowerCase().contains(valore.toLowerCase()) ||
+                        prenotazione.getVolo().getCodiceVolo().toLowerCase().contains(valore.toLowerCase())) {
                     prenotazioniTrovate.add(prenotazione);
                 }
             });
             return prenotazioniTrovate;
+        }else{
+            return null;
         }
-    return null;
     }
 
 
