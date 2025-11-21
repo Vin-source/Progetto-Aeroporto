@@ -35,7 +35,7 @@ public class Amministratore extends Ospite {
         if(voli != null){
             voli.forEach(volo -> {
                 String codiceVolo = volo.getCodiceVolo();
-                if (volo.getCompagniaAerea().contains(valore) || volo.getCodiceVolo().contains(valore)) {
+                if (volo.getCompagniaAerea().toLowerCase().contains(valore) || volo.getCodiceVolo().toLowerCase().contains(valore)) {
                     voliTrovati.add(volo);
                 }
             });
