@@ -20,31 +20,6 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
         }
     }
 
-    public ArrayList<Volo> getVoliDB(){
-        ArrayList<Volo> voli = new ArrayList<>();
-        String sql = "SELECT * FROM VOLO";
-
-        try{
-            PreparedStatement st = connection.prepareStatement(sql);
-                ResultSet rs = st.executeQuery();
-                while (rs.next()) {
-                    Volo v = new Volo(String.valueOf(rs.getInt("codice_volo")),
-                            rs.getString("compagnia_aerea"),
-                            rs.getString("origine"),
-                            rs.getString("destinazione"),
-                            rs.getString("data_aereo"),
-                            rs.getString("ora_aereo"),
-                            rs.getInt("ritardo"));
-                    StatoVolo s = StatoVolo.valueOf(rs.getString("stato_volo"));
-                    v.setStatoVolo(s);
-
-                    voli.add(v);
-                }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return voli;
-    }
 
     public ArrayList<Prenotazione> getPrenotazioniDB(String email_utente) {
         ArrayList<Prenotazione> prenotazioniFinali = new ArrayList<>();
@@ -135,6 +110,27 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
         }
 
         return true;
+    }
+
+
+    public ArrayList<String> getPostiOccupatiDB(String codiceVolo){
+        String sql = "SELECT posto FROM associa WHERE codice_volo = ?";
+        ArrayList<String> postiTrovati = new ArrayList<>();
+
+        try{
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            st.setInt(1, Integer.parseInt(codiceVolo));
+            ResultSet rs = st.executeQuery();
+
+            while(rs.next()){
+                postiTrovati.add(rs.getString("posto"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return postiTrovati;
     }
 
 

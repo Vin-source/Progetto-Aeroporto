@@ -103,12 +103,10 @@ public class Controller {
     }
 
     public ArrayList<String> getPostiOccupati(String codiceVolo) {
-        ArrayList<String> postiOccupati = new ArrayList<>();
-        postiOccupati.add("A2");
-        postiOccupati.add("A3");
-        postiOccupati.add("A4");
-        postiOccupati.add("E5");
-        return postiOccupati;
+
+        UtenteDAO u = new UtenteImplementazionePostgresDAO();
+        return u.getPostiOccupatiDB(codiceVolo);
+
     }
 
     public ArrayList<Volo> cercaVoli(String valore) {
