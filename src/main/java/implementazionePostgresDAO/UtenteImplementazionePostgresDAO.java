@@ -5,10 +5,7 @@ import database.ConnessioneDatabase;
 import model.*;
 
 import javax.xml.transform.Result;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class UtenteImplementazionePostgresDAO implements UtenteDAO {
@@ -98,15 +95,40 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
     }
 
 
-    public boolean effettuaPrenotazioneDB(String codiceVolo, String nome, String cognome, String cid, String posto){
-        String sql = "INSERT INTO prenotazione VALUES (?,?,?,?,?)";
+    public boolean effettuaPrenotazioneDB(String codiceVolo, String nome, String cognome, String cid, String posto, String email_utente, int numeroBagagli){
+        String sql = "INSERT INTO prenotazione(nome, cognome, carta_identita, email_utente, stato_prenotazione) VALUES (?,?,?,?,?)";
+        String sql2 = "INSERT INTO associa(codice_volo, posto, id_prenotazione) VALUES (?, ?, ?)";
+        String sql3 = "INSERT INTO bagaglio(id_prenotazione) VALUES (?)";
+
         try{
-            PreparedStatement prenotazioneSQL = connection.prepareStatement(sql);
-            prenotazioneSQL.setInt(1, Integer.parseInt(codiceVolo));
-            prenotazioneSQL.setString(2, nome);
-            prenotazioneSQL.setString(3, cognome);
-            prenotazioneSQL.setString(4, cid);
-            prenotazioneSQL.setString(5, posto);
+            PreparedStatement prenotazioneSQL = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement associaSQL = connection.prepareStatement(sql2);
+            PreparedStatement bagaglioSQL = connection.prepareStatement(sql3);
+
+
+            prenotazioneSQL.setString(1, nome);
+            prenotazioneSQL.setString(2, cognome);
+            prenotazioneSQL.setString(3, cid);
+            prenotazioneSQL.setString(4, email_utente);
+            prenotazioneSQL.setObject(5, "CONFERMATA", Types.OTHER);
+
+            prenotazioneSQL.executeUpdate();
+
+            ResultSet rs = prenotazioneSQL.getGeneratedKeys();
+            int nuovoId = 0;
+            if(rs.next()){
+                nuovoId = rs.getInt(1);
+            }
+
+
+            associaSQL.setInt(1, Integer.parseInt(codiceVolo));
+            associaSQL.setString(2, posto);
+            associaSQL.setInt(3, nuovoId);
+
+            associaSQL.executeUpdate();
+
+            bagaglioSQL.setInt(1, nuovoId);
+            bagaglioSQL.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -87,12 +87,14 @@ public class Controller {
         return p;
     }
 
-    public boolean effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo) {
+    public boolean effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo, int numeroBagagli) {
         UtenteDAO u = new UtenteImplementazionePostgresDAO();
 
-        if(u.effettuaPrenotazioneDB(codiceVolo, nome, cognome, cid, postoInAereo)){
+        if(u.effettuaPrenotazioneDB(codiceVolo, nome, cognome, cid, postoInAereo, utente.getEmail(), numeroBagagli)){
+            getTutteLePrenotazioni();
             return true;
         }
+
         return false;
     }
 

@@ -26,7 +26,6 @@ public class EffettuaNuovaPrenotazione {
     public JFrame frame;
 
 
-    private String postoInAereoSelezionato;
     private Controller controller;
 
 
@@ -85,8 +84,7 @@ public class EffettuaNuovaPrenotazione {
                     JOptionPane.showMessageDialog(null, "Devi selezionare un posto sull'aereo prima di prenotare.");
                     return;
                 }
-
-                controller.effettuaPrenotazione(codiceVolo, nome, cognome, cid, postoInAereoSelezionato); // prenotazione
+                controller.effettuaPrenotazione(codiceVolo, nome, cognome, cid, postoScelto.getText(), numeroBagagli); // prenotazione
 
                 JOptionPane.showMessageDialog(null, "Prenotazione effettuata");
 
