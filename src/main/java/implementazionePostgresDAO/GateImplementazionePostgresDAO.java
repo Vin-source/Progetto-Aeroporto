@@ -5,6 +5,7 @@ import database.ConnessioneDatabase;
 import model.Gate;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class GateImplementazionePostgresDAO implements GateDAO {
 
@@ -14,10 +15,11 @@ public class GateImplementazionePostgresDAO implements GateDAO {
 
         Connection connection = ConnessioneDatabase.getInstance().connection;
         ps = connection.prepareStatement(
-                "INSERT INTO gates (codice_volo, numero) VALUES (?, ?)"
+                "INSERT INTO gate (numero_gate, codice_volo) VALUES (?, ?)"
         );
-        ps.setString(1, codiceVolo);
-        ps.setInt(2, numeroGate);
+
+        ps.setInt(1, numeroGate);
+        ps.setInt(2, Integer.parseInt(codiceVolo));
         return ps.executeUpdate() > 0;
     }
 
@@ -26,14 +28,14 @@ public class GateImplementazionePostgresDAO implements GateDAO {
         PreparedStatement ps = null;
         Connection connection = ConnessioneDatabase.getInstance().connection;
         ps = connection.prepareStatement(
-                "UPDATE gates SET numero=? WHERE codice_volo=?"
+                "UPDATE gate SET numero_gate=? WHERE codice_volo=?"
         );
         ps.setInt(1, nuovoGate);
         ps.setString(2, codiceVolo);
         return ps.executeUpdate() > 0;
     }
 
-    @Override
+  /*  @Override
     public Gate getGateByVolo(String codiceVolo) throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -46,9 +48,29 @@ public class GateImplementazionePostgresDAO implements GateDAO {
         rs = ps.executeQuery();
         if (rs.next()) {
             return new Gate(
-                    rs.getInt("numero")
+                    rs.getInt("numero_gate")
             );
         }
         return null;
+    }
+    */
+
+    @Override
+    public ArrayList<Gate> getTuttiGate(String codiceVolo) throws SQLException {
+        ArrayList<Gate> listaGates = new ArrayList<>();
+
+        String sql = "SELECT DISTINCT numero_gate FROM gates ORDER BY numero_gate ASC";
+
+        Connection connection = null;
+
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                int numero = rs.getInt("numero_gate");
+                listaGates.add(new Gate(numero));
+            }
+        }
+        return listaGates;
     }
 }
