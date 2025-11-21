@@ -27,16 +27,15 @@ public class Amministratore extends Ospite {
      * Ricerca i voli disponibili sulla base
      * del codice volo o della compagnia aerea
      *
-     * @param codiceVoloCercato     il codice del volo cercato
-     * @param compagniaAereaCercata la compagnia aerea cercata
+     * @param valore     il valore di ricerca
      * @return arrayList dei voli cercati
      */
-    public ArrayList<Volo> ricercaRapida(String codiceVoloCercato, String compagniaAereaCercata) {
+    public ArrayList<Volo> ricercaRapida(String valore) {
         ArrayList<Volo> voliTrovati = new ArrayList<>();
         if(voli != null){
             voli.forEach(volo -> {
                 String codiceVolo = volo.getCodiceVolo();
-                if (volo.getCompagniaAerea().equals(compagniaAereaCercata) || volo.getCodiceVolo().equals(codiceVoloCercato)) {
+                if (volo.getCompagniaAerea().contains(valore) || volo.getCodiceVolo().contains(valore)) {
                     voliTrovati.add(volo);
                 }
             });

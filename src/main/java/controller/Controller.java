@@ -56,17 +56,11 @@ public class Controller {
     }
 
     public ArrayList<Volo> getTuttiVoli() {
-        try {
-
-            VoloDAO v = new VoloImplementazionePostgresDAO();
-            ArrayList<Volo> voli;
-                voli = v.getVoliDB();
-                this.amministratore.setVoli(voli);
-                return voli;
-        } catch (SQLException e) {
-            System.err.println("Errore recupero voli: " + e.getMessage());
-        }
-        return null;
+        VoloDAO v = new VoloImplementazionePostgresDAO();
+        ArrayList<Volo> voli;
+        voli = v.getVoliDB();
+        amministratore.setVoli(voli);
+        return voli;
     }
 
     public ArrayList<Prenotazione> getTutteLePrenotazioni() {
@@ -99,17 +93,7 @@ public class Controller {
     }
 
     public boolean modificaPrenotazione(String codiceVolo, String nome, String cognome, String cartaIdentita, String idPrenotazione) {
-        if (this.utente == null || this.utente.getPrenotazioni() == null) return false;
-
-        for (Prenotazione p : this.utente.getPrenotazioni()) {
-            if (p.getIdPrenotazione() != null && p.getIdPrenotazione().equals(idPrenotazione)) {
-                p.setNome(nome);
-                p.setCognome(cognome);
-                p.setCartaIdentita(cartaIdentita);
-                return true;
-            }
-        }
-        return false;
+        return true;
     }
 
     public ArrayList<String> getPostiOccupati(String codiceVolo) {
@@ -124,35 +108,29 @@ public class Controller {
     public ArrayList<Volo> cercaVoli(String valore) {
         VoloDAO u = new VoloImplementazionePostgresDAO();
         ArrayList<Volo> voli = u.getVoliDB();
-        ArrayList<Volo> voliTrovati = new ArrayList<>();
 
-        for (Volo v : voli) {
-            if (v.getCompagniaAerea().toLowerCase().contains(valore.toLowerCase()) ||
-                    v.getCodiceVolo().toLowerCase().contains(valore.toLowerCase())) {
-                voliTrovati.add(v);
+        if(voli != null){
+            ArrayList<Volo> voliTrovati = new ArrayList<>();
+
+            for (Volo v : voli) {
+                if (v.getCompagniaAerea().toLowerCase().contains(valore.toLowerCase()) ||
+                        v.getCodiceVolo().toLowerCase().contains(valore.toLowerCase())) {
+                    voliTrovati.add(v);
+                }
             }
+            return voliTrovati;
         }
-        return voliTrovati;
+        return null;
+
     }
 
     public ArrayList<Volo> cercaVoliAmministratore(String valore) {
-        ArrayList<Volo> tuttiVoli = getTuttiVoli();
+        if (valore == null || valore.isEmpty()) return amministratore.getVoli();
 
-        if (valore == null || valore.isEmpty()) return tuttiVoli;
+        ArrayList<Volo> filtrati;
+        String valoreLowerCase = valore.toLowerCase();
 
-        ArrayList<Volo> filtrati = new ArrayList<>();
-        String lower = valore.toLowerCase();
-
-        for (Volo v : tuttiVoli) {
-            boolean origineTrovata = v.getOrigine() != null && v.getOrigine().toLowerCase().contains(lower);
-            boolean destTrovata = v.getDestinazione() != null && v.getDestinazione().toLowerCase().contains(lower);
-
-            if (v.getCodiceVolo().toLowerCase().contains(lower) ||
-                    v.getCompagniaAerea().toLowerCase().contains(lower) ||
-                    origineTrovata || destTrovata) {
-                filtrati.add(v);
-            }
-        }
+        filtrati = amministratore.ricercaRapida(valoreLowerCase);
         return filtrati;
     }
 

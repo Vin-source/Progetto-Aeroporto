@@ -96,11 +96,11 @@ public class Amministratore {
 
             public void insertUpdate(DocumentEvent e) {
                 filtraVoli();
-                aggiornaListaVoli(controller.cercaVoli(ricercaVoli.getText()));
+                aggiornaListaVoli(controller.cercaVoliAmministratore(ricercaVoli.getText()));
             }
             public void removeUpdate(DocumentEvent e){
                 filtraVoli();
-                aggiornaListaVoli(controller.cercaVoli(ricercaVoli.getText()));
+                aggiornaListaVoli(controller.cercaVoliAmministratore(ricercaVoli.getText()));
             }
             public void changedUpdate(DocumentEvent e){
                 // ignorato per campi plain text
