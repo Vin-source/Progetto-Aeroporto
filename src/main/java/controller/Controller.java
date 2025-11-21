@@ -8,15 +8,22 @@ import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import dao.LoginDAO;
-import implementazionePostgresDAO.LoginImplementazionePostgresDAO;
+import dao.VoloDAO;
+import implementazionePostgresDAO.*;
 
 public class Controller {
     private Amministratore amministratore;
     private Utente utente;
 
-
+    private LoginDAO loginDAO;
+    private VoloDAO voloDAO;
 
     public Controller() {
+        // 1. Inizializziamo i DAO (Connessione al DB)
+        this.loginDAO = new LoginImplementazionePostgresDAO();
+        this.voloDAO = new VoloImplementazionePostgresDAO();
+
+        this.amministratore = new Amministratore("TempId", "admin@gmail.com", "password");
     }
 
     public String getEmail() {
@@ -30,28 +37,36 @@ public class Controller {
 
 
     public String login(String username, String password){
-        LoginDAO loginDAO = new LoginImplementazionePostgresDAO();
+      //  LoginDAO loginDAO = new LoginImplementazionePostgresDAO();
+        if(loginDAO == null){
+            return "errore";
+        }
 
         String ruolo = loginDAO.getUtentiDB(username, password);
 
-        if(ruolo.equals("amministratore")){
-            amministratore = new Amministratore("456", username, password);
+        if ("amministratore".equals(ruolo)) {
+            this.amministratore = new Amministratore("ID_ADMIN", username, password);
             return "amministratore";
-        }else if(ruolo.equals("utente")) {
-            utente = new Utente("123", username, password);
+        } else if ("utente".equals(ruolo)) {
+            this.utente = new Utente("ID_UTENTE", username, password);
             return "utente";
         }
-        return null;
-        //da continuare
+        return "errore"; // Login fallito
+
     }
 
     public ArrayList<Volo> getTuttiVoli() {
-        UtenteDAO u = new UtenteImplementazionePostgresDAO();
-        ArrayList<Volo> voli;
+        try {
 
-        voli = u.getVoliDB();
-
-        return voli;
+            VoloDAO v = new VoloImplementazionePostgresDAO();
+            ArrayList<Volo> voli;
+                voli = v.getVoliDB();
+                this.amministratore.setVoli(voli);
+                return voli;
+        } catch (SQLException e) {
+            System.err.println("Errore recupero voli: " + e.getMessage());
+        }
+        return null;
     }
 
     public ArrayList<Prenotazione> getTutteLePrenotazioni() {
@@ -84,7 +99,17 @@ public class Controller {
     }
 
     public boolean modificaPrenotazione(String codiceVolo, String nome, String cognome, String cartaIdentita, String idPrenotazione) {
-        return true;
+        if (this.utente == null || this.utente.getPrenotazioni() == null) return false;
+
+        for (Prenotazione p : this.utente.getPrenotazioni()) {
+            if (p.getIdPrenotazione() != null && p.getIdPrenotazione().equals(idPrenotazione)) {
+                p.setNome(nome);
+                p.setCognome(cognome);
+                p.setCartaIdentita(cartaIdentita);
+                return true;
+            }
+        }
+        return false;
     }
 
     public ArrayList<String> getPostiOccupati(String codiceVolo) {
@@ -97,19 +122,42 @@ public class Controller {
     }
 
     public ArrayList<Volo> cercaVoli(String valore) {
-        UtenteDAO u = new UtenteImplementazionePostgresDAO();
+        VoloDAO u = new VoloImplementazionePostgresDAO();
         ArrayList<Volo> voli = u.getVoliDB();
         ArrayList<Volo> voliTrovati = new ArrayList<>();
 
-        for(Volo v : voli){
-            if(v.getCompagniaAerea().toLowerCase().contains(valore.toLowerCase()) ||
-                    v.getCodiceVolo().toLowerCase().contains(valore.toLowerCase())){
+        for (Volo v : voli) {
+            if (v.getCompagniaAerea().toLowerCase().contains(valore.toLowerCase()) ||
+                    v.getCodiceVolo().toLowerCase().contains(valore.toLowerCase())) {
                 voliTrovati.add(v);
             }
         }
-
         return voliTrovati;
     }
+
+    public ArrayList<Volo> cercaVoliAmministratore(String valore) {
+        ArrayList<Volo> tuttiVoli = getTuttiVoli();
+
+        if (valore == null || valore.isEmpty()) return tuttiVoli;
+
+        ArrayList<Volo> filtrati = new ArrayList<>();
+        String lower = valore.toLowerCase();
+
+        for (Volo v : tuttiVoli) {
+            boolean origineTrovata = v.getOrigine() != null && v.getOrigine().toLowerCase().contains(lower);
+            boolean destTrovata = v.getDestinazione() != null && v.getDestinazione().toLowerCase().contains(lower);
+
+            if (v.getCodiceVolo().toLowerCase().contains(lower) ||
+                    v.getCompagniaAerea().toLowerCase().contains(lower) ||
+                    origineTrovata || destTrovata) {
+                filtrati.add(v);
+            }
+        }
+        return filtrati;
+    }
+
+
+
 
 
     //CREAZIONE DI UN VOLO TESTING
@@ -121,24 +169,16 @@ public class Controller {
                 throw new Exception("Volo non valido: deve essere un arrivo o una partenza da Napoli.");
             }
 
-            ArrayList<Volo> voli = new ArrayList<>();
-            voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
-            voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
-            this.amministratore.setVoli(voli);
-
             int ritardoParsed = Integer.parseInt(ritardo);
             int numeroGateParsed = Integer.parseInt(numeroGate);
 
             Volo volo = new Volo(codiceVolo, compagniaAerea, origine, destinazione, data, ora, ritardoParsed);
-
             volo.setGate(new Gate(numeroGateParsed));
 
-            this.amministratore.getVoli().add(volo);
-
-            return true;
+            return voloDAO.inserisciVolo(volo);
 
         } catch (Exception e) {
-            System.err.println("Errore creazione volo (intercettato da Controller): " + e.getMessage());
+            System.err.println("Errore creazione volo: " + e.getMessage());
             return false;
         }
     }
@@ -175,6 +215,7 @@ public class Controller {
     public Boolean aggiornaVolo(String codiceVolo, String nuovaData, String nuovoOrario,
                                 String nuovoRitardo, String nuovoNumeroGateS) {
 
+        /*
         ArrayList<Volo> voli = new ArrayList<>();
         voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
         voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
@@ -208,6 +249,37 @@ public class Controller {
             return true;
 
         } catch (NumberFormatException e) {
+            System.err.println("Errore aggiornamento: " + e.getMessage());
+            return false;
+        }*/
+        try {
+            ArrayList<Volo> tuttiVoli = getTuttiVoli();
+            Volo voloDaAggiornare = null;
+            for (Volo v : tuttiVoli) {
+                if (v.getCodiceVolo().equals(codiceVolo)) {
+                    voloDaAggiornare = v;
+                    break;
+                }
+            }
+
+            if (voloDaAggiornare == null) {
+                return false;
+            };
+
+
+            voloDaAggiornare.setData(nuovaData);
+            voloDaAggiornare.setOrarioPrevisto(nuovoOrario);
+            voloDaAggiornare.setRitardo(Integer.parseInt(nuovoRitardo));
+
+
+            if (nuovoNumeroGateS.equals("Gate non assegnato")) {
+                int nuovoNumeroGateInt = Integer.parseInt(nuovoNumeroGateS);
+                voloDaAggiornare.setGate(new Gate(nuovoNumeroGateInt));
+            }
+
+            return voloDAO.aggiornaVolo(voloDaAggiornare);
+
+        } catch (Exception e) {
             System.err.println("Errore aggiornamento: " + e.getMessage());
             return false;
         }
