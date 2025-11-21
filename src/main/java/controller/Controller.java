@@ -1,7 +1,9 @@
 package controller;
 
+import dao.GateDAO;
 import dao.UtenteDAO;
 import implementazionePostgresDAO.UtenteImplementazionePostgresDAO;
+import implementazionePostgresDAO.GateImplementazionePostgresDAO;
 import model.*;
 
 import java.sql.Array;
@@ -17,11 +19,13 @@ public class Controller {
 
     private LoginDAO loginDAO;
     private VoloDAO voloDAO;
+    private GateDAO gateDAO;
 
     public Controller() {
         // 1. Inizializziamo i DAO (Connessione al DB)
         this.loginDAO = new LoginImplementazionePostgresDAO();
         this.voloDAO = new VoloImplementazionePostgresDAO();
+   //     this.gateDAO  =  new GateImplementazionePostgresDAO();
 
         this.amministratore = new Amministratore("TempId", "admin@gmail.com", "password");
     }
@@ -263,13 +267,42 @@ public class Controller {
         }
     }
 
-
+/*
     public ArrayList<String> getGateDisponibili() {
+      /*
         ArrayList<String> gates = new ArrayList<>();
         // Simuliamo 20 gate
         for (int i = 1; i <= 9; i++) {
             gates.add(String.valueOf(i));
         }
         return gates;
+
+
+        GateDAO g = new GateImplementazionePostgresDAO();
+        ArrayList<String> gateDisponibili = new ArrayList<>();
+        gateDisponibili = g.getTuttiGate();
+        return gateDisponibili;
+    }*/
+
+    public ArrayList<String> getGateDisponibili() {
+        ArrayList<String> gatesString = new ArrayList<>();
+
+
+
+        if (gateDAO == null) {
+            return gatesString;
+        }
+
+        try {
+            ArrayList<Gate> gatesDalDB = gateDAO.getTuttiGate();
+            for (Gate g : gatesDalDB) {
+                gatesString.add(String.valueOf(g.getNumero()));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Errore recupero gate dal DB: " + e.getMessage());
+        }
+
+        return gatesString;
     }
 }

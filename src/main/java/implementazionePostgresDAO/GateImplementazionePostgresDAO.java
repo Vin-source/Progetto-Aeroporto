@@ -56,7 +56,7 @@ public class GateImplementazionePostgresDAO implements GateDAO {
     */
 
     @Override
-    public ArrayList<Gate> getTuttiGate(String codiceVolo) throws SQLException {
+    public ArrayList<Gate> getTuttiGate() throws SQLException {
         ArrayList<Gate> listaGates = new ArrayList<>();
 
         String sql = "SELECT DISTINCT numero_gate FROM gates ORDER BY numero_gate ASC";
