@@ -40,7 +40,6 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
                     p.setIdPrenotazione(String.valueOf(prenotazioni.getInt("id")));
                     p.setStatoPrenotazione(StatoPrenotazione.valueOf(prenotazioni.getString("stato_prenotazione")));
 
-
                     PreparedStatement postoDB = connection.prepareStatement(sql2);
                     postoDB.setInt(1, prenotazioni.getInt("id"));
 
@@ -131,6 +130,28 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
         }
 
         return postiTrovati;
+    }
+
+    public boolean modificaPrenotazioneDB(String codiceVolo,String nome,String cognome,String cartaIdentita,String idPrenotazione){
+        String sql = "UPDATE prenotazione SET nome = ?, cognome = ?, carta_identita = ? WHERE id = ?";
+
+
+        try{
+
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            st.setString(1, nome);
+            st.setString(2, cognome);
+            st.setString(3, cartaIdentita);
+            st.setInt(4, Integer.parseInt(idPrenotazione));
+
+            st.execute();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return true;
     }
 
 

@@ -17,6 +17,7 @@ public class ModificaPrenotazione {
     private JTextField cartaIdentita;
     private JButton CONFERMAButton;
     private JButton CANCELLAButton;
+    private JTextField nuovoNumeroBagagli;
     /**
      * Il frame di ModificaPrenotazione
      */
@@ -63,26 +64,14 @@ public class ModificaPrenotazione {
                     String nuovoCognome = cognome.getText();
                     String cartaIdentita = ModificaPrenotazione.this.cartaIdentita.getText();
 
-
                     // prima verifica se non c'è nessun nuovo valore,
                     // dopodichè sostituisco i valori vuoti con i vecchi valori
                     // così da non creare problemi nell'aggiornamento del database
                     if(nuovoNome.isEmpty() && nuovoCognome.isEmpty() && cartaIdentita.isEmpty()){
                         throw new IllegalArgumentException("Riempire almeno un valore!");
                     }
-                    if(nuovoNome.isEmpty()) {
-                        nuovoNome = p.getNome();
-                    }
-                    if(nuovoCognome.isEmpty()) {
-                        nuovoCognome = p.getCognome();
-                    }
-                    if(cartaIdentita.isEmpty()) {
-                        cartaIdentita = p.getCartaIdentita();
-                    }
 
-
-
-                    boolean risultato = controller.modificaPrenotazione(codiceVolo, nuovoNome, nuovoCognome, cartaIdentita, p.getIdPrenotazione());
+                    boolean risultato = controller.modificaPrenotazione(codiceVolo, nuovoNome, nuovoCognome, cartaIdentita, p);
                     if (risultato) {
                         JOptionPane.showMessageDialog(null, "Prenotazione modificata con successo");
                         resetFields();
