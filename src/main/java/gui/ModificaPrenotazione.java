@@ -108,7 +108,7 @@ public class ModificaPrenotazione {
         modificaPostoInAereo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SceltaPostoInAereo scelta = new SceltaPostoInAereo(controller, frame, ModificaPrenotazione.this, p.getCodiceVolo(), p.getPostoAssegnato());
+                SceltaPostoInAereo scelta = new SceltaPostoInAereo(controller, frame, null, p.getCodiceVolo(),ModificaPrenotazione.this,  p.getPostoAssegnato());
                 scelta.frame.setVisible(true);
                 frame.setVisible(false);
             }
