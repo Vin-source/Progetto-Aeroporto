@@ -15,36 +15,9 @@ import java.util.ArrayList;
  */
 public class SceltaPostoInAereo {
     private String postoScelto = "";
-    private JButton a1;
-    private JButton b1;
-    private JButton c1;
-    private JButton d1;
-    private JButton e1;
-    private JButton a2;
-    private JButton b2;
-    private JButton c2;
-    private JButton d2;
-    private JButton e2;
-    private JButton a3;
-    private JButton b3;
-    private JButton c3;
-    private JButton d3;
-    private JButton e3;
-    private JButton a4;
-    private JButton b4;
-    private JButton c4;
-    private JButton d4;
-    private JButton e4;
-    private JButton a5;
-    private JButton b5;
-    private JButton c5;
-    private JButton d5;
-    private JButton e5;
-    private JButton a6;
-    private JButton b6;
-    private JButton c6;
-    private JButton d6;
-    private JButton e6;
+    private JButton a1, b1, c1, d1, e1, a2, b2, c2, d2, e2, a3, b3, c3, d3, e3;
+    private JButton a4, b4, c4, d4, e4, a5, b5, c5, d5, e5,a6, b6, c6, d6, e6;
+
 
     private JButton[] buttons = {a1, a2, a3, a4, a5, a6,
             b1, b2, b3, b4, b5, b6,
