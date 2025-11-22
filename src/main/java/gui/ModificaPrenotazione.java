@@ -34,7 +34,7 @@ public class ModificaPrenotazione {
      * @param p              La prenotazione selezionata nel frame padre
      * @param controller     Il controller che modifica la prenotazione nel DB/Model
      */
-    public ModificaPrenotazione(Controller controller, JFrame frameChiamante, Prenotazione p) {
+    public ModificaPrenotazione(Controller controller, JFrame frameChiamante, Prenotazione p, AreaPersonale padre) {
 
 
         frame = new JFrame("Modifica Prenotazione");
@@ -44,7 +44,7 @@ public class ModificaPrenotazione {
         this.controller = controller;
         this.codiceVolo = p.getCodiceVolo();
 
-        initListeners(frameChiamante, p);
+        initListeners(frameChiamante, p, padre);
 
     }
 
@@ -53,9 +53,9 @@ public class ModificaPrenotazione {
      *
      * @param frameChiamante il frame padre
      * @param p la prenotazione selezionata nel frame padre
+     * @param padre L'oggetto padre (AreaPersonale) che aggiornerà la nuova lista prenotazioni
      */
-    private void initListeners(JFrame frameChiamante, Prenotazione p) {
-
+    private void initListeners(JFrame frameChiamante, Prenotazione p,  AreaPersonale padre) {
         CONFERMAButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,9 +75,9 @@ public class ModificaPrenotazione {
                     if (risultato) {
                         JOptionPane.showMessageDialog(null, "Prenotazione modificata con successo");
                         resetFields();
+                        padre.aggiornaPrenotazioni(controller.getTutteLePrenotazioni());
                         frameChiamante.setVisible(true);
                         frame.dispose();
-
                     } else {
                         JOptionPane.showMessageDialog(null, "Modifica fallita: prenotazione non trovata");
                     }

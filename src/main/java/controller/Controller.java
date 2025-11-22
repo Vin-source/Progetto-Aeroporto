@@ -111,6 +111,11 @@ public class Controller {
         return true;
     }
 
+    public boolean cancellaPrenotazione(String idPrenotazione){
+        UtenteDAO u = new UtenteImplementazionePostgresDAO();
+        return u.cancellaPrenotazioneDB(idPrenotazione);
+    }
+
     public ArrayList<String> getPostiOccupati(String codiceVolo) {
 
         UtenteDAO u = new UtenteImplementazionePostgresDAO();

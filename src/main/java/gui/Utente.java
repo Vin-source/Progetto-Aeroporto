@@ -1,6 +1,8 @@
 package gui;
 
 import controller.Controller;
+import model.StatoPrenotazione;
+import model.StatoVolo;
 import model.Volo;
 
 import javax.swing.*;
@@ -130,7 +132,7 @@ public class Utente {
                 pannelloVolo.add(prenotazione);
 
                 prenotazione.addActionListener(e -> {
-                    if(!volo.getStatoVolo().equals("PROGRAMMATO")){
+                    if(!volo.getStatoVolo().equals(StatoVolo.PROGRAMMATO)){
                         JOptionPane.showMessageDialog(null, "Non è possibile prenotare questo volo, solo voli programmati", "Errore", JOptionPane.ERROR_MESSAGE);
                         return;
                     }

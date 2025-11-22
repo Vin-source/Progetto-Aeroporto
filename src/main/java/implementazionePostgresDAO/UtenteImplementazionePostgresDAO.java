@@ -154,6 +154,22 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
         return true;
     }
 
+    public boolean cancellaPrenotazioneDB(String idPrenotazione){
+        String sql = "DELETE FROM prenotazione WHERE id = ?";
+
+        try{
+            PreparedStatement st = connection.prepareStatement(sql);
+
+
+            st.setInt(1, Integer.parseInt(idPrenotazione));
+
+            st.executeUpdate();
+            return true;
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
 
 
 }

@@ -135,7 +135,7 @@ public class AreaPersonale {
 
             for(Prenotazione p : prenotazioni){
                 JPanel prenotazione = new JPanel();
-                prenotazione.setLayout(new GridLayout(1,7, 10, 10));
+                prenotazione.setLayout(new GridLayout(1,8, 10, 10));
                 prenotazione.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 prenotazione.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
 
@@ -146,11 +146,19 @@ public class AreaPersonale {
                 prenotazione.add(new JLabel("POSTO ASSEGNATO: " + p.getPostoAssegnato()));
                 prenotazione.add(new JLabel("STATO: " + p.getStatoPrenotazione()));
                 JButton modificaPrenotazione = new JButton("MODIFICA");
+                JButton cancellaPrenotazione = new JButton("CANCELLA");
                 prenotazione.add(modificaPrenotazione);
-
+                prenotazione.add(cancellaPrenotazione);
 
                 modificaPrenotazione.addActionListener(e -> {
-                    new ModificaPrenotazione(this.controller, frame, p).frame.setVisible(true);
+                    new ModificaPrenotazione(this.controller, frame, p, gui.AreaPersonale.this).frame.setVisible(true);
+                });
+
+                cancellaPrenotazione.addActionListener(e -> {
+                   if(controller.cancellaPrenotazione(p.getIdPrenotazione())){
+                       JOptionPane.showMessageDialog(null, "La prenotazione è stata eliminata", "Avviso", JOptionPane.ERROR_MESSAGE);
+                        aggiornaPrenotazioni(this.controller.getTutteLePrenotazioni());
+                   }
                 });
 
 
