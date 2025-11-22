@@ -320,6 +320,7 @@ public class Controller {
         return gatesString;
     }
 
+
     public boolean modificaGate(String codiceVolo, String nuovoGateStr) {
         try {
             if (nuovoGateStr == null || nuovoGateStr.isEmpty()) {
@@ -358,16 +359,20 @@ public class Controller {
 
     public boolean assegnaGate(String codiceVolo, String numeroGateStr) {
         try {
-            if (numeroGateStr == null || numeroGateStr.isEmpty()) return false;
+            if (numeroGateStr == null || numeroGateStr.isEmpty()) {
+                return false;
+            }
             int numeroGate = Integer.parseInt(numeroGateStr);
 
             Integer.parseInt(codiceVolo);
 
-            if (gateDAO == null) return false;
+            if (gateDAO == null) {
+                return false;
+            }
 
-            boolean esitoDB = gateDAO.assegnaGate(codiceVolo, numeroGate);
+            boolean risultatoDB = gateDAO.assegnaGate(codiceVolo, numeroGate);
 
-            if (esitoDB) {
+            if (risultatoDB) {
                 for (Volo v : this.amministratore.getVoli()) {
                     if (v.getCodiceVolo().equals(codiceVolo)) {
                         v.setGate(new Gate(numeroGate));
@@ -375,14 +380,50 @@ public class Controller {
                     }
                 }
             }
-
-            return esitoDB;
+            return risultatoDB;
 
         } catch (NumberFormatException e) {
             System.err.println("Errore: Sia il Gate che il Codice Volo devono essere numeri");
             return false;
         } catch (SQLException e) {
             System.err.println("Errore SQL: " + e.getMessage());
+            return false;
+        }
+    }
+
+
+    //serve per gestire i due casi di assegnamento di un gate ad un nuovo volo o la modifica di un gate ad un volo esistente
+    public boolean salvaGate(String codiceVolo, String nuovoGateStr) {
+        try {
+            if (nuovoGateStr == null || nuovoGateStr.isEmpty()) return false;
+            int nuovoGateNum = Integer.parseInt(nuovoGateStr);
+
+            Volo voloCorrente = null;
+            for (Volo v : getTuttiVoli()) {
+                if (v.getCodiceVolo().equals(codiceVolo)) {
+                    voloCorrente = v;
+                    break;
+                }
+            }
+
+            if (voloCorrente == null) return false;
+
+            boolean esito = false;
+
+            if (voloCorrente.getGate() != null) {
+                esito = this.modificaGate(codiceVolo, nuovoGateStr);
+            }
+            else {
+                esito = this.assegnaGate(codiceVolo, nuovoGateStr);
+            }
+
+            return esito;
+
+        } catch (NumberFormatException e) {
+            System.err.println("Il gate deve essere un numero");
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
