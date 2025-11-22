@@ -174,8 +174,6 @@ public class SceltaPostoInAereo {
             bttn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // if(bttn.getBackground().equals(Color.RED)) return;
-
                     bttn.setBackground(Color.GREEN);
                     if(!postoScelto.isEmpty()){
                         for(JButton posto: buttons){
