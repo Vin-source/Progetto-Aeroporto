@@ -84,23 +84,28 @@ public class SceltaPostoInAereo {
 
 
         initListeners(metodoSelezionePosto, frameChiamante);
-
-        for (JButton button : buttons) {
-            String nomePosto = button.getText().toUpperCase();
-
-            if (postiOccupati.contains(nomePosto)) {
-                button.setBackground(Color.RED);
-                for (ActionListener al : button.getActionListeners()) {
-                    button.removeActionListener(al);
-                }
-            } else {
-                button.setBackground(Color.GRAY);
-            }
-        }
+        initColors(postiOccupati);
 
 
+    }
+
+    public SceltaPostoInAereo(Controller controller, JFrame frameChiamante, ModificaPrenotazione metodoSelezionePosto, String codiceVolo, String postoAssegnato) {
 
 
+        frame = new JFrame("Scelta Posto in Aereo");
+        frame.setContentPane(scegliPostoPanel);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.pack();
+        this.controller = controller;
+
+
+
+        //Chiamata al Controller per ottenere i posti occupati
+        ArrayList<String> postiOccupati = controller.getPostiOccupati(codiceVolo);
+
+
+        initListeners(metodoSelezionePosto, frameChiamante);
+        initColors(postiOccupati, postoAssegnato);
 
 
     }
@@ -148,6 +153,42 @@ public class SceltaPostoInAereo {
     }
 
 
+    public void initListeners(ModificaPrenotazione metodoSelezionePosto, JFrame frameChiamante){
+        confermaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    metodoSelezionePosto.setPostoScelto(postoScelto); //aggiunta la chiamata al controller indicata sopra
+                    frameChiamante.setVisible(true);
+                    frame.dispose();
+                } catch (IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(null, "Posto non valido: " + ex.getMessage(), "Errore di input", JOptionPane.WARNING_MESSAGE);
+                }
+            };
+        });
+
+
+        for(JButton bttn : buttons){
+            bttn.setBackground(Color.GRAY);
+
+            bttn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    bttn.setBackground(Color.GREEN);
+                    if(!postoScelto.isEmpty()){
+                        for(JButton posto: buttons){
+                            if(posto.getText().equals(postoScelto)){
+                                posto.setBackground(Color.GRAY);
+                            }
+                        }
+                    }
+                    postoScelto = bttn.getText();
+                }
+            });
+        }
+    }
+
+
     /**
      * Ritorna il panel dell'attuale pagina
      *
@@ -156,5 +197,35 @@ public class SceltaPostoInAereo {
 //aggiunto getPanel
     public JPanel getPanel(){
         return scegliPostoPanel;
+    }
+
+    public void initColors(ArrayList<String> postiOccupati) {
+        for (JButton button : buttons) {
+            String nomePosto = button.getText().toUpperCase();
+
+            if (postiOccupati.contains(nomePosto)) {
+                button.setBackground(Color.RED);
+                for (ActionListener al : button.getActionListeners()) {
+                    button.removeActionListener(al);
+                }
+            } else {
+                button.setBackground(Color.GRAY);
+            }
+        }
+    }
+
+    public void initColors(ArrayList<String> postiOccupati, String postoAssegnato) {
+        for (JButton button : buttons) {
+            String nomePosto = button.getText().toUpperCase();
+
+            if (postiOccupati.contains(nomePosto) && !nomePosto.equals(postoAssegnato)) {
+                button.setBackground(Color.RED);
+                for (ActionListener al : button.getActionListeners()) {
+                    button.removeActionListener(al);
+                }
+            } else {
+                button.setBackground(Color.GRAY);
+            }
+        }
     }
 }

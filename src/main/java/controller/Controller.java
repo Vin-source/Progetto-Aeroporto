@@ -98,13 +98,14 @@ public class Controller {
         return false;
     }
 
-    public boolean modificaPrenotazione(String codiceVolo, String nome, String cognome, String cartaIdentita, Prenotazione p) {
+    public boolean modificaPrenotazione(String codiceVolo, String nome, String cognome, String cartaIdentita,String nuovoPostoScelto, Prenotazione p) {
         UtenteDAO u = new UtenteImplementazionePostgresDAO();
         if(nome.isEmpty()) nome = p.getNome();
         if(cognome.isEmpty()) cognome = p.getCognome();
         if(cartaIdentita.isEmpty()) cartaIdentita = p.getCartaIdentita();
+        if(nuovoPostoScelto.isEmpty()) nuovoPostoScelto = p.getPostoAssegnato();
 
-        u.modificaPrenotazioneDB(codiceVolo, nome, cognome, cartaIdentita, p.getIdPrenotazione());
+        u.modificaPrenotazioneDB(codiceVolo, nome, cognome, cartaIdentita, p.getIdPrenotazione(), nuovoPostoScelto);
         // dopo la successiva modifica della prenotazione non si aggiorna la visualizzazione della prenotazione con nuovi dati!
 
 
