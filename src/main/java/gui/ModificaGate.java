@@ -20,7 +20,7 @@ public class ModificaGate {
     private JButton annullaButton;
 
     private Controller controller;
-
+    private String codiceVolo;
     /**
      * Costruisce la pagina per modificare i gate dei voli
      *
@@ -29,8 +29,9 @@ public class ModificaGate {
      * @param gateAttuale    Il gate attuale
      * @param modificaVolo   Il volo da modificare
      */
-    public ModificaGate(JFrame frameChiamante,Controller controller, String gateAttuale, ModificaVolo modificaVolo) {
+    public ModificaGate(JFrame frameChiamante,Controller controller, String gateAttuale, ModificaVolo modificaVolo, String codiceVolo) {
         this.controller = controller;
+        this.codiceVolo = codiceVolo;
 
 
         frame = new JFrame("Modifica Gate");
@@ -81,9 +82,15 @@ public class ModificaGate {
             public void actionPerformed(ActionEvent e) {
                 String gateSelezionato = (String) gateDisponibili.getSelectedItem();
 
-                modificaVolo.impostaNuovoGate(Integer.valueOf(gateSelezionato));
+                boolean successo = controller.modificaGate(codiceVolo, gateSelezionato);
 
-                JOptionPane.showMessageDialog(frame, "Il gate è stato modificato");
+                if (successo) {
+                    modificaVolo.impostaNuovoGate(Integer.valueOf(gateSelezionato));
+                    JOptionPane.showMessageDialog(frame, "Gate modificato con successo!");
+                    frame.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Errore durante la modifica del gate.");
+                }
                 frameChiamante.setVisible(true);
                 frame.dispose();
             }

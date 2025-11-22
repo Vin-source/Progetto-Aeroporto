@@ -121,7 +121,7 @@ public class ModificaVolo {
         modificaGate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ModificaGate(frame, controller, gateAttuale.getText(),ModificaVolo.this);
+                new ModificaGate(frame, controller, gateAttuale.getText(),ModificaVolo.this, volo.getCodiceVolo());
                 frame.setVisible(false);
             }
         });

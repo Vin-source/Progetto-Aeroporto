@@ -314,4 +314,72 @@ public class Controller {
 
         return gatesString;
     }
+
+    public boolean modificaGate(String codiceVolo, String nuovoGateStr) {
+        try {
+            if (nuovoGateStr == null || nuovoGateStr.isEmpty()) {
+                return false;
+            }
+            int nuovoGateNum = Integer.parseInt(nuovoGateStr);
+
+            if (gateDAO == null) return false;
+
+            boolean risultatoDB = gateDAO.modificaGate(codiceVolo, nuovoGateNum);
+
+            if (risultatoDB) {
+                for (Volo v : this.amministratore.getVoli()) {
+                    if (v.getCodiceVolo().equals(codiceVolo)) {
+                        if (v.getGate() != null) {
+                            v.getGate().setNumero(nuovoGateNum);
+                        } else {
+                            v.setGate(new Gate(nuovoGateNum));
+                        }
+                        break;
+                    }
+                }
+            }
+
+            return risultatoDB;
+
+        } catch (NumberFormatException e) {
+            System.err.println("Errore: Il gate deve essere un numero intero.");
+            return false;
+        } catch (SQLException e) {
+            System.err.println("Errore SQL durante la modifica del gate: " + e.getMessage());
+            return false;
+        }
+    }
+
+
+    public boolean assegnaGate(String codiceVolo, String numeroGateStr) {
+        try {
+            if (numeroGateStr == null || numeroGateStr.isEmpty()) return false;
+            int numeroGate = Integer.parseInt(numeroGateStr);
+
+            Integer.parseInt(codiceVolo);
+
+            if (gateDAO == null) return false;
+
+            boolean esitoDB = gateDAO.assegnaGate(codiceVolo, numeroGate);
+
+            if (esitoDB) {
+                for (Volo v : this.amministratore.getVoli()) {
+                    if (v.getCodiceVolo().equals(codiceVolo)) {
+                        v.setGate(new Gate(numeroGate));
+                        break;
+                    }
+                }
+            }
+
+            return esitoDB;
+
+        } catch (NumberFormatException e) {
+            System.err.println("Errore: Sia il Gate che il Codice Volo devono essere numeri");
+            return false;
+        } catch (SQLException e) {
+            System.err.println("Errore SQL: " + e.getMessage());
+            return false;
+        }
+    }
+
 }
