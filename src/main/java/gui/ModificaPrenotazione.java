@@ -49,6 +49,7 @@ public class ModificaPrenotazione {
         postoPrecedente.setText(p.getPostoAssegnato());
         initListeners(frameChiamante, p, padre);
 
+
     }
 
     /**
@@ -66,15 +67,16 @@ public class ModificaPrenotazione {
                     String nuovoNome = nome.getText();
                     String nuovoCognome = cognome.getText();
                     String cartaIdentita = ModificaPrenotazione.this.cartaIdentita.getText();
+                    String nuovoPostoScelto = postoPrecedente.getText();
 
                     // prima verifica se non c'è nessun nuovo valore,
                     // dopodichè sostituisco i valori vuoti con i vecchi valori
                     // così da non creare problemi nell'aggiornamento del database
-                    if(nuovoNome.isEmpty() && nuovoCognome.isEmpty() && cartaIdentita.isEmpty()){
+                    if(nuovoNome.isEmpty() && nuovoCognome.isEmpty() && cartaIdentita.isEmpty() && nuovoPostoScelto.isEmpty()){
                         throw new IllegalArgumentException("Riempire almeno un valore!");
                     }
 
-                    boolean risultato = controller.modificaPrenotazione(codiceVolo, nuovoNome, nuovoCognome, cartaIdentita, p);
+                    boolean risultato = controller.modificaPrenotazione(codiceVolo, nuovoNome, nuovoCognome, cartaIdentita, nuovoPostoScelto, p);
                     if (risultato) {
                         JOptionPane.showMessageDialog(null, "Prenotazione modificata con successo");
                         resetFields();
@@ -106,7 +108,9 @@ public class ModificaPrenotazione {
         modificaPostoInAereo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                SceltaPostoInAereo scelta = new SceltaPostoInAereo(controller, frame, ModificaPrenotazione.this, p.getCodiceVolo(), p.getPostoAssegnato());
+                scelta.frame.setVisible(true);
+                frame.setVisible(false);
             }
         });
     }
@@ -128,5 +132,10 @@ public class ModificaPrenotazione {
      */
     public JPanel getPanel() {
         return mainPanel;
+    }
+
+
+    public void setPostoScelto(String nuovoPosto) {
+        postoPrecedente.setText(nuovoPosto);
     }
 }

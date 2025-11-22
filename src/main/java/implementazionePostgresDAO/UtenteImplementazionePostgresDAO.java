@@ -132,13 +132,14 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
         return postiTrovati;
     }
 
-    public boolean modificaPrenotazioneDB(String codiceVolo,String nome,String cognome,String cartaIdentita,String idPrenotazione){
+    public boolean modificaPrenotazioneDB(String codiceVolo,String nome,String cognome,String cartaIdentita,String idPrenotazione, String nuovoPostoScelto){
         String sql = "UPDATE prenotazione SET nome = ?, cognome = ?, carta_identita = ? WHERE id = ?";
-
+        String sql2 = "UPDATE associa SET posto = ? WHERE id_prenotazione = ?";
 
         try{
 
             PreparedStatement st = connection.prepareStatement(sql);
+            PreparedStatement st2 = connection.prepareStatement(sql2);
 
             st.setString(1, nome);
             st.setString(2, cognome);
@@ -146,6 +147,11 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
             st.setInt(4, Integer.parseInt(idPrenotazione));
 
             st.execute();
+
+            st2.setString(1, nuovoPostoScelto);
+            st2.setInt(2, Integer.parseInt(idPrenotazione));
+
+            st2.execute();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
