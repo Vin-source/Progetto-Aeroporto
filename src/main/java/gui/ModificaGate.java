@@ -82,15 +82,19 @@ public class ModificaGate {
             public void actionPerformed(ActionEvent e) {
                 String gateSelezionato = (String) gateDisponibili.getSelectedItem();
 
-                boolean successo = controller.modificaGate(codiceVolo, gateSelezionato);
+                boolean successo = controller.salvaGate(codiceVolo, gateSelezionato);
 
                 if (successo) {
                     modificaVolo.impostaNuovoGate(Integer.valueOf(gateSelezionato));
-                    JOptionPane.showMessageDialog(frame, "Gate modificato con successo!");
+
+                    JOptionPane.showMessageDialog(frame, "Gate salvato con successo!");
                     frame.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Errore durante la modifica del gate.");
+                    JOptionPane.showMessageDialog(frame,
+                            "Errore nel salvataggio del gate.",
+                            "Errore", JOptionPane.ERROR_MESSAGE);
                 }
+
                 frameChiamante.setVisible(true);
                 frame.dispose();
             }

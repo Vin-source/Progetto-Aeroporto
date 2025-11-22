@@ -392,7 +392,7 @@ public class Controller {
     }
 
 
-    //serve per gestire i due casi di assegnamento di un gate ad un nuovo volo o la modifica di un gate ad un volo esistente
+    //serve per gestire i due casi di assegnamento di un gate ad un volo che non lo ha o la modifica di un gate ad un volo esistente
     public boolean salvaGate(String codiceVolo, String nuovoGateStr) {
         try {
             if (nuovoGateStr == null || nuovoGateStr.isEmpty()) return false;
@@ -406,7 +406,9 @@ public class Controller {
                 }
             }
 
-            if (voloCorrente == null) return false;
+            if (voloCorrente == null) {
+                return false;
+            }
 
             boolean esito = false;
 
