@@ -130,6 +130,10 @@ public class Utente {
                 pannelloVolo.add(prenotazione);
 
                 prenotazione.addActionListener(e -> {
+                    if(!volo.getStatoVolo().equals("PROGRAMMATO")){
+                        JOptionPane.showMessageDialog(null, "Non è possibile prenotare questo volo, solo voli programmati", "Errore", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                     new EffettuaNuovaPrenotazione(controller, frame, volo.getCodiceVolo()).frame.setVisible(true);
                     frame.dispose();
                 });
