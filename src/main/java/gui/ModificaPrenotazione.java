@@ -17,6 +17,8 @@ public class ModificaPrenotazione {
     private JTextField cartaIdentita;
     private JButton CONFERMAButton;
     private JButton CANCELLAButton;
+    private JButton modificaPostoInAereo;
+    private JLabel postoPrecedente;
     private JTextField nuovoNumeroBagagli;
     /**
      * Il frame di ModificaPrenotazione
@@ -44,6 +46,7 @@ public class ModificaPrenotazione {
         this.controller = controller;
         this.codiceVolo = p.getCodiceVolo();
 
+        postoPrecedente.setText(p.getPostoAssegnato());
         initListeners(frameChiamante, p, padre);
 
     }
@@ -97,6 +100,13 @@ public class ModificaPrenotazione {
                 resetFields();
                 frameChiamante.setVisible(true);
                 frame.dispose();
+            }
+        });
+
+        modificaPostoInAereo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }

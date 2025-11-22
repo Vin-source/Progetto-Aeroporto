@@ -85,18 +85,7 @@ public class SceltaPostoInAereo {
 
         initListeners(metodoSelezionePosto, frameChiamante);
 
-        for (JButton button : buttons) {
-            String nomePosto = button.getText().toUpperCase();
 
-            if (postiOccupati.contains(nomePosto)) {
-                button.setBackground(Color.RED);
-                for (ActionListener al : button.getActionListeners()) {
-                    button.removeActionListener(al);
-                }
-            } else {
-                button.setBackground(Color.GRAY);
-            }
-        }
 
 
 
@@ -156,5 +145,20 @@ public class SceltaPostoInAereo {
 //aggiunto getPanel
     public JPanel getPanel(){
         return scegliPostoPanel;
+    }
+
+    public void setColors(ArrayList<String> postiOccupati) {
+        for (JButton button : buttons) {
+            String nomePosto = button.getText().toUpperCase();
+
+            if (postiOccupati.contains(nomePosto)) {
+                button.setBackground(Color.RED);
+                for (ActionListener al : button.getActionListeners()) {
+                    button.removeActionListener(al);
+                }
+            } else {
+                button.setBackground(Color.GRAY);
+            }
+        }
     }
 }
