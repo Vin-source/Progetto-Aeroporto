@@ -20,13 +20,16 @@ public class Controller {
     private LoginDAO loginDAO;
     private VoloDAO voloDAO;
     private GateDAO gateDAO;
+    private UtenteDAO utenteDAO;
+    private PrenotazioneDAO prenotazioneDAO;
 
     public Controller() {
         this.loginDAO = new LoginImplementazionePostgresDAO();
         this.voloDAO = new VoloImplementazionePostgresDAO();
         this.gateDAO  =  new GateImplementazionePostgresDAO();
+        this.utenteDAO = new UtenteImplementazionePostgresDAO();
+        this.prenotazioneDAO = new PrenotazioneImplementazionePostgresDAO();
 
-        this.amministratore = new Amministratore("TempId", "admin@gmail.com", "password");
     }
 
     public String getEmail() {
@@ -55,9 +58,9 @@ public class Controller {
     }
 
     public ArrayList<Volo> getTuttiVoli() {
-        VoloDAO v = new VoloImplementazionePostgresDAO();
+
         ArrayList<Volo> voli;
-        voli = v.getVoliDB();
+        voli = voloDAO.getVoliDB();
         amministratore.setVoli(voli);
         return voli;
     }
@@ -65,9 +68,8 @@ public class Controller {
     public ArrayList<Prenotazione> getTutteLePrenotazioni() {
         ArrayList<Prenotazione> p;
 
-        UtenteDAO u = new UtenteImplementazionePostgresDAO();
 
-        p = u.getPrenotazioniDB(utente.getEmail());
+        p = utenteDAO.getPrenotazioniDB(utente.getEmail());
 
         utente.setPrenotazioni(p);
         // Salvo le prenotazioni ottenute nell'oggetto utente
@@ -83,9 +85,9 @@ public class Controller {
     }
 
     public boolean effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo, int numeroBagagli) {
-        PrenotazioneDAO u = new PrenotazioneImplementazionePostgresDAO();
 
-        if(u.effettuaPrenotazioneDB(codiceVolo, nome, cognome, cid, postoInAereo, utente.getEmail(), numeroBagagli)){
+
+        if(prenotazioneDAO.effettuaPrenotazioneDB(codiceVolo, nome, cognome, cid, postoInAereo, utente.getEmail(), numeroBagagli)){
             getTutteLePrenotazioni();
             return true;
         }
@@ -94,13 +96,13 @@ public class Controller {
     }
 
     public boolean modificaPrenotazione(String codiceVolo, String nome, String cognome, String cartaIdentita,String nuovoPostoScelto, Prenotazione p) {
-        PrenotazioneDAO u = new PrenotazioneImplementazionePostgresDAO();
+
         if(nome.isEmpty()) nome = p.getNome();
         if(cognome.isEmpty()) cognome = p.getCognome();
         if(cartaIdentita.isEmpty()) cartaIdentita = p.getCartaIdentita();
         if(nuovoPostoScelto.isEmpty()) nuovoPostoScelto = p.getPostoAssegnato();
 
-        u.modificaPrenotazioneDB(codiceVolo, nome, cognome, cartaIdentita, p.getIdPrenotazione(), nuovoPostoScelto);
+        prenotazioneDAO.modificaPrenotazioneDB(codiceVolo, nome, cognome, cartaIdentita, p.getIdPrenotazione(), nuovoPostoScelto);
         // dopo la successiva modifica della prenotazione non si aggiorna la visualizzazione della prenotazione con nuovi dati!
 
 
@@ -108,20 +110,20 @@ public class Controller {
     }
 
     public boolean cancellaPrenotazione(String idPrenotazione){
-        PrenotazioneDAO u = new PrenotazioneImplementazionePostgresDAO();
-        return u.cancellaPrenotazioneDB(idPrenotazione);
+
+        return prenotazioneDAO.cancellaPrenotazioneDB(idPrenotazione);
     }
 
     public ArrayList<String> getPostiOccupati(String codiceVolo) {
 
-        PrenotazioneDAO u = new PrenotazioneImplementazionePostgresDAO();
-        return u.getPostiOccupatiDB(codiceVolo);
+
+        return prenotazioneDAO.getPostiOccupatiDB(codiceVolo);
 
     }
 
     public ArrayList<Volo> cercaVoli(String valore) {
-        VoloDAO u = new VoloImplementazionePostgresDAO();
-        ArrayList<Volo> voli = u.getVoliDB();
+
+        ArrayList<Volo> voli = voloDAO.getVoliDB();
 
         if(voli != null){
             ArrayList<Volo> voliTrovati = new ArrayList<>();
