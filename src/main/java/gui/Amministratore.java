@@ -89,26 +89,19 @@ public class Amministratore {
 
 
         ricercaVoli.getDocument().addDocumentListener(new DocumentListener() {
-            private void filtraVoli() throws SQLException {
+            private void filtraVoli() {
                 String testoRicerca = ricercaVoli.getText();
                 ArrayList<Volo> voliFiltrati = controller.cercaVoli(testoRicerca);
                 aggiornaListaVoli(voliFiltrati);
             }
 
             public void insertUpdate(DocumentEvent e) {
-                try {
                     filtraVoli();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
+
                 aggiornaListaVoli(controller.cercaVoliAmministratore(ricercaVoli.getText()));
             }
             public void removeUpdate(DocumentEvent e){
-                try {
-                    filtraVoli();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
+                filtraVoli();
                 aggiornaListaVoli(controller.cercaVoliAmministratore(ricercaVoli.getText()));
             }
             public void changedUpdate(DocumentEvent e){
@@ -124,8 +117,9 @@ public class Amministratore {
      */
     private void creaPannelli() {
         ArrayList<Volo> listaVoli = controller.getTuttiVoli();
+        aggiornaListaVoli(listaVoli);
 
-        listaVoliPanel.removeAll();
+        /*listaVoliPanel.removeAll();
 
 
         for(Volo volo: listaVoli){
@@ -166,6 +160,8 @@ public class Amministratore {
 
         listaVoliPanel.revalidate();
         listaVoliPanel.repaint();
+
+         */
     }
 
 

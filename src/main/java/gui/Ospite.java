@@ -1,6 +1,5 @@
 package gui;
 
-// import controller.Controller;
 import controller.Controller;
 import model.Utente;
 import model.Volo;
@@ -9,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -48,7 +48,7 @@ public class Ospite extends JFrame {
      * @param controller Il controller che verrà passato dal Main method
      */
 
-    public Ospite(Controller controller) {
+    public Ospite(Controller controller){
 
 
 

@@ -42,19 +42,23 @@ public class Controller {
     }
 
 
-    public String login(String username, String password){
-      //  LoginDAO loginDAO = new LoginImplementazionePostgresDAO();
+    public String login(String username, String password) {
 
-        String ruolo = loginDAO.getUtentiDB(username, password);
+        try{
+            String ruolo = loginDAO.getUtentiDB(username, password);
 
-        if ("amministratore".equals(ruolo)) {
-            this.amministratore = new Amministratore("ID_ADMIN", username, password);
-            return "amministratore";
-        } else if ("utente".equals(ruolo)) {
-            this.utente = new Utente("ID_UTENTE", username, password);
-            return "utente";
+            if ("amministratore".equals(ruolo)) {
+                this.amministratore = new Amministratore("ID_ADMIN", username, password);
+                return "amministratore";
+            } else if ("utente".equals(ruolo)) {
+                this.utente = new Utente("ID_UTENTE", username, password);
+                return "utente";
+            }
+            return "errore"; // Login fallito
+        }catch(SQLException e){
+            System.err.println("Errore SQL durante il login: " + e.getMessage());
         }
-        return "errore"; // Login fallito
+        return "errore";
     }
 
     public ArrayList<Volo> getTuttiVoli() {

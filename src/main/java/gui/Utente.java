@@ -11,6 +11,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -37,7 +38,7 @@ public class Utente {
      * @param frameChiamante Il frame padre (Ospite.java)
      * @param controller Il controller che effettua chiamate al DB e comunica con il package Model
      */
-    public Utente(Controller controller, JFrame frameChiamante) {
+    public Utente(Controller controller, JFrame frameChiamante) throws SQLException {
          this.controller = controller;
 
          frame = new JFrame("Area Utente");
