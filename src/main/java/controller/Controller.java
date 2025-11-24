@@ -13,6 +13,8 @@ import dao.LoginDAO;
 import dao.VoloDAO;
 import implementazionePostgresDAO.*;
 
+import javax.swing.*;
+
 public class Controller {
     private Amministratore amministratore;
     private Utente utente;
@@ -22,10 +24,9 @@ public class Controller {
     private GateDAO gateDAO;
 
     public Controller() {
-        // 1. Inizializziamo i DAO (Connessione al DB)
         this.loginDAO = new LoginImplementazionePostgresDAO();
         this.voloDAO = new VoloImplementazionePostgresDAO();
-   //     this.gateDAO  =  new GateImplementazionePostgresDAO();
+        this.gateDAO  =  new GateImplementazionePostgresDAO();
 
         this.amministratore = new Amministratore("TempId", "admin@gmail.com", "password");
     }
@@ -42,24 +43,28 @@ public class Controller {
 
     public String login(String username, String password){
       //  LoginDAO loginDAO = new LoginImplementazionePostgresDAO();
+
         if(loginDAO == null){
             return "errore";
         }
 
-        String ruolo = loginDAO.getUtentiDB(username, password);
+        try {
+            String ruolo = loginDAO.getUtentiDB(username, password);
 
-        if ("amministratore".equals(ruolo)) {
-            this.amministratore = new Amministratore("ID_ADMIN", username, password);
-            return "amministratore";
-        } else if ("utente".equals(ruolo)) {
-            this.utente = new Utente("ID_UTENTE", username, password);
-            return "utente";
+            if ("amministratore".equals(ruolo)) {
+                this.amministratore = new Amministratore("ID_ADMIN", username, password);
+                return "amministratore";
+            } else if ("utente".equals(ruolo)) {
+                this.utente = new Utente("ID_UTENTE", username, password);
+                return "utente";
+            }
+        }catch (SQLException e){
+
         }
         return "errore"; // Login fallito
-
     }
 
-    public ArrayList<Volo> getTuttiVoli() {
+    public ArrayList<Volo> getTuttiVoli() throws SQLException {
         VoloDAO v = new VoloImplementazionePostgresDAO();
         ArrayList<Volo> voli;
         voli = v.getVoliDB();
@@ -124,7 +129,7 @@ public class Controller {
 
     }
 
-    public ArrayList<Volo> cercaVoli(String valore) {
+    public ArrayList<Volo> cercaVoli(String valore) throws SQLException {
         VoloDAO u = new VoloImplementazionePostgresDAO();
         ArrayList<Volo> voli = u.getVoliDB();
 
@@ -271,7 +276,11 @@ public class Controller {
 
             if (nuovoNumeroGateS.equals("Gate non assegnato")) {
                 int nuovoNumeroGateInt = Integer.parseInt(nuovoNumeroGateS);
-                voloDaAggiornare.setGate(new Gate(nuovoNumeroGateInt));
+                if(voloDaAggiornare.getGate()!=null){
+                    voloDaAggiornare.getGate().setNumero(nuovoNumeroGateInt);
+                }else{
+                    voloDaAggiornare.setGate(new Gate(nuovoNumeroGateInt));
+                }
             }
 
             return voloDAO.aggiornaVolo(voloDaAggiornare);
@@ -431,4 +440,44 @@ public class Controller {
         }
     }
 
+    public Volo getVoloByCodice(String codiceVolo) {
+        if (voloDAO == null) {
+            return null;
+        }
+
+        try {
+            return voloDAO.getVoloByCodice(codiceVolo);
+
+        } catch (SQLException e) {
+            System.err.println("Errore recupero volo " + codiceVolo + ": " + e.getMessage());
+            return null;
+        }
+    }
+
+    public Boolean eliminaVolo(String codiceVolo) {
+        if (voloDAO == null) {
+            return false;
+        }
+
+        try {
+            boolean esitoDB = voloDAO.eliminaVolo(codiceVolo);
+
+            if(esitoDB){
+                ArrayList<Volo> listaVoli = this.amministratore.getVoli();
+
+                for (int i = 0; i < listaVoli.size(); i++) {
+                    if (listaVoli.get(i).getCodiceVolo().equals(codiceVolo)) {
+                        listaVoli.remove(i);
+                        break;
+                    }
+                }
+            }
+            return esitoDB;
+
+
+        }catch (SQLException e){
+            System.err.println("Errore nell'eliminazione del volo: " + codiceVolo + ": " + e.getMessage());
+            return false;
+        }
+    }
 }

@@ -5,6 +5,7 @@ import database.ConnessioneDatabase;
 import model.*;
 
 import java.sql.*;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class VoloImplementazionePostgresDAO implements VoloDAO {
@@ -117,7 +118,7 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
     }
 
     @Override
-    public ArrayList<Volo> getVoliDB() {
+    public ArrayList<Volo> getVoliDB() throws SQLException{
         ArrayList<Volo> voli = new ArrayList<>();
         String sql = "SELECT * FROM VOLO";
 
