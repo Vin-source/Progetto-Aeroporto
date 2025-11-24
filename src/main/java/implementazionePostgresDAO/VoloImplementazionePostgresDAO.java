@@ -38,7 +38,9 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
         ps.setInt(7, volo.getRitardo());
         ps.setInt(8, volo.getGate().getNumero());
        // ps.setString(9, volo.getEmail());
-        return ps.executeUpdate() > 0;
+        boolean res = ps.executeUpdate() > 0;
+        ps.close();
+        return res;
 
     }
 
@@ -58,7 +60,9 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
         ps.setInt(5, volo.getGate().getNumero());
         ps.setString(6, volo.getCodiceVolo());
         //ps.setInt(6, Integer.parseInt(volo.getCodiceVolo()));
-        return ps.executeUpdate()>0;
+        boolean res = ps.executeUpdate()>0;
+        ps.close();
+        return res;
 
 
        // return true;
@@ -71,8 +75,9 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
         Connection connection = ConnessioneDatabase.getInstance().connection;
         ps = connection.prepareStatement("DELETE FROM voli WHERE codice_volo=?");
         ps.setString(1, codiceVolo);
-        return ps.executeUpdate() > 0;
-
+        boolean res = ps.executeUpdate() > 0;
+        ps.close();
+        return res;
     }
 
     @Override
@@ -105,6 +110,9 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
                     rs.getInt("ritardo"));
         }
 
+        rs.close();
+        ps.close();
+
         return null;
     }
 
@@ -129,6 +137,9 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
 
                 voli.add(v);
             }
+
+            rs.close();
+            st.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -167,6 +178,9 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
                     rs.getInt("ritardo"));
             res.add(v);
         }
+
+        rs.close();
+        ps.close();
 
         return res;
     }

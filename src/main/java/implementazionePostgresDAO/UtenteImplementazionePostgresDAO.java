@@ -59,7 +59,12 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
                     }
 
                     prenotazioniFinali.add(p);
+                    postoRisultante.close();
+                    postoDB.close();
                 }
+
+                prenotazioni.close();
+                prenotazioniSQL.close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -72,12 +77,11 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
     public boolean effettuaPrenotazioneDB(String codiceVolo, String nome, String cognome, String cid, String posto, String email_utente, int numeroBagagli){
         String sql = "INSERT INTO prenotazione(nome, cognome, carta_identita, email_utente, stato_prenotazione) VALUES (?,?,?,?,?)";
         String sql2 = "INSERT INTO associa(codice_volo, posto, id_prenotazione) VALUES (?, ?, ?)";
-        String sql3 = "INSERT INTO bagaglio(id_prenotazione) VALUES (?)";
+        String sql3;
 
         try{
             PreparedStatement prenotazioneSQL = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             PreparedStatement associaSQL = connection.prepareStatement(sql2);
-            PreparedStatement bagaglioSQL = connection.prepareStatement(sql3);
 
 
             prenotazioneSQL.setString(1, nome);
@@ -101,8 +105,19 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
 
             associaSQL.executeUpdate();
 
-            bagaglioSQL.setInt(1, nuovoId);
-            bagaglioSQL.executeUpdate();
+            for(int i = 0; i < numeroBagagli; i++) {
+                sql3 = "INSERT INTO bagaglio(id_prenotazione) VALUES (?)";
+                PreparedStatement bagaglioSQL = connection.prepareStatement(sql3);
+                bagaglioSQL.setInt(1, nuovoId);
+                bagaglioSQL.executeUpdate();
+                bagaglioSQL.close();
+            }
+
+            rs.close();
+            prenotazioneSQL.close();
+            associaSQL.close();
+
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -125,6 +140,9 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
             while(rs.next()){
                 postiTrovati.add(rs.getString("posto"));
             }
+
+            rs.close();
+            st.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -153,6 +171,9 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
 
             st2.execute();
 
+            st.close();
+            st2.close();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -170,6 +191,7 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
             st.setInt(1, Integer.parseInt(idPrenotazione));
 
             st.executeUpdate();
+            st.close();
             return true;
         }catch(SQLException e){
             throw new RuntimeException(e);

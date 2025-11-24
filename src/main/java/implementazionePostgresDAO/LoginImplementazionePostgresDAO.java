@@ -37,6 +37,8 @@ public class LoginImplementazionePostgresDAO implements LoginDAO {
                     return rs.getString("ruolo"); // "amministratore" o "utente"
                 }
 
+            rs.close();
+            st.close();
 
         }catch (SQLException e){
             throw new RuntimeException(e);

@@ -20,7 +20,9 @@ public class GateImplementazionePostgresDAO implements GateDAO {
 
         ps.setInt(1, numeroGate);
         ps.setInt(2, Integer.parseInt(codiceVolo));
-        return ps.executeUpdate() > 0;
+        boolean res = ps.executeUpdate() > 0;
+        ps.close();
+        return res;
     }
 
     @Override
@@ -32,7 +34,9 @@ public class GateImplementazionePostgresDAO implements GateDAO {
         );
         ps.setInt(1, nuovoGate);
         ps.setString(2, codiceVolo);
-        return ps.executeUpdate() > 0;
+        boolean res = ps.executeUpdate() > 0;
+        ps.close();
+        return res;
     }
 
   /*  @Override
@@ -51,6 +55,8 @@ public class GateImplementazionePostgresDAO implements GateDAO {
                     rs.getInt("numero_gate")
             );
         }
+        rs.close();
+        ps.close();
         return null;
     }
     */
@@ -70,6 +76,9 @@ public class GateImplementazionePostgresDAO implements GateDAO {
                 int numero = rs.getInt("numero_gate");
                 listaGates.add(new Gate(numero));
             }
+
+            rs.close();
+            stmt.close();
         }
         return listaGates;
     }
