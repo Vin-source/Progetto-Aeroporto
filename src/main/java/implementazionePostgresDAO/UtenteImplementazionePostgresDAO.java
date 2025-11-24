@@ -26,7 +26,7 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
 
         String sql = "SELECT * FROM prenotazione WHERE email_utente = ? ";
         String sql2 = "SELECT * FROM associa JOIN volo ON volo.codice_volo = associa.codice_volo" + " WHERE id_prenotazione = ?";
-
+        String sql3 = "SELECT * FROM bagaglio WHERE email_utente = ? ";
 
         try{
             PreparedStatement prenotazioniSQL = connection.prepareStatement(sql);
@@ -58,10 +58,30 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
                         p.setVolo(v);
                     }
 
+                    PreparedStatement bagaglioSQL =  connection.prepareStatement(sql3);
+                    bagaglioSQL.setInt(1, Integer.parseInt(p.getIdPrenotazione()));
+
+                    ResultSet bagagliRisultanti = bagaglioSQL.executeQuery();
+                    ArrayList<Bagaglio> bagagliTrovati = new ArrayList<>();
+
+                    while(bagagliRisultanti.next()){
+                        Bagaglio b = new Bagaglio(bagagliRisultanti.getInt("codice_bagaglio"));
+                        b.setPrenotazione(p);
+
+                        bagagliTrovati.add(b);
+                    }
+
+
+                    p.setBagagli(bagagliTrovati);
+
                     prenotazioniFinali.add(p);
+
+                    bagagliRisultanti.close();
                     postoRisultante.close();
+                    bagaglioSQL.close();
                     postoDB.close();
                 }
+
 
                 prenotazioni.close();
                 prenotazioniSQL.close();

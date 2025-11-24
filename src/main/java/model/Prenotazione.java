@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * La prenotazione effettuata\modificata dall'utente
  */
@@ -17,7 +19,7 @@ public class Prenotazione {
     // oggetti esterni
     private Utente utente;
     private Volo volo;
-    private Passeggero passeggero;
+    private ArrayList<Bagaglio> bagagli;
     private StatoPrenotazione statoPrenotazione = StatoPrenotazione.IN_ATTESA;
 
 
@@ -186,23 +188,23 @@ public class Prenotazione {
     public void setVolo(Volo volo){ this.volo = volo; }
 
     /**
-     * Ritorna l'oggetto passeggero associato alla prenotazione
+     * Ritorna l'oggetto bagagli associato alla prenotazione
      *
-     * @return l'oggetto passeggero
+     * @return l'oggetto bagagli
      */
-    public Passeggero getPasseggero() {
-        if(passeggero != null){
-            return passeggero;
+    public ArrayList<Bagaglio> getBagaglio() {
+        if(bagagli != null){
+            return bagagli;
         }
         return null;
     }
 
     /**
-     * Salva un nuovo oggetto passeggero
+     * Salva un nuovo oggetto bagaglio
      *
-     * @param passeggero il nuovo oggetto passeggero
+     * @param bagagli il nuovo oggetto bagagli
      */
-    public void setPasseggero(Passeggero passeggero) { this.passeggero = passeggero; }
+    public void setBagagli(ArrayList<Bagaglio> bagagli) { this.bagagli = bagagli; }
 
     /**
      * Ritorna lo stato attuale della prenotazione

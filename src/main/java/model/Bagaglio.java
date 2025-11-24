@@ -6,7 +6,7 @@ package model;
 public class Bagaglio{
     private int codiceBagaglio;
 
-    private Passeggero passeggero;
+    private Prenotazione prenotazione;
 
     /**
      * Costruttore di Bagaglio.java
@@ -43,21 +43,21 @@ public class Bagaglio{
 
 
     /**
-     * Ritorna l'oggetto passeggero associato al bagaglio
+     * Ritorna l'oggetto prenotazione associato al bagaglio
      *
-     * @return Oggetto passeggero
+     * @return Oggetto prenotazione
      */
-    public Passeggero getPasseggero() {
-        if(passeggero != null){
-            return passeggero;
+    public Prenotazione getPrenotazione() {
+        if(prenotazione != null){
+            return prenotazione;
         }
         return null;
     }
 
     /**
-     * Salva un nuovo riferimento a passeggero
+     * Salva un nuovo riferimento a una prenotazione
      *
-     * @param passeggero Il nuovo passeggero
+     * @param prenotazione La nuova prenotazione
      */
-    public void setPasseggero(Passeggero passeggero) { this.passeggero = passeggero;}
+    public void setPrenotazione(Prenotazione prenotazione) { this.prenotazione = prenotazione;}
 }
