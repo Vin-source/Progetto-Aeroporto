@@ -108,7 +108,7 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
             prenotazioneSQL.setString(2, cognome);
             prenotazioneSQL.setString(3, cid);
             prenotazioneSQL.setString(4, email_utente);
-            prenotazioneSQL.setObject(5, "CONFERMATA", Types.OTHER);
+            prenotazioneSQL.setObject(5, "IN_ATTESA", Types.OTHER);
 
             prenotazioneSQL.executeUpdate();
 
