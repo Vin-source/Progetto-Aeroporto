@@ -44,27 +44,19 @@ public class Controller {
     public String login(String username, String password){
       //  LoginDAO loginDAO = new LoginImplementazionePostgresDAO();
 
-        if(loginDAO == null){
-            return "errore";
-        }
+        String ruolo = loginDAO.getUtentiDB(username, password);
 
-        try {
-            String ruolo = loginDAO.getUtentiDB(username, password);
-
-            if ("amministratore".equals(ruolo)) {
-                this.amministratore = new Amministratore("ID_ADMIN", username, password);
-                return "amministratore";
-            } else if ("utente".equals(ruolo)) {
-                this.utente = new Utente("ID_UTENTE", username, password);
-                return "utente";
-            }
-        }catch (SQLException e){
-
+        if ("amministratore".equals(ruolo)) {
+            this.amministratore = new Amministratore("ID_ADMIN", username, password);
+            return "amministratore";
+        } else if ("utente".equals(ruolo)) {
+            this.utente = new Utente("ID_UTENTE", username, password);
+            return "utente";
         }
         return "errore"; // Login fallito
     }
 
-    public ArrayList<Volo> getTuttiVoli() throws SQLException {
+    public ArrayList<Volo> getTuttiVoli() {
         VoloDAO v = new VoloImplementazionePostgresDAO();
         ArrayList<Volo> voli;
         voli = v.getVoliDB();
@@ -129,7 +121,7 @@ public class Controller {
 
     }
 
-    public ArrayList<Volo> cercaVoli(String valore) throws SQLException {
+    public ArrayList<Volo> cercaVoli(String valore) {
         VoloDAO u = new VoloImplementazionePostgresDAO();
         ArrayList<Volo> voli = u.getVoliDB();
 
@@ -176,6 +168,7 @@ public class Controller {
 
             Volo volo = new Volo(codiceVolo, compagniaAerea, origine, destinazione, data, ora, ritardoParsed);
             volo.setGate(new Gate(numeroGateParsed));
+            volo.setAmministratore(new Amministratore("00", amministratore.getEmail(), amministratore.getPassword()));
 
             return voloDAO.inserisciVolo(volo);
 

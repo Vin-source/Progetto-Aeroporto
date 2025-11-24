@@ -23,24 +23,47 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
     @Override
     public boolean inserisciVolo(Volo volo) throws SQLException {
         PreparedStatement ps = null;
+        PreparedStatement gateInserito = null;
 
         Connection connection = ConnessioneDatabase.getInstance().connection;
         ps = connection.prepareStatement(
-                "INSERT INTO voli (compagnia_aerea,stato_volo, origine, destinazione, data_aereo, ora_aereo, ritardo, gate) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+                "INSERT INTO volo (compagnia_aerea,stato_volo, origine, destinazione, data_aereo, ora_aereo, ritardo, gate, email_utente) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
         );
 
         ps.setString(1, volo.getCompagniaAerea());
-        ps.setString(2, volo.getStatoVolo().name());
+        ps.setObject(2, volo.getStatoVolo().name(), Types.OTHER);
         ps.setString(3, volo.getOrigine());
         ps.setString(4, volo.getDestinazione());
-        ps.setDate(5, Date.valueOf(volo.getData()));
-        ps.setTime(6, Time.valueOf(volo.getOrarioPrevisto()));
+        ps.setString(5, volo.getData());
+        ps.setString(6, volo.getOrarioPrevisto());
         ps.setInt(7, volo.getRitardo());
         ps.setInt(8, volo.getGate().getNumero());
-       // ps.setString(9, volo.getEmail());
+        ps.setString(9, volo.getAmministratore().getEmail());
+
+
         boolean res = ps.executeUpdate() > 0;
+
+        ResultSet codice_creato = ps.getGeneratedKeys();
+        int nuovo_codice_volo = 0;
+        if(codice_creato.next()){
+            nuovo_codice_volo = codice_creato.getInt("codice_volo");
+        }
+
+
+        codice_creato.close();
         ps.close();
+
+        if(volo.getGate().getNumero() != 0){
+            gateInserito = connection.prepareStatement("UPDATE gate SET codice_volo = ? WHERE numero_gate = ?");
+            gateInserito.setInt(1, nuovo_codice_volo);
+            gateInserito.setInt(2, volo.getGate().getNumero());
+            gateInserito.executeUpdate();
+        }
+
+        gateInserito.close();
+
+
         return res;
 
     }
@@ -118,7 +141,7 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
     }
 
     @Override
-    public ArrayList<Volo> getVoliDB() throws SQLException{
+    public ArrayList<Volo> getVoliDB(){
         ArrayList<Volo> voli = new ArrayList<>();
         String sql = "SELECT * FROM VOLO";
 

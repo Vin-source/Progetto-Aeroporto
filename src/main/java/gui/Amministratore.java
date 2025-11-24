@@ -122,7 +122,7 @@ public class Amministratore {
      * Metodo che permette di aggiornare la lista dei voli
      *
      */
-    private void creaPannelli() throws SQLException {
+    private void creaPannelli() {
         ArrayList<Volo> listaVoli = controller.getTuttiVoli();
 
         listaVoliPanel.removeAll();
@@ -223,12 +223,7 @@ public class Amministratore {
 
                         if (esito) {
                             JOptionPane.showMessageDialog(frame, "Volo eliminato con successo");
-
-                            try {
-                                creaPannelli();
-                            } catch (SQLException ex) {
-                                throw new RuntimeException(ex);
-                            }
+                            creaPannelli();
                         } else {
                             JOptionPane.showMessageDialog(frame,
                                     "Impossibile eliminare il volo",

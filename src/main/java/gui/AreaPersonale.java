@@ -118,7 +118,7 @@ public class AreaPersonale {
     public void aggiornaPrenotazioni(ArrayList<Prenotazione> prenotazioni) {
         listaPrenotazioni.removeAll();
 
-        if(prenotazioni == null){
+        if(prenotazioni.isEmpty()){
             JPanel prenotazione = new JPanel();
             prenotazione.setLayout(new GridLayout(1,7, 10, 10));
             prenotazione.setBorder(BorderFactory.createLineBorder(Color.BLACK));

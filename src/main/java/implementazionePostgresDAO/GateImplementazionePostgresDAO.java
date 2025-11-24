@@ -9,6 +9,16 @@ import java.util.ArrayList;
 
 public class GateImplementazionePostgresDAO implements GateDAO {
 
+    private Connection connection;
+
+    public GateImplementazionePostgresDAO() {
+        try {
+            this.connection = ConnessioneDatabase.getInstance().connection;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public boolean assegnaGate(String codiceVolo, int numeroGate) throws SQLException {
         PreparedStatement ps = null;
@@ -65,12 +75,11 @@ public class GateImplementazionePostgresDAO implements GateDAO {
     public ArrayList<Gate> getTuttiGate() throws SQLException {
         ArrayList<Gate> listaGates = new ArrayList<>();
 
-        String sql = "SELECT DISTINCT numero_gate FROM gates ORDER BY numero_gate ASC";
+        String sql = "SELECT DISTINCT numero_gate FROM gate ORDER BY numero_gate ASC";
 
-        Connection connection = null;
-
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 int numero = rs.getInt("numero_gate");
@@ -79,7 +88,12 @@ public class GateImplementazionePostgresDAO implements GateDAO {
 
             rs.close();
             stmt.close();
+        }catch(SQLException e){
+            throw new RuntimeException(e);
         }
+
+
+
         return listaGates;
     }
 }

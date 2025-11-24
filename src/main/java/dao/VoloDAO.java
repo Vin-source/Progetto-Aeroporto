@@ -15,6 +15,6 @@ public interface VoloDAO{
     boolean aggiornaVolo(Volo volo) throws SQLException;
     boolean eliminaVolo(String codiceVolo) throws SQLException;
     Volo getVoloByCodice(String codiceVolo) throws SQLException;
-    ArrayList<Volo> getVoliDB() throws SQLException;
+    ArrayList<Volo> getVoliDB();
     ArrayList<Volo> getVoloByValore(String valore) throws SQLException;
 }

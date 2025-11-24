@@ -26,7 +26,7 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
 
         String sql = "SELECT * FROM prenotazione WHERE email_utente = ? ";
         String sql2 = "SELECT * FROM associa JOIN volo ON volo.codice_volo = associa.codice_volo" + " WHERE id_prenotazione = ?";
-        String sql3 = "SELECT * FROM bagaglio WHERE email_utente = ? ";
+        String sql3 = "SELECT * FROM bagaglio WHERE id_prenotazione = ? ";
 
         try{
             PreparedStatement prenotazioniSQL = connection.prepareStatement(sql);
