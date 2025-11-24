@@ -1,7 +1,6 @@
 package controller;
 
-import dao.GateDAO;
-import dao.UtenteDAO;
+import dao.*;
 import implementazionePostgresDAO.UtenteImplementazionePostgresDAO;
 import implementazionePostgresDAO.GateImplementazionePostgresDAO;
 import model.*;
@@ -9,8 +8,7 @@ import model.*;
 import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import dao.LoginDAO;
-import dao.VoloDAO;
+
 import implementazionePostgresDAO.*;
 
 import javax.swing.*;
@@ -85,7 +83,7 @@ public class Controller {
     }
 
     public boolean effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo, int numeroBagagli) {
-        UtenteDAO u = new UtenteImplementazionePostgresDAO();
+        PrenotazioneDAO u = new PrenotazioneImplementazionePostgresDAO();
 
         if(u.effettuaPrenotazioneDB(codiceVolo, nome, cognome, cid, postoInAereo, utente.getEmail(), numeroBagagli)){
             getTutteLePrenotazioni();
@@ -96,7 +94,7 @@ public class Controller {
     }
 
     public boolean modificaPrenotazione(String codiceVolo, String nome, String cognome, String cartaIdentita,String nuovoPostoScelto, Prenotazione p) {
-        UtenteDAO u = new UtenteImplementazionePostgresDAO();
+        PrenotazioneDAO u = new PrenotazioneImplementazionePostgresDAO();
         if(nome.isEmpty()) nome = p.getNome();
         if(cognome.isEmpty()) cognome = p.getCognome();
         if(cartaIdentita.isEmpty()) cartaIdentita = p.getCartaIdentita();
@@ -110,13 +108,13 @@ public class Controller {
     }
 
     public boolean cancellaPrenotazione(String idPrenotazione){
-        UtenteDAO u = new UtenteImplementazionePostgresDAO();
+        PrenotazioneDAO u = new PrenotazioneImplementazionePostgresDAO();
         return u.cancellaPrenotazioneDB(idPrenotazione);
     }
 
     public ArrayList<String> getPostiOccupati(String codiceVolo) {
 
-        UtenteDAO u = new UtenteImplementazionePostgresDAO();
+        PrenotazioneDAO u = new PrenotazioneImplementazionePostgresDAO();
         return u.getPostiOccupatiDB(codiceVolo);
 
     }
