@@ -65,7 +65,8 @@ public class Controller {
 
         ArrayList<Volo> voli;
         voli = voloDAO.getVoliDB();
-        amministratore.setVoli(voli);
+        // amministratore.setVoli(voli);
+        // non si può fare una chiamata ad amministratore prima di essere creato
         return voli;
     }
 

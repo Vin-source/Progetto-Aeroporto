@@ -2,6 +2,7 @@ package gui;
 
 import controller.Controller;
 import model.Prenotazione;
+import model.StatoPrenotazione;
 import model.Volo;
 
 import javax.swing.*;
@@ -145,21 +146,27 @@ public class AreaPersonale {
                 prenotazione.add(new JLabel("CARTA D'IDENTITA: " + p.getCartaIdentita().toUpperCase()));
                 prenotazione.add(new JLabel("POSTO ASSEGNATO: " + p.getPostoAssegnato()));
                 prenotazione.add(new JLabel("STATO: " + p.getStatoPrenotazione()));
-                JButton modificaPrenotazione = new JButton("MODIFICA");
-                JButton cancellaPrenotazione = new JButton("CANCELLA");
-                prenotazione.add(modificaPrenotazione);
-                prenotazione.add(cancellaPrenotazione);
 
-                modificaPrenotazione.addActionListener(e -> {
-                    new ModificaPrenotazione(this.controller, frame, p, gui.AreaPersonale.this).frame.setVisible(true);
-                });
+                if(!p.getStatoPrenotazione().equals(StatoPrenotazione.CANCELLATA)){
 
-                cancellaPrenotazione.addActionListener(e -> {
-                   if(controller.cancellaPrenotazione(p.getIdPrenotazione())){
-                       JOptionPane.showMessageDialog(null, "La prenotazione è stata eliminata", "Avviso", JOptionPane.ERROR_MESSAGE);
-                        aggiornaPrenotazioni(this.controller.getTutteLePrenotazioni());
-                   }
-                });
+                    JButton modificaPrenotazione = new JButton("MODIFICA");
+                    JButton cancellaPrenotazione = new JButton("CANCELLA");
+                    prenotazione.add(modificaPrenotazione);
+                    prenotazione.add(cancellaPrenotazione);
+
+
+                    modificaPrenotazione.addActionListener(e -> {
+                        new ModificaPrenotazione(this.controller, frame, p, gui.AreaPersonale.this).frame.setVisible(true);
+                    });
+
+                    cancellaPrenotazione.addActionListener(e -> {
+                        if(controller.cancellaPrenotazione(p.getIdPrenotazione())){
+                            JOptionPane.showMessageDialog(null, "La prenotazione è stata eliminata", "Avviso", JOptionPane.ERROR_MESSAGE);
+                            aggiornaPrenotazioni(this.controller.getTutteLePrenotazioni());
+                        }
+                    });
+                }
+
 
 
                 listaPrenotazioni.add(prenotazione);
