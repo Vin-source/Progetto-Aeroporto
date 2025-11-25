@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public class InserisciVolo {
     private JPanel inserisciVoloPanel;
 
-    private JTextField codiceVolo;
     private JTextField compagniaVolo;
     private JTextField origineVolo;
     private JTextField destinazioneVolo;
@@ -68,7 +67,6 @@ public class InserisciVolo {
         confermaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String codVolo = codiceVolo.getText();
                 String compagnia = compagniaVolo.getText();
                 String origine = origineVolo.getText();
                 String destinazione = destinazioneVolo.getText();
@@ -77,15 +75,15 @@ public class InserisciVolo {
                 String ritardo = ritardoVolo.getText();
                 String gate = (String) gateVolo.getSelectedItem();
 
-                if (codVolo.isEmpty() || compagnia.isEmpty() || origine.isEmpty() || destinazione.isEmpty()
-                        || data.contains("_") || orario.contains("_") || ritardo.isEmpty() || gate == null) {
+                if (compagnia.isEmpty() || origine.isEmpty() || destinazione.isEmpty()
+                        || data.contains("_") || orario.contains("_") || ritardo.isEmpty()) {
                     JOptionPane.showMessageDialog(frame, "Errore: Popolare tutti i campi.", "Errore", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
 
                 Boolean result = controller.creaNuovoVolo(
-                        codVolo, compagnia, origine, destinazione,
+                         compagnia, origine, destinazione,
                         data, orario, ritardo, gate
                 );
 
@@ -154,7 +152,6 @@ public class InserisciVolo {
      * Metodo usato per resettare i campi del form InserisciVolo
      */
     private void resetFields() {
-        codiceVolo.setText("");
         compagniaVolo.setText("");
         origineVolo.setText("");
         destinazioneVolo.setText("");

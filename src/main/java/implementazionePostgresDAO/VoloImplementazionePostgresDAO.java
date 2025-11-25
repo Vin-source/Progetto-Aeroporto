@@ -50,6 +50,7 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
             nuovo_codice_volo = codice_creato.getInt("codice_volo");
         }
 
+        volo.setCodiceVolo(String.valueOf(nuovo_codice_volo));
 
         codice_creato.close();
         ps.close();

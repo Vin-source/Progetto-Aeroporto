@@ -186,7 +186,7 @@ public class Controller {
 
     //CREAZIONE DI UN VOLO TESTING
 
-    public Boolean creaNuovoVolo(String codiceVolo, String compagniaAerea, String origine, String destinazione,
+    public Boolean creaNuovoVolo(String compagniaAerea, String origine, String destinazione,
                                  String data, String ora, String ritardo, String numeroGate) {
         try {
             if (!origine.equalsIgnoreCase("Napoli") && !destinazione.equalsIgnoreCase("Napoli")) {
@@ -196,7 +196,7 @@ public class Controller {
             int ritardoParsed = Integer.parseInt(ritardo);
             int numeroGateParsed = Integer.parseInt(numeroGate);
 
-            Volo volo = new Volo(codiceVolo, compagniaAerea, origine, destinazione, data, ora, ritardoParsed);
+            Volo volo = new Volo("00", compagniaAerea, origine, destinazione, data, ora, ritardoParsed);
             volo.setGate(new Gate(numeroGateParsed));
             volo.setAmministratore(new Amministratore("00", amministratore.getEmail(), amministratore.getPassword()));
 
