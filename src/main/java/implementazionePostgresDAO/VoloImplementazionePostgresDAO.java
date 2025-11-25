@@ -98,8 +98,8 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
         PreparedStatement ps = null;
 
         Connection connection = ConnessioneDatabase.getInstance().connection;
-        ps = connection.prepareStatement("DELETE FROM voli WHERE codice_volo=?");
-        ps.setString(1, codiceVolo);
+        ps = connection.prepareStatement("DELETE FROM volo WHERE codice_volo=?");
+        ps.setInt(1, Integer.parseInt(codiceVolo));
         boolean res = ps.executeUpdate() > 0;
         ps.close();
         return res;
