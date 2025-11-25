@@ -19,12 +19,12 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
         }
     }
 
-    public boolean effettuaPrenotazioneDB(String codiceVolo, String nome, String cognome, String cid, String posto, String email_utente, int numeroBagagli){
+    public boolean effettuaPrenotazioneDB(String codiceVolo, String nome, String cognome, String cid, String posto, String email_utente, int numeroBagagli) throws  SQLException{
         String sql = "INSERT INTO prenotazione(nome, cognome, carta_identita, email_utente, stato_prenotazione) VALUES (?,?,?,?,?)";
         String sql2 = "INSERT INTO associa(codice_volo, posto, id_prenotazione) VALUES (?, ?, ?)";
         String sql3;
 
-        try{
+
             PreparedStatement prenotazioneSQL = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             PreparedStatement associaSQL = connection.prepareStatement(sql2);
 
@@ -64,19 +64,17 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
 
 
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
 
         return true;
     }
 
 
-    public ArrayList<String> getPostiOccupatiDB(String codiceVolo){
+    public ArrayList<String> getPostiOccupatiDB(String codiceVolo) throws SQLException{
         String sql = "SELECT posto FROM associa WHERE codice_volo = ?";
         ArrayList<String> postiTrovati = new ArrayList<>();
 
-        try{
+
             PreparedStatement st = connection.prepareStatement(sql);
 
             st.setInt(1, Integer.parseInt(codiceVolo));
@@ -88,18 +86,14 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
 
             rs.close();
             st.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
         return postiTrovati;
     }
 
-    public boolean modificaPrenotazioneDB(String codiceVolo,String nome,String cognome,String cartaIdentita,String idPrenotazione, String nuovoPostoScelto){
+    public boolean modificaPrenotazioneDB(String codiceVolo,String nome,String cognome,String cartaIdentita,String idPrenotazione, String nuovoPostoScelto) throws SQLException{
         String sql = "UPDATE prenotazione SET nome = ?, cognome = ?, carta_identita = ? WHERE id = ?";
         String sql2 = "UPDATE associa SET posto = ? WHERE id_prenotazione = ?";
 
-        try{
 
             PreparedStatement st = connection.prepareStatement(sql);
             PreparedStatement st2 = connection.prepareStatement(sql2);
@@ -119,14 +113,12 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
             st.close();
             st2.close();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
 
         return true;
     }
 
-    public boolean cancellaPrenotazioneDB(String idPrenotazione){
+    public boolean cancellaPrenotazioneDB(String idPrenotazione) throws SQLException{
         String sql = "UPDATE prenotazione SET stato_prenotazione = 'CANCELLATA' WHERE id = ?";
 
         try{

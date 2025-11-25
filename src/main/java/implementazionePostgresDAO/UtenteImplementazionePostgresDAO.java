@@ -21,14 +21,13 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
     }
 
 
-    public ArrayList<Prenotazione> getPrenotazioniDB(String email_utente) {
+    public ArrayList<Prenotazione> getPrenotazioniDB(String email_utente) throws SQLException {
         ArrayList<Prenotazione> prenotazioniFinali = new ArrayList<>();
 
         String sql = "SELECT * FROM prenotazione WHERE email_utente = ? ";
         String sql2 = "SELECT * FROM associa JOIN volo ON volo.codice_volo = associa.codice_volo" + " WHERE id_prenotazione = ?";
         String sql3 = "SELECT * FROM bagaglio WHERE id_prenotazione = ? ";
 
-        try{
             PreparedStatement prenotazioniSQL = connection.prepareStatement(sql);
             prenotazioniSQL.setString(1, email_utente);
 
@@ -85,10 +84,6 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
 
                 prenotazioni.close();
                 prenotazioniSQL.close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
         return prenotazioniFinali;
     }

@@ -141,11 +141,11 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
     }
 
     @Override
-    public ArrayList<Volo> getVoliDB(){
+    public ArrayList<Volo> getVoliDB() throws SQLException{
         ArrayList<Volo> voli = new ArrayList<>();
         String sql = "SELECT * FROM VOLO";
 
-        try{
+
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -164,9 +164,6 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
 
             rs.close();
             st.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
         return voli;
     }
 

@@ -62,23 +62,31 @@ public class Controller {
     }
 
     public ArrayList<Volo> getTuttiVoli() {
+        try{
+            ArrayList<Volo> voli;
+            voli = voloDAO.getVoliDB();
+            return voli;
+        }catch(SQLException e){
+            System.err.println("Errore SQL durante il caricamento dei voli: ");
+        }
 
-        ArrayList<Volo> voli;
-        voli = voloDAO.getVoliDB();
-        // amministratore.setVoli(voli);
-        // non si può fare una chiamata ad amministratore prima di essere creato
-        return voli;
+        return null;
     }
 
     public ArrayList<Prenotazione> getTutteLePrenotazioni() {
-        ArrayList<Prenotazione> p;
+        try{
+            ArrayList<Prenotazione> p;
 
 
-        p = utenteDAO.getPrenotazioniDB(utente.getEmail());
+            p = utenteDAO.getPrenotazioniDB(utente.getEmail());
 
-        utente.setPrenotazioni(p);
-        // Salvo le prenotazioni ottenute nell'oggetto utente
-        return p;
+            utente.setPrenotazioni(p);
+            // Salvo le prenotazioni ottenute nell'oggetto utente
+            return p;
+        }catch (SQLException e){
+            System.err.println("Errore SQL durante il caricamento delle prenotazioni utente");
+        }
+        return null;
     }
 
     public ArrayList<Prenotazione> ricercaPrenotazioni(String valore) {
@@ -91,12 +99,14 @@ public class Controller {
 
     public boolean effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo, int numeroBagagli) {
 
-
+    try{
         if(prenotazioneDAO.effettuaPrenotazioneDB(codiceVolo, nome, cognome, cid, postoInAereo, utente.getEmail(), numeroBagagli)){
             getTutteLePrenotazioni();
             return true;
         }
-
+    }catch (SQLException e){
+        System.err.println("Errore SQL durante la registrazione della prenotazione utente");
+    }
         return false;
     }
 
@@ -107,40 +117,55 @@ public class Controller {
         if(cartaIdentita.isEmpty()) cartaIdentita = p.getCartaIdentita();
         if(nuovoPostoScelto.isEmpty()) nuovoPostoScelto = p.getPostoAssegnato();
 
-        prenotazioneDAO.modificaPrenotazioneDB(codiceVolo, nome, cognome, cartaIdentita, p.getIdPrenotazione(), nuovoPostoScelto);
-        // dopo la successiva modifica della prenotazione non si aggiorna la visualizzazione della prenotazione con nuovi dati!
+        try{
+            prenotazioneDAO.modificaPrenotazioneDB(codiceVolo, nome, cognome, cartaIdentita, p.getIdPrenotazione(), nuovoPostoScelto);
+        }catch (SQLException e){
+            System.err.println("Errore SQL durante la modifica prenotazione");
+        }
 
 
         return true;
     }
 
     public boolean cancellaPrenotazione(String idPrenotazione){
-
-        return prenotazioneDAO.cancellaPrenotazioneDB(idPrenotazione);
+        try{
+            return prenotazioneDAO.cancellaPrenotazioneDB(idPrenotazione);
+        }catch (SQLException e){
+            System.err.println("Errore SQL durante la cancellazione della prenotazione");
+        }
+        return false;
     }
 
     public ArrayList<String> getPostiOccupati(String codiceVolo) {
 
-
-        return prenotazioneDAO.getPostiOccupatiDB(codiceVolo);
-
+        try{
+            return prenotazioneDAO.getPostiOccupatiDB(codiceVolo);
+        }catch (SQLException e){
+            System.err.println("Errore SQL durante la ricerca dei posti occupati");
+        }
+        return null;
     }
 
     public ArrayList<Volo> cercaVoli(String valore) {
 
-        ArrayList<Volo> voli = voloDAO.getVoliDB();
+        try{
+            ArrayList<Volo> voli = voloDAO.getVoliDB();
 
-        if(voli != null){
-            ArrayList<Volo> voliTrovati = new ArrayList<>();
+            if(voli != null){
+                ArrayList<Volo> voliTrovati = new ArrayList<>();
 
-            for (Volo v : voli) {
-                if (v.getCompagniaAerea().toLowerCase().contains(valore.toLowerCase()) ||
-                        v.getCodiceVolo().toLowerCase().contains(valore.toLowerCase())) {
-                    voliTrovati.add(v);
+                for (Volo v : voli) {
+                    if (v.getCompagniaAerea().toLowerCase().contains(valore.toLowerCase()) ||
+                            v.getCodiceVolo().toLowerCase().contains(valore.toLowerCase())) {
+                        voliTrovati.add(v);
+                    }
                 }
+                return voliTrovati;
             }
-            return voliTrovati;
+        } catch (SQLException e) {
+            System.err.println("Errore SQL durante la ricerca volo");
         }
+
         return null;
 
     }

@@ -7,6 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface UtenteDAO {
-    public ArrayList<Prenotazione> getPrenotazioniDB(String email_utente);
+    public ArrayList<Prenotazione> getPrenotazioniDB(String email_utente) throws SQLException;
 
 }
