@@ -61,10 +61,18 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
 
 
         if(volo.getGate().getNumero() != 0){
-            gateInserito = connection.prepareStatement("UPDATE gate SET codice_volo = ? WHERE numero_gate = ?");
-            gateInserito.setInt(1, nuovo_codice_volo);
-            gateInserito.setInt(2, volo.getGate().getNumero());
-            gateInserito.executeUpdate();
+            PreparedStatement trovaGate = connection.prepareStatement("SELECT * from gate WHERE numero_gate = ?");
+            trovaGate.setInt(1, volo.getGate().getNumero());
+            ResultSet rs = trovaGate.executeQuery();
+            if(!rs.next()){
+                gateInserito = connection.prepareStatement("UPDATE gate SET codice_volo = ? WHERE numero_gate = ?");
+                gateInserito.setInt(1, nuovo_codice_volo);
+                gateInserito.setInt(2, volo.getGate().getNumero());
+                gateInserito.executeUpdate();
+            }
+
+            rs.close();
+            trovaGate.close();
         }
 
 
@@ -81,13 +89,26 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
     }
 
     @Override
-    public boolean aggiornaVolo(Volo volo) throws SQLException {
+    public String aggiornaVolo(Volo volo) throws SQLException {
         PreparedStatement ps = null;
 
         Connection connection = ConnessioneDatabase.getInstance().connection;
         ps = connection.prepareStatement(
                 "UPDATE volo SET data_aereo=?, ora_aereo=?, ritardo=?, stato_volo=?, gate=? WHERE codice_volo=?"
         );
+
+        if(volo.getGate().getNumero() != 0){
+            PreparedStatement ps2 = connection.prepareStatement("SELECT * FROM gate WHERE numero_gate = ?");
+            ps2.setInt(1, volo.getGate().getNumero());
+            ResultSet rs = ps2.executeQuery();
+            if(rs.next()){
+                ps2.close();
+                rs.close();
+                return "Non puoi aggiornare il volo, questo gate è già assegnato!";
+            }
+            ps2.close();
+            rs.close();
+        }
 
         ps.setString(1, volo.getData());
         ps.setString(2, volo.getOrarioPrevisto());
@@ -100,9 +121,9 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
         }
         ps.setInt(6, Integer.parseInt(volo.getCodiceVolo()));
         //ps.setInt(6, Integer.parseInt(volo.getCodiceVolo()));
-        boolean res = ps.executeUpdate()>0;
+        ps.executeUpdate();
         ps.close();
-        return res;
+        return "Volo aggiornato con successo!";
 
 
        // return true;

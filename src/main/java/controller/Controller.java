@@ -266,8 +266,7 @@ public class Controller {
                 }
             }
 
-            voloDAO.aggiornaVolo(voloDaAggiornare);
-            return "Volo aggiornato con successo!";
+            return voloDAO.aggiornaVolo(voloDaAggiornare);
         } catch (SQLException e) {
             return "Errore del server durante l'aggiornamento del volo";
         } catch(Exception e){
