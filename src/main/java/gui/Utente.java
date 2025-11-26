@@ -49,9 +49,10 @@ public class Utente {
 
         aggiornaListaVoli(this.controller.getTuttiVoli());
         initListeners(frameChiamante);
-        frame.setVisible(true);
-        frame.pack();
 
+        frame.pack();
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setVisible(true);
     }
 
     /**

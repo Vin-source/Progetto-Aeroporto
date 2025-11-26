@@ -63,13 +63,16 @@ public class Ospite extends JFrame {
 
 
         listaVoliPanel = new JPanel();
-        listaVoliPanel.setLayout(new GridLayout(20, 1));
-        listaVoliScroll.setViewportView(listaVoliPanel);
+     //   listaVoliPanel.setLayout(new GridLayout(20, 1));
+     //   listaVoliScroll.setViewportView(listaVoliPanel);
 
 
         aggiornaListaVoli(controller.getTuttiVoli());
         initListeners(controller);
         frame.pack();
+
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setVisible(true);
     }
 
 

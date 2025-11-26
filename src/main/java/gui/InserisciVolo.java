@@ -54,6 +54,7 @@ public class InserisciVolo {
         initListeners(frameChiamante);
 
         frame.pack();
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
     }
 

@@ -42,6 +42,7 @@ public class EffettuaNuovaPrenotazione {
         frame.setContentPane(Prenotazione);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
         this.controller = controller;
 

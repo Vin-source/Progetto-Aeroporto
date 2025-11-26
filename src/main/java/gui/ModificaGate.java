@@ -38,6 +38,7 @@ public class ModificaGate {
         frame.setContentPane(modificaGate);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
 
 

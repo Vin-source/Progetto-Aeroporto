@@ -53,6 +53,9 @@ public class Amministratore {
         initListeners(frameChiamante);
         //aggiornaListaVoli(voli);
         frame.pack();
+
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
        // frame.setVisible(true);
         frame.addWindowListener(new WindowAdapter() {
             @Override

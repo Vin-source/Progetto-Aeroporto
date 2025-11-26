@@ -70,6 +70,7 @@ public class ModificaVolo {
         initListeners(frameChiamante, volo);
 
         frame.pack();
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
     }
 
