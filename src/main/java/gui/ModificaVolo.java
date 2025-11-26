@@ -1,7 +1,6 @@
 package gui;
 import controller.Controller;
 import model.Volo;
-import model.Gate;
 
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
@@ -33,6 +32,7 @@ public class ModificaVolo {
 
     private JLabel gateAttuale;
     private JButton modificaGate;
+    private JButton AnnullaBUTTON;
 
     private Controller controller;
 
@@ -118,6 +118,14 @@ public class ModificaVolo {
             public void actionPerformed(ActionEvent e) {
                 new ModificaGate(frame, controller, gateAttuale.getText(),ModificaVolo.this, volo.getCodiceVolo());
                 frame.setVisible(false);
+            }
+        });
+
+        AnnullaBUTTON.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frameChiamante.setVisible(true);
+                frame.dispose();
             }
         });
     }
