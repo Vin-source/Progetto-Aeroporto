@@ -76,15 +76,14 @@ public class ModificaPrenotazione {
                         throw new IllegalArgumentException("Riempire almeno un valore!");
                     }
 
-                    boolean risultato = controller.modificaPrenotazione(codiceVolo, nuovoNome, nuovoCognome, cartaIdentita, nuovoPostoScelto, p);
-                    if (risultato) {
-                        JOptionPane.showMessageDialog(null, "Prenotazione modificata con successo");
+                    String risultato = controller.modificaPrenotazione(codiceVolo, nuovoNome, nuovoCognome, cartaIdentita, nuovoPostoScelto, p);
+                    JOptionPane.showMessageDialog(null, risultato);
+
+                    if (risultato.equals("Prenotazione modificata correttamente!")) {
                         resetFields();
                         padre.aggiornaPrenotazioni(controller.getTutteLePrenotazioni());
                         frameChiamante.setVisible(true);
                         frame.dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Modifica fallita: prenotazione non trovata");
                     }
 
                 } catch(IllegalArgumentException ex){

@@ -121,18 +121,12 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
     public boolean cancellaPrenotazioneDB(String idPrenotazione) throws SQLException{
         String sql = "UPDATE prenotazione SET stato_prenotazione = 'CANCELLATA' WHERE id = ?";
 
-        try{
             PreparedStatement st = connection.prepareStatement(sql);
-
-
             st.setInt(1, Integer.parseInt(idPrenotazione));
 
             st.executeUpdate();
             st.close();
             return true;
-        }catch(SQLException e){
-            throw new RuntimeException(e);
-        }
     }
 
 }

@@ -160,10 +160,9 @@ public class AreaPersonale {
                     });
 
                     cancellaPrenotazione.addActionListener(e -> {
-                        if(controller.cancellaPrenotazione(p.getIdPrenotazione())){
-                            JOptionPane.showMessageDialog(null, "La prenotazione è stata eliminata", "Avviso", JOptionPane.ERROR_MESSAGE);
-                            aggiornaPrenotazioni(this.controller.getTutteLePrenotazioni());
-                        }
+                        String res = controller.cancellaPrenotazione(p.getIdPrenotazione());
+                        JOptionPane.showMessageDialog(null, res, "Avviso", JOptionPane.ERROR_MESSAGE);
+                        aggiornaPrenotazioni(this.controller.getTutteLePrenotazioni());
                     });
                 }
 

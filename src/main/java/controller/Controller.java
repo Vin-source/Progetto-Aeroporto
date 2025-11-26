@@ -100,20 +100,20 @@ public class Controller {
         return p;
     }
 
-    public boolean effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo, int numeroBagagli) {
+    public String effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo, int numeroBagagli) {
 
     try{
         if(prenotazioneDAO.effettuaPrenotazioneDB(codiceVolo, nome, cognome, cid, postoInAereo, utente.getEmail(), numeroBagagli)){
             getTutteLePrenotazioni();
-            return true;
+            return "Prenotazione effettuata!";
         }
     }catch (SQLException e){
-        System.err.println("Errore SQL durante la registrazione della prenotazione utente");
+        return "Errore nella connessione al server";
     }
-        return false;
+        return "Errore: Prenotazione non effettuata correttamente";
     }
 
-    public boolean modificaPrenotazione(String codiceVolo, String nome, String cognome, String cartaIdentita,String nuovoPostoScelto, Prenotazione p) {
+    public String modificaPrenotazione(String codiceVolo, String nome, String cognome, String cartaIdentita,String nuovoPostoScelto, Prenotazione p) {
 
         if(nome.isEmpty()) nome = p.getNome();
         if(cognome.isEmpty()) cognome = p.getCognome();
@@ -123,20 +123,19 @@ public class Controller {
         try{
             prenotazioneDAO.modificaPrenotazioneDB(codiceVolo, nome, cognome, cartaIdentita, p.getIdPrenotazione(), nuovoPostoScelto);
         }catch (SQLException e){
-            System.err.println("Errore SQL durante la modifica prenotazione");
+            return "Errore nel server durante la modifica della prenotazione";
         }
 
-
-        return true;
+        return "Prenotazione modificata correttamente!";
     }
 
-    public boolean cancellaPrenotazione(String idPrenotazione){
+    public String cancellaPrenotazione(String idPrenotazione){
         try{
-            return prenotazioneDAO.cancellaPrenotazioneDB(idPrenotazione);
+            prenotazioneDAO.cancellaPrenotazioneDB(idPrenotazione);
+            return "Prenotazione cancellata Correttamente!";
         }catch (SQLException e){
-            System.err.println("Errore SQL durante la cancellazione della prenotazione");
+            return "Errore nel server durante la cancellazione della prenotazione";
         }
-        return false;
     }
 
     public ArrayList<String> getPostiOccupati(String codiceVolo) {

@@ -84,13 +84,12 @@ public class EffettuaNuovaPrenotazione {
                     JOptionPane.showMessageDialog(null, "Devi selezionare un posto sull'aereo prima di prenotare.");
                     return;
                 }
-                boolean res = controller.effettuaPrenotazione(codiceVolo, nome, cognome, cid, postoScelto.getText(), numeroBagagli); // prenotazione
 
-                if(res){
-                    JOptionPane.showMessageDialog(null, "Prenotazione effettuata");
-                }else{
-                    JOptionPane.showMessageDialog(null, "C'è stato un errore nel sistema");
-                }
+
+                String res = controller.effettuaPrenotazione(codiceVolo, nome, cognome, cid, postoScelto.getText(), numeroBagagli);
+
+                JOptionPane.showMessageDialog(null, res);
+
 
 
                 frameChiamante.setVisible(true);
