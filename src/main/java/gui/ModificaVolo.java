@@ -102,8 +102,6 @@ public class ModificaVolo {
 
 
 
-
-
                     Boolean result = controller.aggiornaVolo(volo.getCodiceVolo(), nuovaDataText, nuovoOrarioText, nuovoRitardoText, gateText);
                     if(result){
                         JOptionPane.showMessageDialog(frame, "Volo aggiornato con successo. (i valori vuoti sono stati sostituiti con quelli precedenti)");

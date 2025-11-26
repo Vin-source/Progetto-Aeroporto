@@ -81,8 +81,12 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
         ps.setString(1, volo.getData());
         ps.setString(2, volo.getOrarioPrevisto());
         ps.setInt(3, volo.getRitardo());
-        ps.setString(4, volo.getStatoVolo().name());
-        ps.setInt(5, volo.getGate().getNumero());
+        ps.setObject(4, String.valueOf(StatoVolo.PROGRAMMATO), Types.OTHER);
+        if(volo.getGate().getNumero() == 0){
+            ps.setObject(5, null);
+        }else{
+            ps.setInt(5, volo.getGate().getNumero());
+        }
         ps.setInt(6, Integer.parseInt(volo.getCodiceVolo()));
         //ps.setInt(6, Integer.parseInt(volo.getCodiceVolo()));
         boolean res = ps.executeUpdate()>0;
