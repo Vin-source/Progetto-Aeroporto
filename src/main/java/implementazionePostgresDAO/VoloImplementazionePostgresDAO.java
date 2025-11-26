@@ -38,11 +38,17 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
         ps.setString(5, volo.getData());
         ps.setString(6, volo.getOrarioPrevisto());
         ps.setInt(7, volo.getRitardo());
-        ps.setInt(8, volo.getGate().getNumero());
+        if(!(volo.getGate().getNumero() == 0)){
+            ps.setInt(8, volo.getGate().getNumero());
+        }else{
+            ps.setObject(8, null);
+        }
         ps.setString(9, volo.getAmministratore().getEmail());
 
 
-        boolean res = ps.executeUpdate() > 0;
+        ps.executeUpdate();
+
+
 
         ResultSet codice_creato = ps.getGeneratedKeys();
         int nuovo_codice_volo = 0;
@@ -52,8 +58,7 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
 
         volo.setCodiceVolo(String.valueOf(nuovo_codice_volo));
 
-        codice_creato.close();
-        ps.close();
+
 
         if(volo.getGate().getNumero() != 0){
             gateInserito = connection.prepareStatement("UPDATE gate SET codice_volo = ? WHERE numero_gate = ?");
@@ -62,10 +67,16 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
             gateInserito.executeUpdate();
         }
 
-        gateInserito.close();
 
 
-        return res;
+        codice_creato.close();
+        ps.close();
+        if(gateInserito != null){
+            gateInserito.close();
+        }
+
+
+        return true;
 
     }
 

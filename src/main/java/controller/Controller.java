@@ -193,13 +193,14 @@ public class Controller {
         try {
 
             int ritardoParsed = Integer.parseInt(ritardo);
-            int numeroGateParsed = Integer.parseInt(numeroGate);
+            int numeroGateParsed = !(numeroGate == null) ? Integer.parseInt(numeroGate) : 0;
 
             Volo volo = new Volo("00", compagniaAerea, origine, destinazione, data, ora, ritardoParsed);
             volo.setGate(new Gate(numeroGateParsed));
             volo.setAmministratore(new Amministratore("00", amministratore.getEmail(), amministratore.getPassword()));
 
             voloDAO.inserisciVolo(volo);
+
             return "Volo inserito con successo!";
         } catch (SQLException e) {
             return "Errore del server durante la creazione del volo";
