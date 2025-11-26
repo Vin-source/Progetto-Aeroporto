@@ -120,12 +120,24 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
 
     public boolean cancellaPrenotazioneDB(String idPrenotazione) throws SQLException{
         String sql = "UPDATE prenotazione SET stato_prenotazione = 'CANCELLATA' WHERE id = ?";
+        String sql2 = "DELETE FROM associa WHERE  id_prenotazione = ?";
+        String sql3 = "DELETE FROM bagaglio WHERE id_prenotazione = ?";
 
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, Integer.parseInt(idPrenotazione));
 
+            PreparedStatement st2 = connection.prepareStatement(sql2);
+            st2.setInt(1, Integer.parseInt(idPrenotazione));
+
+            PreparedStatement st3 = connection.prepareStatement(sql3);
+            st3.setInt(1, Integer.parseInt(idPrenotazione));
+
             st.executeUpdate();
+            st2.executeUpdate();
+            st3.executeUpdate();
             st.close();
+            st2.close();
+            st3.close();
             return true;
     }
 

@@ -125,7 +125,7 @@ public class Ospite extends JFrame {
      * @param listaVoli ArrayList dei Voli disponibili
      */
     private void aggiornaListaVoli(ArrayList<Volo> listaVoli) {
-        if(listaVoli == null){
+        if(listaVoli.isEmpty()){
             JPanel pannelloVolo = new JPanel();
             pannelloVolo.setLayout(new GridLayout(1,8, 10, 10));
             pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));

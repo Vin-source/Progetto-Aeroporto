@@ -103,7 +103,7 @@ public class Utente {
 
         listaVoliPanel.removeAll();
 
-        if(listaVoli == null){
+        if(listaVoli.isEmpty()){
             JPanel pannelloVolo = new JPanel();
             pannelloVolo.setLayout(new GridLayout(1,8, 10, 10));
             pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
