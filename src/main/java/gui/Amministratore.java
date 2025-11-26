@@ -89,19 +89,11 @@ public class Amministratore {
 
 
         ricercaVoli.getDocument().addDocumentListener(new DocumentListener() {
-            private void filtraVoli() {
-                String testoRicerca = ricercaVoli.getText();
-                ArrayList<Volo> voliFiltrati = controller.cercaVoli(testoRicerca);
-                aggiornaListaVoli(voliFiltrati);
-            }
 
             public void insertUpdate(DocumentEvent e) {
-                    filtraVoli();
-
                 aggiornaListaVoli(controller.cercaVoliAmministratore(ricercaVoli.getText()));
             }
             public void removeUpdate(DocumentEvent e){
-                filtraVoli();
                 aggiornaListaVoli(controller.cercaVoliAmministratore(ricercaVoli.getText()));
             }
             public void changedUpdate(DocumentEvent e){
@@ -118,50 +110,6 @@ public class Amministratore {
     private void creaPannelli() {
         ArrayList<Volo> listaVoli = controller.getTuttiVoli();
         aggiornaListaVoli(listaVoli);
-
-        /*listaVoliPanel.removeAll();
-
-
-        for(Volo volo: listaVoli){
-            JPanel pannelloVolo = new JPanel();
-            pannelloVolo.setLayout(new GridLayout(1, 9, 10, 10)); // 8 colonne
-            pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-
-            pannelloVolo.add(new JLabel("CODICE: " + volo.getCodiceVolo().toUpperCase()));
-            pannelloVolo.add(new JLabel("COMPAGNIA: " + volo.getCompagniaAerea().toUpperCase()));
-
-            String origine = (volo.getOrigine() != null) ? volo.getOrigine().toUpperCase() : "N/D";
-            String dest = (volo.getDestinazione() != null) ? volo.getDestinazione().toUpperCase() : "N/D";
-            pannelloVolo.add(new JLabel("ORIGINE: " + origine));
-            pannelloVolo.add(new JLabel("DESTINAZIONE: " + dest));
-
-
-            pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
-            pannelloVolo.add(new JLabel("ORA: " + volo.getOrarioPrevisto().toUpperCase()));
-
-
-            pannelloVolo.add(new JLabel("RITARDO: " + String.valueOf(volo.getRitardo()) + " min"));
-            pannelloVolo.add(new JLabel("STATO: " + volo.getStatoVolo()));
-
-            JButton modifica = new JButton("MODIFICA");
-            pannelloVolo.add(modifica);
-            JButton elimina = new JButton("ELIMINA");
-            pannelloVolo.add(elimina);
-
-            modifica.addActionListener(e -> {
-                new ModificaVolo(frame, controller, volo);
-                frame.setVisible(false);
-            });
-
-            listaVoliPanel.add(pannelloVolo);
-            listaVoliPanel.add(Box.createVerticalStrut(5));
-        }
-
-        listaVoliPanel.revalidate();
-        listaVoliPanel.repaint();
-
-         */
     }
 
 

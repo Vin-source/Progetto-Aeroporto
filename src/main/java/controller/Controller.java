@@ -65,6 +65,9 @@ public class Controller {
         try{
             ArrayList<Volo> voli;
             voli = voloDAO.getVoliDB();
+            if(amministratore != null){
+                amministratore.setVoli(voli);
+            }
             return voli;
         }catch(SQLException e){
             System.err.println("Errore SQL durante il caricamento dei voli: ");

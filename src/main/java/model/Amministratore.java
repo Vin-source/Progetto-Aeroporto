@@ -34,7 +34,6 @@ public class Amministratore extends Ospite {
         ArrayList<Volo> voliTrovati = new ArrayList<>();
         if(voli != null){
             voli.forEach(volo -> {
-                String codiceVolo = volo.getCodiceVolo();
                 if (volo.getCompagniaAerea().toLowerCase().contains(valore) || volo.getCodiceVolo().toLowerCase().contains(valore)) {
                     voliTrovati.add(volo);
                 }
