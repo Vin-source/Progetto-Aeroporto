@@ -109,15 +109,38 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
     }
 
     @Override
-    public boolean eliminaVolo(String codiceVolo) throws SQLException {
+    public ArrayList<Integer> eliminaVolo(String codiceVolo, Gate gate) throws SQLException {
+        ArrayList<Integer> prenotazioniDaCancellare = new ArrayList<>();
+
         PreparedStatement ps = null;
+        PreparedStatement ps2 = null;
+        PreparedStatement ps3 = null;
 
         Connection connection = ConnessioneDatabase.getInstance().connection;
-        ps = connection.prepareStatement("DELETE FROM volo WHERE codice_volo=?");
-        ps.setInt(1, Integer.parseInt(codiceVolo));
-        boolean res = ps.executeUpdate() > 0;
+        ps = connection.prepareStatement("UPDATE volo SET stato_volo = ? WHERE codice_volo=?");
+        ps.setObject(1, StatoVolo.CANCELLATO,  Types.OTHER);
+        ps.setInt(2, Integer.parseInt(codiceVolo));
+
+        if(gate != null && gate.getNumero() != 0){
+            ps2 = connection.prepareStatement("UPDATE gate SET codice_volo = NULL WHERE numero_gate=?");
+            ps2.setInt(1, gate.getNumero());
+            ps2.executeUpdate();
+            ps2.close();
+        }
+
+        ps3 = connection.prepareStatement("SELECT id_prenotazione FROM associa WHERE codice_volo = ?");
+        ps3.setInt(1, Integer.parseInt(codiceVolo));
+        ResultSet rs = ps3.executeQuery();
+        while(rs.next()){
+            prenotazioniDaCancellare.add(rs.getInt("id_prenotazione"));
+        }
+        rs.close();
+        ps3.close();
+
+        ps.executeUpdate();
         ps.close();
-        return res;
+
+        return prenotazioniDaCancellare;
     }
 
     @Override
@@ -172,6 +195,7 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
                         rs.getString("data_aereo"),
                         rs.getString("ora_aereo"),
                         rs.getInt("ritardo"));
+                if(rs.getObject("gate") != null) v.setGate(new Gate(rs.getInt("gate")));
                 StatoVolo s = StatoVolo.valueOf(rs.getString("stato_volo"));
                 v.setStatoVolo(s);
 

@@ -129,18 +129,19 @@ public class Utente {
                 pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
                 pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
                 pannelloVolo.add(new JLabel("STATO: " + volo.getStatoVolo()));
-                JButton prenotazione = new JButton("PRENOTA");
-                pannelloVolo.add(prenotazione);
+                if(!volo.getStatoVolo().equals(StatoVolo.CANCELLATO)){
+                    JButton prenotazione = new JButton("PRENOTA");
+                    pannelloVolo.add(prenotazione);
 
-                prenotazione.addActionListener(e -> {
-                    if(!volo.getStatoVolo().equals(StatoVolo.PROGRAMMATO)){
-                        JOptionPane.showMessageDialog(null, "Non è possibile prenotare questo volo, solo voli programmati", "Errore", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                    new EffettuaNuovaPrenotazione(controller, frame, volo.getCodiceVolo()).frame.setVisible(true);
-                    frame.dispose();
-                });
-
+                    prenotazione.addActionListener(e -> {
+                        if(!volo.getStatoVolo().equals(StatoVolo.PROGRAMMATO)){
+                            JOptionPane.showMessageDialog(null, "Non è possibile prenotare questo volo, solo voli programmati", "Errore", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        new EffettuaNuovaPrenotazione(controller, frame, volo.getCodiceVolo()).frame.setVisible(true);
+                        frame.dispose();
+                    });
+                }
 
                 listaVoliPanel.add(pannelloVolo);
                 listaVoliPanel.add(Box.createVerticalStrut(5));

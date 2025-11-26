@@ -2,6 +2,7 @@ package gui;
 import controller.Controller;
 
 import model.Gate;
+import model.StatoVolo;
 import model.Volo;
 
 import javax.swing.*;
@@ -121,7 +122,7 @@ public class Amministratore {
 
         listaVoliPanel.removeAll();
 
-        if(listaVoli == null){
+        if(listaVoli.isEmpty()){
             JPanel pannelloVolo = new JPanel();
             pannelloVolo.setLayout(new GridLayout(1,9, 10, 10));
             pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -148,41 +149,44 @@ public class Amministratore {
                 pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
                 pannelloVolo.add(new JLabel("STATO: " + volo.getStatoVolo()));
 
-                JButton modifica = new JButton("MODIFICA");
-                pannelloVolo.add(modifica);
-                JButton elimina = new JButton("ELIMINA");
+                if(!volo.getStatoVolo().equals(StatoVolo.CANCELLATO)){
+                    JButton modifica = new JButton("MODIFICA");
+                    pannelloVolo.add(modifica);
+                    JButton elimina = new JButton("ELIMINA");
 
-                elimina.addActionListener(e -> {
-                    int scelta = JOptionPane.showConfirmDialog(
-                            frame,
-                            "Sei sicuro di voler eliminare il volo " + volo.getCodiceVolo() + "?",
-                            "Conferma Eliminazione",
-                            JOptionPane.YES_NO_OPTION,
-                            JOptionPane.WARNING_MESSAGE
-                    );
+                    elimina.addActionListener(e -> {
+                        int scelta = JOptionPane.showConfirmDialog(
+                                frame,
+                                "Sei sicuro di voler eliminare il volo " + volo.getCodiceVolo() + "?",
+                                "Conferma Eliminazione",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.WARNING_MESSAGE
+                        );
 
-                    if (scelta == JOptionPane.YES_OPTION) {
+                        if (scelta == JOptionPane.YES_OPTION) {
 
-                        String esito = controller.eliminaVolo(volo.getCodiceVolo());
+                            String esito = controller.eliminaVolo(volo.getCodiceVolo(), volo.getGate());
 
-                        if (esito.equals("Volo cancellato correttamente!")) {
-                            JOptionPane.showMessageDialog(frame, esito);
-                            creaPannelli();
-                        } else {
-                            JOptionPane.showMessageDialog(frame,
-                                    esito,
-                                    "Errore",
-                                    JOptionPane.ERROR_MESSAGE);
+                            if (esito.equals("Volo cancellato correttamente!")) {
+                                JOptionPane.showMessageDialog(frame, esito);
+                                creaPannelli();
+                            } else {
+                                JOptionPane.showMessageDialog(frame,
+                                        esito,
+                                        "Errore",
+                                        JOptionPane.ERROR_MESSAGE);
+                            }
                         }
-                    }
-                });
-                pannelloVolo.add(elimina);
+                    });
+                    pannelloVolo.add(elimina);
 
 
-                modifica.addActionListener(e -> {
-                    new ModificaVolo(frame,controller,volo);
-                    frame.setVisible(false);
-                });
+                    modifica.addActionListener(e -> {
+                        new ModificaVolo(frame,controller,volo);
+                        frame.setVisible(false);
+                    });
+                }
+
 
 
                 listaVoliPanel.add(pannelloVolo);

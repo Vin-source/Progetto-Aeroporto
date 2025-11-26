@@ -438,29 +438,29 @@ public class Controller {
         }
     }
 
-    public String eliminaVolo(String codiceVolo) {
+    public String eliminaVolo(String codiceVolo, Gate gate) {
         if (voloDAO == null) {
             return "Errore di sistema";
         }
 
         try {
-            boolean esitoDB = voloDAO.eliminaVolo(codiceVolo);
-
-            if(esitoDB){
-                ArrayList<Volo> listaVoli = this.amministratore.getVoli();
-
-                for (int i = 0; i < listaVoli.size(); i++) {
-                    if (listaVoli.get(i).getCodiceVolo().equals(codiceVolo)) {
-                        listaVoli.remove(i);
-                        break;
-                    }
-                }
-                return "Volo cancellato correttamente!";
+            ArrayList<Integer> prenotazioni = voloDAO.eliminaVolo(codiceVolo, gate);
+            for(Integer i : prenotazioni) {
+                prenotazioneDAO.cancellaPrenotazioneDB(String.valueOf(i));
             }
+
+            ArrayList<Volo> listaVoli = this.amministratore.getVoli();
+
+            for (int i = 0; i < listaVoli.size(); i++) {
+                if (listaVoli.get(i).getCodiceVolo().equals(codiceVolo)) {
+                    listaVoli.get(i).setStatoVolo(StatoVolo.CANCELLATO);
+                    break;
+                }
+            }
+            return "Volo cancellato correttamente!";
+
         }catch (SQLException e){
             return "Errore nel server durante l'eliminazione del volo";
         }
-
-        return "Errore di sistema";
     }
 }
