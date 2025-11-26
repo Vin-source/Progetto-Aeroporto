@@ -42,10 +42,10 @@ public class Controller {
     }
 
 
-    public String login(String username, String password) {
-
+    public String login(String username, String password){
+        String ruolo;
         try{
-            String ruolo = loginDAO.getUtentiDB(username, password);
+            ruolo = loginDAO.getUtentiDB(username, password);
 
             if ("amministratore".equals(ruolo)) {
                 this.amministratore = new Amministratore("ID_ADMIN", username, password);
@@ -54,11 +54,11 @@ public class Controller {
                 this.utente = new Utente("ID_UTENTE", username, password);
                 return "utente";
             }
-            return "errore"; // Login fallito
         }catch(SQLException e){
-            System.err.println("Errore SQL durante il login: " + e.getMessage());
+            return "Errore durante l'accesso al sistema";
         }
-        return "errore";
+
+        return ruolo;
     }
 
     public ArrayList<Volo> getTuttiVoli() {

@@ -88,6 +88,8 @@ public class Ospite extends JFrame {
 
                     if(emailInserita.isEmpty() || passwordInserita.isEmpty()) {
                         throw new IllegalArgumentException("Username o password mancante!");
+                    }else if(emailInserita.length() > 30 || passwordInserita.length() > 30){
+                        throw new IllegalArgumentException("Username o password troppo lunghi!");
                     }
 
 
@@ -97,8 +99,8 @@ public class Ospite extends JFrame {
                         new Amministratore(controller, frame).frame.setVisible(true);
                     } else if ("utente".equals(result)) {
                         new gui.Utente(controller, frame).frame.setVisible(true);
-                    }else{
-                        throw new IllegalArgumentException("Utente non trovato");
+                    } else {
+                        JOptionPane.showMessageDialog(null, result, "Errore di accesso", JOptionPane.ERROR_MESSAGE);
                     }
 
                     frame.dispose();
