@@ -297,6 +297,11 @@ public class Controller {
             voloDaAggiornare.setRitardo(Integer.parseInt(nuovoRitardo));
 
 
+//            if (voloDaAggiornare.getStatoVolo() == null) {
+//                voloDaAggiornare.setStatoVolo(StatoVolo.PROGRAMMATO);
+//            }
+
+
             if (nuovoNumeroGateS.equals("Gate non assegnato")) {
                 int nuovoNumeroGateInt = Integer.parseInt(nuovoNumeroGateS);
                 if(voloDaAggiornare.getGate()!=null){
@@ -309,7 +314,7 @@ public class Controller {
             return voloDAO.aggiornaVolo(voloDaAggiornare);
 
         } catch (Exception e) {
-            System.err.println("Errore aggiornamento: " + e.getMessage());
+            System.err.println("Errore aggiornamento del volo: " + e.getMessage());
             return false;
         }
     }

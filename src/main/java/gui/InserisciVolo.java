@@ -70,8 +70,8 @@ public class InserisciVolo {
                 String compagnia = compagniaVolo.getText();
                 String origine = origineVolo.getText();
                 String destinazione = destinazioneVolo.getText();
-                String data = dataVolo.getText();
-                String orario = orarioVolo.getText();
+                String data = dataVolo.getText().trim();
+                String orario = orarioVolo.getText().trim();
                 String ritardo = ritardoVolo.getText();
                 String gate = (String) gateVolo.getSelectedItem();
 

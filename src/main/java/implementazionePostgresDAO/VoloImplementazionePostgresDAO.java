@@ -75,15 +75,15 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
 
         Connection connection = ConnessioneDatabase.getInstance().connection;
         ps = connection.prepareStatement(
-                "UPDATE voli SET data_aereo=?, ora_aereo=?, ritardo=?, stato_volo=?, gate=? WHERE codice_volo=?"
+                "UPDATE volo SET data_aereo=?, ora_aereo=?, ritardo=?, stato_volo=?, gate=? WHERE codice_volo=?"
         );
 
-        ps.setDate(1, Date.valueOf(volo.getData()));
-        ps.setTime(2, Time.valueOf(volo.getOrarioPrevisto()));
+        ps.setString(1, volo.getData());
+        ps.setString(2, volo.getOrarioPrevisto());
         ps.setInt(3, volo.getRitardo());
         ps.setString(4, volo.getStatoVolo().name());
         ps.setInt(5, volo.getGate().getNumero());
-        ps.setString(6, volo.getCodiceVolo());
+        ps.setInt(6, Integer.parseInt(volo.getCodiceVolo()));
         //ps.setInt(6, Integer.parseInt(volo.getCodiceVolo()));
         boolean res = ps.executeUpdate()>0;
         ps.close();
@@ -115,7 +115,7 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
         java.time.format.DateTimeFormatter dataFormattata = java.time.format.DateTimeFormatter.ofPattern("d/MM/yyyy");
         java.time.format.DateTimeFormatter oraFormattata = java.time.format.DateTimeFormatter.ofPattern("HH:mm");
 
-        ps = connection.prepareStatement("SELECT * FROM voli WHERE codice_volo=?");
+        ps = connection.prepareStatement("SELECT * FROM volo WHERE codice_volo=?");
         ps.setString(1, codiceVolo);
         rs = ps.executeQuery();
         if (rs.next()) {
@@ -144,7 +144,7 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
     @Override
     public ArrayList<Volo> getVoliDB() throws SQLException{
         ArrayList<Volo> voli = new ArrayList<>();
-        String sql = "SELECT * FROM VOLO";
+        String sql = "SELECT * FROM volo";
 
 
             PreparedStatement st = connection.prepareStatement(sql);
@@ -179,7 +179,7 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
 
         Connection connection = ConnessioneDatabase.getInstance().connection;
 
-        ps = connection.prepareStatement("SELECT * FROM voli WHERE codice_volo=? OR compagnia_aerea=? OR origine=? OR destinazione=?");
+        ps = connection.prepareStatement("SELECT * FROM volo WHERE codice_volo=? OR compagnia_aerea=? OR origine=? OR destinazione=?");
         ps.setString(1, valore);
         ps.setString(2, valore);
         ps.setString(3, valore);

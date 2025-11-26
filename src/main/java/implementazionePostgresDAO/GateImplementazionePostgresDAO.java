@@ -21,15 +21,15 @@ public class GateImplementazionePostgresDAO implements GateDAO {
 
     @Override
     public boolean assegnaGate(String codiceVolo, int numeroGate) throws SQLException {
-        PreparedStatement ps = null;
+        PreparedStatement ps;
 
         Connection connection = ConnessioneDatabase.getInstance().connection;
         ps = connection.prepareStatement(
-                "INSERT INTO gate (numero_gate, codice_volo) VALUES (?, ?)"
+                "UPDATE gate SET codice_volo = ? WHERE numero_gate = ?"
         );
 
-        ps.setInt(1, numeroGate);
-        ps.setInt(2, Integer.parseInt(codiceVolo));
+        ps.setInt(1, Integer.parseInt(codiceVolo));
+        ps.setInt(2, numeroGate);
         boolean res = ps.executeUpdate() > 0;
         ps.close();
         return res;
