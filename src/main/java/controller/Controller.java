@@ -188,12 +188,9 @@ public class Controller {
 
     //CREAZIONE DI UN VOLO TESTING
 
-    public Boolean creaNuovoVolo(String compagniaAerea, String origine, String destinazione,
+    public String creaNuovoVolo(String compagniaAerea, String origine, String destinazione,
                                  String data, String ora, String ritardo, String numeroGate) {
         try {
-            if (!origine.equalsIgnoreCase("Napoli") && !destinazione.equalsIgnoreCase("Napoli")) {
-                throw new Exception("Volo non valido: deve essere un arrivo o una partenza da Napoli.");
-            }
 
             int ritardoParsed = Integer.parseInt(ritardo);
             int numeroGateParsed = Integer.parseInt(numeroGate);
@@ -202,11 +199,12 @@ public class Controller {
             volo.setGate(new Gate(numeroGateParsed));
             volo.setAmministratore(new Amministratore("00", amministratore.getEmail(), amministratore.getPassword()));
 
-            return voloDAO.inserisciVolo(volo);
-
-        } catch (Exception e) {
-            System.err.println("Errore creazione volo: " + e.getMessage());
-            return false;
+            voloDAO.inserisciVolo(volo);
+            return "Volo inserito con successo!";
+        } catch (SQLException e) {
+            return "Errore del server durante la creazione del volo";
+        }catch(Exception e){
+            return "Errore nel sistema";
         }
     }
 
@@ -239,7 +237,7 @@ public class Controller {
 
  */
 
-    public Boolean aggiornaVolo(String codiceVolo, String nuovaData, String nuovoOrario,
+    public String aggiornaVolo(String codiceVolo, String nuovaData, String nuovoOrario,
                                 String nuovoRitardo, String nuovoNumeroGateS) {
 
         try {
@@ -252,20 +250,10 @@ public class Controller {
                 }
             }
 
-            if (voloDaAggiornare == null) {
-                return false;
-            };
-
 
             voloDaAggiornare.setData(nuovaData);
             voloDaAggiornare.setOrarioPrevisto(nuovoOrario);
             voloDaAggiornare.setRitardo(Integer.parseInt(nuovoRitardo));
-
-
-
-//            if (voloDaAggiornare.getStatoVolo() == null) {
-//                voloDaAggiornare.setStatoVolo(StatoVolo.PROGRAMMATO);
-//            }
 
 
             if (!nuovoNumeroGateS.equals("Gate non assegnato")) {
@@ -277,11 +265,12 @@ public class Controller {
                 }
             }
 
-            return voloDAO.aggiornaVolo(voloDaAggiornare);
-
-        } catch (Exception e) {
-            System.err.println("Errore aggiornamento del volo: " + e.getMessage());
-            return false;
+            voloDAO.aggiornaVolo(voloDaAggiornare);
+            return "Volo aggiornato con successo!";
+        } catch (SQLException e) {
+            return "Errore del server durante l'aggiornamento del volo";
+        } catch(Exception e){
+            return "Errore nel sistema";
         }
     }
 
@@ -448,9 +437,9 @@ public class Controller {
         }
     }
 
-    public Boolean eliminaVolo(String codiceVolo) {
+    public String eliminaVolo(String codiceVolo) {
         if (voloDAO == null) {
-            return false;
+            return "Errore di sistema";
         }
 
         try {
@@ -465,13 +454,12 @@ public class Controller {
                         break;
                     }
                 }
+                return "Volo cancellato correttamente!";
             }
-            return esitoDB;
-
-
         }catch (SQLException e){
-            System.err.println("Errore nell'eliminazione del volo: " + codiceVolo + ": " + e.getMessage());
-            return false;
+            return "Errore nel server durante l'eliminazione del volo";
         }
+
+        return "Errore di sistema";
     }
 }

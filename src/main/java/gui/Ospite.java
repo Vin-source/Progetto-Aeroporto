@@ -97,13 +97,13 @@ public class Ospite extends JFrame {
 
                     if ("amministratore".equals(result)) {
                         new Amministratore(controller, frame).frame.setVisible(true);
+                        frame.dispose();
                     } else if ("utente".equals(result)) {
                         new gui.Utente(controller, frame).frame.setVisible(true);
+                        frame.dispose();
                     } else {
                         JOptionPane.showMessageDialog(null, result, "Errore di accesso", JOptionPane.ERROR_MESSAGE);
                     }
-
-                    frame.dispose();
 
                 } catch (IllegalArgumentException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore di accesso", JOptionPane.ERROR_MESSAGE);

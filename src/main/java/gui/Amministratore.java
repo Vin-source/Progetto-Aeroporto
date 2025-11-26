@@ -163,14 +163,14 @@ public class Amministratore {
 
                     if (scelta == JOptionPane.YES_OPTION) {
 
-                        boolean esito = controller.eliminaVolo(volo.getCodiceVolo());
+                        String esito = controller.eliminaVolo(volo.getCodiceVolo());
 
-                        if (esito) {
-                            JOptionPane.showMessageDialog(frame, "Volo eliminato con successo");
+                        if (esito.equals("Volo cancellato correttamente!")) {
+                            JOptionPane.showMessageDialog(frame, esito);
                             creaPannelli();
                         } else {
                             JOptionPane.showMessageDialog(frame,
-                                    "Impossibile eliminare il volo",
+                                    esito,
                                     "Errore",
                                     JOptionPane.ERROR_MESSAGE);
                         }

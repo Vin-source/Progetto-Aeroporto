@@ -81,18 +81,23 @@ public class InserisciVolo {
                     return;
                 }
 
+                if (!origine.equalsIgnoreCase("Napoli") && !destinazione.equalsIgnoreCase("Napoli")) {
+                    JOptionPane.showMessageDialog(frame, "Errore: Un volo deve avere come partenza o destinazione Napoli!", "Errore", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-                Boolean result = controller.creaNuovoVolo(
+
+                String result = controller.creaNuovoVolo(
                          compagnia, origine, destinazione,
                         data, orario, ritardo, gate
                 );
 
-                if (result) {
-                    JOptionPane.showMessageDialog(frame, "Volo inserito con successo");
+                if (result.equals("Volo inserito con successo!")) {
+                    JOptionPane.showMessageDialog(frame, result);
                     frameChiamante.setVisible(true);
                     frame.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Errore: Dati non validi.Controlla formato data/ora e che i numeri siano corretti.", "Errore di Salvataggio", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, result, "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
