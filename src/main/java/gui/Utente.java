@@ -43,7 +43,7 @@ public class Utente {
 
          frame = new JFrame("Area Utente");
          frame.setContentPane(utenteContainer);
-         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
          listaVoliPanel.setLayout(new BoxLayout(listaVoliPanel, BoxLayout.Y_AXIS));
 
 
@@ -106,7 +106,7 @@ public class Utente {
 
         if(listaVoli.isEmpty()){
             JPanel pannelloVolo = new JPanel();
-            pannelloVolo.setLayout(new GridLayout(1,8, 10, 10));
+            pannelloVolo.setLayout(new GridLayout(1,9, 10, 10));
             pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
 
@@ -118,7 +118,7 @@ public class Utente {
         }else{
             for(Volo volo: listaVoli){
                 JPanel pannelloVolo = new JPanel();
-                pannelloVolo.setLayout(new GridLayout(1,8, 10, 10));
+                pannelloVolo.setLayout(new GridLayout(1,9, 10, 10));
                 pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
 
@@ -152,7 +152,6 @@ public class Utente {
 
         listaVoliPanel.revalidate();
         listaVoliPanel.repaint();
-        frame.pack();
     }
 
 
