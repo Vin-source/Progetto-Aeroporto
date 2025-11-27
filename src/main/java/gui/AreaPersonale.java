@@ -170,7 +170,6 @@ public class AreaPersonale {
                     cancellaPrenotazione.addActionListener(e -> {
                         String res = controller.cancellaPrenotazione(p.getIdPrenotazione());
                         JOptionPane.showMessageDialog(null, res, "Avviso", JOptionPane.ERROR_MESSAGE);
-                       // aggiornaPrenotazioni(this.controller.getTutteLePrenotazioni());
                         SwingUtilities.invokeLater(() ->
                                 aggiornaPrenotazioni(this.controller.getTutteLePrenotazioni())
                         );

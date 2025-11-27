@@ -93,7 +93,7 @@ public class InserisciVolo {
                         data, orario, ritardo, gate
                 );
 
-                if (result.equals("Volo inserito con successo!")) {
+                if (result.equals("Volo inserito con successo!") || result.equals("Volo inserito con successo (senza inserire il gate)")) {
                     JOptionPane.showMessageDialog(frame, result);
                     frameChiamante.setVisible(true);
                     frame.dispose();

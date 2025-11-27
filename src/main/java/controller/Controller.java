@@ -186,20 +186,22 @@ public class Controller {
 
 
 
-    //CREAZIONE DI UN VOLO TESTING
+
 
     public String creaNuovoVolo(String compagniaAerea, String origine, String destinazione,
                                  String data, String ora, String ritardo, String numeroGate) {
         try {
 
             int ritardoParsed = Integer.parseInt(ritardo);
-            int numeroGateParsed = !(numeroGate == null) ? Integer.parseInt(numeroGate) : 0;
+            int numeroGateParsed = (!(numeroGate == null)) ? Integer.parseInt(numeroGate) : 0;
 
             Volo volo = new Volo("00", compagniaAerea, origine, destinazione, data, ora, ritardoParsed);
             volo.setGate(new Gate(numeroGateParsed));
             volo.setAmministratore(new Amministratore("00", amministratore.getEmail(), amministratore.getPassword()));
 
-            voloDAO.inserisciVolo(volo);
+            if(!voloDAO.inserisciVolo(volo)){
+                return "Volo inserito con successo (senza inserire il gate)";
+            }
 
             return "Volo inserito con successo!";
         } catch (SQLException e) {
@@ -257,7 +259,7 @@ public class Controller {
             voloDaAggiornare.setRitardo(Integer.parseInt(nuovoRitardo));
 
 
-            if (!nuovoNumeroGateS.equals("Gate non assegnato")) {
+            if (!(nuovoNumeroGateS.equals("Gate non assegnato"))) {
                 int nuovoNumeroGateInt = Integer.parseInt(nuovoNumeroGateS);
                 if(voloDaAggiornare.getGate() == null){
                     voloDaAggiornare.setGate(new Gate(nuovoNumeroGateInt));
@@ -278,22 +280,6 @@ public class Controller {
         }
     }
 
-/*
-    public ArrayList<String> getGateDisponibili() {
-      /*
-        ArrayList<String> gates = new ArrayList<>();
-        // Simuliamo 20 gate
-        for (int i = 1; i <= 9; i++) {
-            gates.add(String.valueOf(i));
-        }
-        return gates;
-
-
-        GateDAO g = new GateImplementazionePostgresDAO();
-        ArrayList<String> gateDisponibili = new ArrayList<>();
-        gateDisponibili = g.getTuttiGate();
-        return gateDisponibili;
-    }*/
 
     public ArrayList<String> getGateDisponibili() {
         ArrayList<String> gatesString = new ArrayList<>();
@@ -318,113 +304,24 @@ public class Controller {
     }
 
 
-    public boolean modificaGate(String codiceVolo, String nuovoGateStr) {
+    
+    public String salvaGate(String codiceVolo, String nuovoGateStr) {
         try {
-            if (nuovoGateStr == null || nuovoGateStr.isEmpty()) {
-                return false;
-            }
             int nuovoGateNum = Integer.parseInt(nuovoGateStr);
 
-            if (gateDAO == null) return false;
+            boolean esito = gateDAO.assegnaGate(codiceVolo, nuovoGateNum);
 
-            boolean risultatoDB = gateDAO.modificaGate(codiceVolo, nuovoGateNum);
-
-            if (risultatoDB) {
-                for (Volo v : this.amministratore.getVoli()) {
-                    if (v.getCodiceVolo().equals(codiceVolo)) {
-                        if (v.getGate() != null) {
-                            v.getGate().setNumero(nuovoGateNum);
-                        } else {
-                            v.setGate(new Gate(nuovoGateNum));
-                        }
-                        break;
-                    }
-                }
+            if(!esito){
+                return "Errore: Gate non aggiornato";
             }
-
-            return risultatoDB;
-
-        } catch (NumberFormatException e) {
-            System.err.println("Errore: Il gate deve essere un numero intero.");
-            return false;
         } catch (SQLException e) {
-            System.err.println("Errore SQL durante la modifica del gate: " + e.getMessage());
-            return false;
-        }
-    }
+            return "Errore nel server durante l'aggiornamento del gate";
 
-
-    public boolean assegnaGate(String codiceVolo, String numeroGateStr) {
-        try {
-            if (numeroGateStr == null || numeroGateStr.isEmpty()) {
-                return false;
-            }
-            int numeroGate = Integer.parseInt(numeroGateStr);
-
-            Integer.parseInt(codiceVolo);
-
-            if (gateDAO == null) {
-                return false;
-            }
-
-            boolean risultatoDB = gateDAO.assegnaGate(codiceVolo, numeroGate);
-
-            if (risultatoDB) {
-                for (Volo v : this.amministratore.getVoli()) {
-                    if (v.getCodiceVolo().equals(codiceVolo)) {
-                        v.setGate(new Gate(numeroGate));
-                        break;
-                    }
-                }
-            }
-            return risultatoDB;
-
-        } catch (NumberFormatException e) {
-            System.err.println("Errore: Sia il Gate che il Codice Volo devono essere numeri");
-            return false;
-        } catch (SQLException e) {
-            System.err.println("Errore SQL: " + e.getMessage());
-            return false;
-        }
-    }
-
-
-    //serve per gestire i due casi di assegnamento di un gate ad un volo che non lo ha o la modifica di un gate ad un volo esistente
-    public boolean salvaGate(String codiceVolo, String nuovoGateStr) {
-        try {
-            if (nuovoGateStr == null || nuovoGateStr.isEmpty()) return false;
-            int nuovoGateNum = Integer.parseInt(nuovoGateStr);
-
-            Volo voloCorrente = null;
-            for (Volo v : getTuttiVoli()) {
-                if (v.getCodiceVolo().equals(codiceVolo)) {
-                    voloCorrente = v;
-                    break;
-                }
-            }
-
-            if (voloCorrente == null) {
-                return false;
-            }
-
-            boolean esito = false;
-
-            if (voloCorrente.getGate() != null) {
-                esito = this.modificaGate(codiceVolo, nuovoGateStr);
-            }
-            else {
-                esito = this.assegnaGate(codiceVolo, nuovoGateStr);
-            }
-
-            return esito;
-
-        } catch (NumberFormatException e) {
-            System.err.println("Il gate deve essere un numero");
-            return false;
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            return "Errore nel sistema";
         }
+
+        return "Gate aggiornato correttamente";
     }
 
     public Volo getVoloByCodice(String codiceVolo) {
