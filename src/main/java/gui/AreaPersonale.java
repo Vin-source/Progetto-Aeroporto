@@ -48,7 +48,6 @@ public class AreaPersonale {
         frame = new JFrame("Area Personale");
         frame.setContentPane(AreaPersonale);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
 
 
         email.setText(this.controller.getEmail());
@@ -78,14 +77,22 @@ public class AreaPersonale {
     public void initListeners(JFrame framePadre) {
 
         cercaPrenotazione.getDocument().addDocumentListener(new DocumentListener() {
+            private void aggiornaP() {
+                SwingUtilities.invokeLater(() -> {
+                    String testo = cercaPrenotazione.getText();
+                    aggiornaPrenotazioni(controller.ricercaPrenotazioni(testo));
+
+                    cercaPrenotazione.requestFocusInWindow();
+                });
+            }
+
             public void insertUpdate(DocumentEvent e) {
-                aggiornaPrenotazioni(controller.ricercaPrenotazioni(cercaPrenotazione.getText()));
+                aggiornaP();
             }
             public void removeUpdate(DocumentEvent e){
-                aggiornaPrenotazioni(controller.ricercaPrenotazioni(cercaPrenotazione.getText()));
+                aggiornaP();
             }
             public void changedUpdate(DocumentEvent e){
-                // ignorato per campi plain text
             }
         });
 
@@ -163,7 +170,10 @@ public class AreaPersonale {
                     cancellaPrenotazione.addActionListener(e -> {
                         String res = controller.cancellaPrenotazione(p.getIdPrenotazione());
                         JOptionPane.showMessageDialog(null, res, "Avviso", JOptionPane.ERROR_MESSAGE);
-                        aggiornaPrenotazioni(this.controller.getTutteLePrenotazioni());
+                       // aggiornaPrenotazioni(this.controller.getTutteLePrenotazioni());
+                        SwingUtilities.invokeLater(() ->
+                                aggiornaPrenotazioni(this.controller.getTutteLePrenotazioni())
+                        );
                     });
                 }
 
@@ -177,6 +187,5 @@ public class AreaPersonale {
 
         listaPrenotazioni.revalidate();
         listaPrenotazioni.repaint();
-        frame.pack();
     }
 }
