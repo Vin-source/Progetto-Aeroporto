@@ -71,24 +71,13 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
                 "UPDATE volo SET data_aereo=?, ora_aereo=?, ritardo=?, stato_volo=?, gate=? WHERE codice_volo=?"
         );
 
-        if(volo.getGate().getNumero() != 0){
-            PreparedStatement ps2 = connection.prepareStatement("SELECT codice_volo FROM gate WHERE numero_gate = ?");
-            ps2.setInt(1, volo.getGate().getNumero());
-            ResultSet rs = ps2.executeQuery();
-            if(rs.next() && rs.getObject("codice_volo") != null){
-                ps2.close();
-                rs.close();
-                return false;
-            }
-            ps2.close();
-            rs.close();
-        }
+
 
         ps.setString(1, volo.getData());
         ps.setString(2, volo.getOrarioPrevisto());
         ps.setInt(3, volo.getRitardo());
         ps.setObject(4, String.valueOf(StatoVolo.PROGRAMMATO), Types.OTHER);
-        if(volo.getGate().getNumero() == 0){
+        if(volo.getGate() == null){
             ps.setObject(5, null);
         }else{
             ps.setInt(5, volo.getGate().getNumero());
@@ -165,43 +154,6 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
     }
 
 
-    public ArrayList<Volo> getVoloByValore(String valore) throws SQLException {
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        ArrayList<Volo> res = new ArrayList<>();
-
-        java.time.format.DateTimeFormatter dataFormattata = java.time.format.DateTimeFormatter.ofPattern("d/MM/yyyy");
-        java.time.format.DateTimeFormatter oraFormattata = java.time.format.DateTimeFormatter.ofPattern("HH:mm");
-
-        Connection connection = ConnessioneDatabase.getInstance().connection;
-
-        ps = connection.prepareStatement("SELECT * FROM volo WHERE codice_volo=? OR compagnia_aerea=? OR origine=? OR destinazione=?");
-        ps.setString(1, valore);
-        ps.setString(2, valore);
-        ps.setString(3, valore);
-        ps.setString(4, valore);
-        rs = ps.executeQuery();
-        while (rs.next()) {
-            String dataStringa = rs.getDate("data_aereo").toLocalDate().format(dataFormattata);
-            String oraStringa = rs.getTime("ora_aereo").toLocalTime().format(oraFormattata);
-            Volo v = new Volo(
-                    rs.getString("codice_volo"),
-                    rs.getString("compagnia_aerea"),
-                    rs.getString("origine"),
-                    rs.getString("destinazione"),
-                    //rs.getDate("data").toLocalDate(),
-                    //rs.getTime("orario").toLocalTime(),
-                    dataStringa,
-                    oraStringa,
-                    rs.getInt("ritardo"));
-            res.add(v);
-        }
-
-        rs.close();
-        ps.close();
-
-        return res;
-    }
 
 
 }

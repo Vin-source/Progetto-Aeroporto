@@ -3,6 +3,7 @@ import controller.Controller;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 /**
@@ -58,16 +59,12 @@ public class ModificaGate {
     private void popolaGateDisponibili() {
 
         gateDisponibili.removeAllItems();
-        gateDisponibili.addItem("nessuno");
-        gateDisponibili.addItem("1");
-        gateDisponibili.addItem("2");
-        gateDisponibili.addItem("3");
-        gateDisponibili.addItem("4");
-        gateDisponibili.addItem("5");
-        gateDisponibili.addItem("6");
-        gateDisponibili.addItem("7");
-        gateDisponibili.addItem("8");
-        gateDisponibili.addItem("9");
+        gateDisponibili.addItem(null);
+        ArrayList<String> gateRisultanti = controller.getGateDisponibili();
+        if(gateRisultanti == null) return;
+        for(String s : gateRisultanti){
+            gateDisponibili.addItem(s);
+        }
     }
 
 
@@ -82,11 +79,7 @@ public class ModificaGate {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String gateSelezionato = (String) gateDisponibili.getSelectedItem();
-                if(gateSelezionato.equals("nessuno")){
-                    modificaVolo.impostaNuovoGate(0);
-                }else{
-                    modificaVolo.impostaNuovoGate(Integer.valueOf(gateSelezionato));
-                }
+                modificaVolo.impostaNuovoGate(gateSelezionato);
                 frameChiamante.setVisible(true);
                 frame.dispose();
             }

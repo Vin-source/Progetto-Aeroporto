@@ -104,11 +104,6 @@ public class ModificaVolo {
 
 
                 String result = controller.aggiornaVolo(volo.getCodiceVolo(), nuovaDataText, nuovoOrarioText, nuovoRitardoText, gateText);
-                if(!(gateText.equals("Gate non assegnato"))){
-                    controller.salvaGate(volo.getCodiceVolo(), gateText);
-                }
-
-
 
                 JOptionPane.showMessageDialog(frame, result);
 
@@ -159,7 +154,7 @@ public class ModificaVolo {
      *
      * @param gate Il gate da modificare
      */
-    public void impostaNuovoGate(Integer gate){
-        gateAttuale.setText(String.valueOf(gate));
+    public void impostaNuovoGate(String gate){
+        gateAttuale.setText(gate);
     }
 }

@@ -23,7 +23,7 @@ public class GateImplementazionePostgresDAO implements GateDAO {
     public boolean assegnaGate(String codiceVolo, int numeroGate) throws SQLException {
         PreparedStatement ps;
 
-        Connection connection = ConnessioneDatabase.getInstance().connection;
+
         ps = connection.prepareStatement(
                 "UPDATE gate SET codice_volo = ? WHERE numero_gate = ?"
         );
@@ -31,7 +31,10 @@ public class GateImplementazionePostgresDAO implements GateDAO {
         ps.setInt(1, Integer.parseInt(codiceVolo));
         ps.setInt(2, numeroGate);
         boolean res = ps.executeUpdate() > 0;
+
+
         ps.close();
+
         return res;
     }
 
@@ -55,5 +58,16 @@ public class GateImplementazionePostgresDAO implements GateDAO {
 
 
         return listaGates;
+    }
+
+    public void setCodiceVoloNull(int codiceVolo) throws SQLException{
+        PreparedStatement ps = null;
+
+        ps = connection.prepareStatement("UPDATE gate SET codice_volo = null WHERE codice_volo = ?");
+        ps.setInt(1, codiceVolo);
+
+        ps.executeUpdate();
+
+        ps.close();
     }
 }

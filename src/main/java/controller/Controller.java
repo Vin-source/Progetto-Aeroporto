@@ -138,41 +138,6 @@ public class Controller {
         return null;
     }
 
-
-
-
-
-
-
-
-
-
-    // --------------------------------- VOLO ------------------------------------------- //
-
-
-
-
-
-
-
-
-
-
-    public ArrayList<Volo> getTuttiVoli() {
-        try{
-            ArrayList<Volo> voli;
-            voli = voloDAO.getVoliDB();
-            if(amministratore != null){
-                amministratore.setVoli(voli);
-            }
-            return voli;
-        }catch(SQLException e){
-            System.err.println("Errore SQL durante il caricamento dei voli: ");
-        }
-
-        return null;
-    }
-
     public ArrayList<Volo> cercaVoli(String valore) {
 
         try{
@@ -196,6 +161,34 @@ public class Controller {
         return null;
 
     }
+
+
+
+
+
+
+
+    // --------------------------------- VOLO ------------------------------------------- //
+
+
+
+
+    public ArrayList<Volo> getTuttiVoli() {
+        try{
+            ArrayList<Volo> voli;
+            voli = voloDAO.getVoliDB();
+            if(amministratore != null){
+                amministratore.setVoli(voli);
+            }
+            return voli;
+        }catch(SQLException e){
+            System.err.println("Errore SQL durante il caricamento dei voli: ");
+        }
+
+        return null;
+    }
+
+
 
     public ArrayList<Volo> cercaVoliAmministratore(String valore) {
         if (valore == null || valore.isEmpty()) return amministratore.getVoli();
@@ -228,7 +221,7 @@ public class Controller {
                 gateDAO.assegnaGate(nuovoCodiceVolo, numeroGateParsed);
             }
 
-
+            getTuttiVoli();
             return "Volo inserito con successo!";
         } catch (SQLException e) {
             return "Errore del server durante la creazione del volo";
@@ -259,20 +252,22 @@ public class Controller {
             voloDaAggiornare.setRitardo(Integer.parseInt(nuovoRitardo));
 
 
-            if (!(nuovoNumeroGateS.equals("Gate non assegnato"))) {
-                int nuovoNumeroGateInt = Integer.parseInt(nuovoNumeroGateS);
-                if(voloDaAggiornare.getGate() == null){
-                    voloDaAggiornare.setGate(new Gate(nuovoNumeroGateInt));
-                }else{
-                    voloDaAggiornare.getGate().setNumero(nuovoNumeroGateInt);
-                }
+            if(nuovoNumeroGateS == null){
+                voloDaAggiornare.setGate(null);
+                int codiceVoloInt = Integer.parseInt(codiceVolo);
+                gateDAO.setCodiceVoloNull(codiceVoloInt);
+            }else if (!(nuovoNumeroGateS.equals("Gate non assegnato"))){
+                int numeroGate = Integer.parseInt(nuovoNumeroGateS);
+                voloDaAggiornare.setGate(new Gate(numeroGate));
+                int codiceVoloInt = Integer.parseInt(codiceVolo);
+                gateDAO.setCodiceVoloNull(codiceVoloInt);
+                gateDAO.assegnaGate(codiceVolo, numeroGate);
             }
 
-            if(voloDAO.aggiornaVolo(voloDaAggiornare)){
-                return "Volo aggiornato con successo!";
-            }else{
-                return "Non puoi aggiornare il volo con il gate scelto, è già occupato!";
-            }
+
+            voloDAO.aggiornaVolo(voloDaAggiornare);
+            return "Volo aggiornato con successo!";
+
         } catch (SQLException e) {
             return "Errore del server durante l'aggiornamento del volo";
         } catch(Exception e){
@@ -296,25 +291,7 @@ public class Controller {
     }
 
 
-    
-    public String salvaGate(String codiceVolo, String nuovoGateStr) {
-        try {
-            int nuovoGateNum = Integer.parseInt(nuovoGateStr);
 
-            boolean esito = gateDAO.assegnaGate(codiceVolo, nuovoGateNum);
-
-            if(!esito){
-                return "Errore: Gate non aggiornato";
-            }
-        } catch (SQLException e) {
-            return "Errore nel server durante l'aggiornamento del gate";
-
-        } catch (Exception e) {
-            return "Errore nel sistema";
-        }
-
-        return "Gate aggiornato correttamente";
-    }
 
     public String eliminaVolo(String codiceVolo, Gate gate) {
         if (voloDAO == null) {
