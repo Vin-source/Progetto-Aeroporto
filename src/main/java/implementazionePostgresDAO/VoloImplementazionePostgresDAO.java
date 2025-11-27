@@ -89,7 +89,7 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
     }
 
     @Override
-    public String aggiornaVolo(Volo volo) throws SQLException {
+    public boolean aggiornaVolo(Volo volo) throws SQLException {
         PreparedStatement ps = null;
 
         Connection connection = ConnessioneDatabase.getInstance().connection;
@@ -104,7 +104,7 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
             if(rs.next()){
                 ps2.close();
                 rs.close();
-                return "Non puoi aggiornare il volo, questo gate è già assegnato!";
+                return false;
             }
             ps2.close();
             rs.close();
@@ -123,10 +123,8 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
         //ps.setInt(6, Integer.parseInt(volo.getCodiceVolo()));
         ps.executeUpdate();
         ps.close();
-        return "Volo aggiornato con successo!";
+        return true;
 
-
-       // return true;
     }
 
     @Override

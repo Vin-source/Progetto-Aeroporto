@@ -266,7 +266,11 @@ public class Controller {
                 }
             }
 
-            return voloDAO.aggiornaVolo(voloDaAggiornare);
+            if(voloDAO.aggiornaVolo(voloDaAggiornare)){
+                return "Volo aggiornato con successo!";
+            }else{
+                return "Non puoi aggiornare il volo con il gate scelto, è già occupato!";
+            }
         } catch (SQLException e) {
             return "Errore del server durante l'aggiornamento del volo";
         } catch(Exception e){

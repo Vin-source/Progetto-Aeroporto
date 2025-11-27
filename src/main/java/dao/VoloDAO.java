@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public interface VoloDAO{
 
     boolean inserisciVolo(Volo volo) throws SQLException;
-    String aggiornaVolo(Volo volo) throws SQLException;
+    boolean aggiornaVolo(Volo volo) throws SQLException;
     ArrayList<Integer> eliminaVolo(String codiceVolo, Gate gate) throws SQLException;
     Volo getVoloByCodice(String codiceVolo) throws SQLException;
     ArrayList<Volo> getVoliDB() throws SQLException;
