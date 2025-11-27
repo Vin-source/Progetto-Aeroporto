@@ -61,20 +61,10 @@ public class Controller {
         return ruolo;
     }
 
-    public ArrayList<Volo> getTuttiVoli() {
-        try{
-            ArrayList<Volo> voli;
-            voli = voloDAO.getVoliDB();
-            if(amministratore != null){
-                amministratore.setVoli(voli);
-            }
-            return voli;
-        }catch(SQLException e){
-            System.err.println("Errore SQL durante il caricamento dei voli: ");
-        }
 
-        return null;
-    }
+    // --------------------------------- PRENOTAZIONE ------------------------------------------- //
+
+
 
     public ArrayList<Prenotazione> getTutteLePrenotazioni() {
         try{
@@ -148,6 +138,41 @@ public class Controller {
         return null;
     }
 
+
+
+
+
+
+
+
+
+
+    // --------------------------------- VOLO ------------------------------------------- //
+
+
+
+
+
+
+
+
+
+
+    public ArrayList<Volo> getTuttiVoli() {
+        try{
+            ArrayList<Volo> voli;
+            voli = voloDAO.getVoliDB();
+            if(amministratore != null){
+                amministratore.setVoli(voli);
+            }
+            return voli;
+        }catch(SQLException e){
+            System.err.println("Errore SQL durante il caricamento dei voli: ");
+        }
+
+        return null;
+    }
+
     public ArrayList<Volo> cercaVoli(String valore) {
 
         try{
@@ -186,22 +211,23 @@ public class Controller {
 
 
 
-
-
     public String creaNuovoVolo(String compagniaAerea, String origine, String destinazione,
                                  String data, String ora, String ritardo, String numeroGate) {
         try {
 
             int ritardoParsed = Integer.parseInt(ritardo);
-            int numeroGateParsed = (!(numeroGate == null)) ? Integer.parseInt(numeroGate) : 0;
 
             Volo volo = new Volo("00", compagniaAerea, origine, destinazione, data, ora, ritardoParsed);
-            volo.setGate(new Gate(numeroGateParsed));
             volo.setAmministratore(new Amministratore("00", amministratore.getEmail(), amministratore.getPassword()));
 
-            if(!voloDAO.inserisciVolo(volo)){
-                return "Volo inserito con successo (senza inserire il gate)";
+
+            String nuovoCodiceVolo = voloDAO.inserisciVolo(volo, numeroGate);
+
+            if(numeroGate != null){
+                int numeroGateParsed = Integer.parseInt(numeroGate);
+                gateDAO.assegnaGate(nuovoCodiceVolo, numeroGateParsed);
             }
+
 
             return "Volo inserito con successo!";
         } catch (SQLException e) {
@@ -212,33 +238,7 @@ public class Controller {
     }
 
 
-    //RICERCA DEI VOLI TESTING
-/*    public ArrayList<Volo> cercaVoli(String testoRicerca) {
-        ArrayList<Volo> voliFiltrati = new ArrayList<>();
-        String ricercaLower = testoRicerca.toLowerCase();
 
-
-        if (ricercaLower.isEmpty()) {
-            return getTuttiVoli();
-        }
-
-        for (Volo volo : this.amministratore.getVoli()) {
-            boolean origineTrovata = volo.getOrigine() != null && volo.getOrigine().toLowerCase().contains(ricercaLower);
-            boolean destinazioneTrovata = volo.getDestinazione() != null && volo.getDestinazione().toLowerCase().contains(ricercaLower);
-
-            if (volo.getCodiceVolo().toLowerCase().contains(ricercaLower) ||
-                    volo.getCompagniaAerea().toLowerCase().contains(ricercaLower) ||
-                    origineTrovata || destinazioneTrovata)
-            {
-                voliFiltrati.add(volo);
-            }
-        }
-        return voliFiltrati;
-    }
-
-
-
- */
 
     public String aggiornaVolo(String codiceVolo, String nuovaData, String nuovoOrario,
                                 String nuovoRitardo, String nuovoNumeroGateS) {
@@ -282,22 +282,14 @@ public class Controller {
 
 
     public ArrayList<String> getGateDisponibili() {
-        ArrayList<String> gatesString = new ArrayList<>();
+        ArrayList<String> gatesString = null;
 
-
-
-        if (gateDAO == null) {
-            return gatesString;
-        }
 
         try {
-            ArrayList<Gate> gatesDalDB = gateDAO.getTuttiGate();
-            for (Gate g : gatesDalDB) {
-                gatesString.add(String.valueOf(g.getNumero()));
-            }
+            gatesString = gateDAO.getGateDisponibiliDAO();
 
         } catch (SQLException e) {
-            System.err.println("Errore recupero gate dal DB: " + e.getMessage());
+            return null;
         }
 
         return gatesString;
@@ -322,20 +314,6 @@ public class Controller {
         }
 
         return "Gate aggiornato correttamente";
-    }
-
-    public Volo getVoloByCodice(String codiceVolo) {
-        if (voloDAO == null) {
-            return null;
-        }
-
-        try {
-            return voloDAO.getVoloByCodice(codiceVolo);
-
-        } catch (SQLException e) {
-            System.err.println("Errore recupero volo " + codiceVolo + ": " + e.getMessage());
-            return null;
-        }
     }
 
     public String eliminaVolo(String codiceVolo, Gate gate) {

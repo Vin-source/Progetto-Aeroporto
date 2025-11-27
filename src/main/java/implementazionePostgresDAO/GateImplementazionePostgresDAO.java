@@ -37,27 +37,21 @@ public class GateImplementazionePostgresDAO implements GateDAO {
 
 
 
-    @Override
-    public ArrayList<Gate> getTuttiGate() throws SQLException {
-        ArrayList<Gate> listaGates = new ArrayList<>();
+    public ArrayList<String> getGateDisponibiliDAO() throws SQLException {
+        ArrayList<String> listaGates = new ArrayList<>();
 
-        String sql = "SELECT DISTINCT numero_gate FROM gate ORDER BY numero_gate ASC";
+        String sql = "SELECT numero_gate FROM gate WHERE codice_volo IS null ORDER BY numero_gate ASC";
 
-        try{
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                int numero = rs.getInt("numero_gate");
-                listaGates.add(new Gate(numero));
-            }
-
-            rs.close();
-            stmt.close();
-        }catch(SQLException e){
-            throw new RuntimeException(e);
+        while (rs.next()) {
+            int numero = rs.getInt("numero_gate");
+            listaGates.add(String.valueOf(numero));
         }
 
+        rs.close();
+        stmt.close();
 
 
         return listaGates;

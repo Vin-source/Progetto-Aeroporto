@@ -21,70 +21,45 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
     }
 
     @Override
-    public boolean inserisciVolo(Volo volo) throws SQLException {
+    public String inserisciVolo(Volo volo, String numeroGate) throws SQLException {
         PreparedStatement ps = null;
-        PreparedStatement gateInserito = null;
-        PreparedStatement aggiornaVoloGate = null;
-
-        Connection connection = ConnessioneDatabase.getInstance().connection;
-        ps = connection.prepareStatement(
-                "INSERT INTO volo (compagnia_aerea,stato_volo, origine, destinazione, data_aereo, ora_aereo, ritardo, email_utente) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
-        );
-
-        ps.setString(1, volo.getCompagniaAerea());
-        ps.setObject(2, volo.getStatoVolo().name(), Types.OTHER);
-        ps.setString(3, volo.getOrigine());
-        ps.setString(4, volo.getDestinazione());
-        ps.setString(5, volo.getData());
-        ps.setString(6, volo.getOrarioPrevisto());
-        ps.setInt(7, volo.getRitardo());
-        ps.setString(8, volo.getAmministratore().getEmail());
 
 
-        ps.executeUpdate();
+            ps = connection.prepareStatement(
+                    "INSERT INTO volo (compagnia_aerea,stato_volo, origine, destinazione, data_aereo, ora_aereo, ritardo, gate,  email_utente) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
+            );
 
-
-
-        ResultSet codice_creato = ps.getGeneratedKeys();
-        int nuovo_codice_volo = 0;
-        if(codice_creato.next()){
-            nuovo_codice_volo = codice_creato.getInt("codice_volo");
-        }
-
-        volo.setCodiceVolo(String.valueOf(nuovo_codice_volo));
-
-
-        if(volo.getGate().getNumero() != 0){
-            PreparedStatement trovaGate = connection.prepareStatement("SELECT * from gate WHERE numero_gate = ?");
-            trovaGate.setInt(1, volo.getGate().getNumero());
-            ResultSet rs = trovaGate.executeQuery();
-            if(rs.next() && rs.getObject("codice_volo") == null){
-                gateInserito = connection.prepareStatement("UPDATE gate SET codice_volo = ? WHERE numero_gate = ?");
-                gateInserito.setInt(1, nuovo_codice_volo);
-                gateInserito.setInt(2, volo.getGate().getNumero());
-                gateInserito.executeUpdate();
-
-                aggiornaVoloGate = connection.prepareStatement("UPDATE volo SET gate = ? WHERE codice_volo = ?");
-                aggiornaVoloGate.setInt(1, volo.getGate().getNumero());
-                aggiornaVoloGate.setInt(2, nuovo_codice_volo);
-                aggiornaVoloGate.executeUpdate();
+            ps.setString(1, volo.getCompagniaAerea());
+            ps.setObject(2, volo.getStatoVolo().name(), Types.OTHER);
+            ps.setString(3, volo.getOrigine());
+            ps.setString(4, volo.getDestinazione());
+            ps.setString(5, volo.getData());
+            ps.setString(6, volo.getOrarioPrevisto());
+            ps.setInt(7, volo.getRitardo());
+            if(numeroGate != null){
+                ps.setInt(8, Integer.parseInt(numeroGate));
             }else{
-                rs.close();
-                trovaGate.close();
-                codice_creato.close();
-                ps.close();
-                return false;
+                ps.setObject(8, null);
             }
+            ps.setString(9, volo.getAmministratore().getEmail());
 
-            rs.close();
-            trovaGate.close();
-        }else{
-            codice_creato.close();
-            ps.close();
-            return false;
+
+            ps.executeUpdate();
+
+
+        ResultSet codiceCreato = ps.getGeneratedKeys();
+        String nuovoCodiceVolo = null;
+        if(codiceCreato.next()){
+            nuovoCodiceVolo = String.valueOf(codiceCreato.getInt("codice_volo"));
         }
-        return true;
+
+
+        codiceCreato.close();
+        ps.close();
+
+        return nuovoCodiceVolo;
+
     }
 
     @Override
@@ -160,41 +135,6 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
         return prenotazioniDaCancellare;
     }
 
-    @Override
-    public Volo getVoloByCodice(String codiceVolo) throws SQLException {
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        Connection connection = ConnessioneDatabase.getInstance().connection;
-
-        java.time.format.DateTimeFormatter dataFormattata = java.time.format.DateTimeFormatter.ofPattern("d/MM/yyyy");
-        java.time.format.DateTimeFormatter oraFormattata = java.time.format.DateTimeFormatter.ofPattern("HH:mm");
-
-        ps = connection.prepareStatement("SELECT * FROM volo WHERE codice_volo=?");
-        ps.setString(1, codiceVolo);
-        rs = ps.executeQuery();
-        if (rs.next()) {
-
-            String dataStringa = rs.getDate("data_aereo").toLocalDate().format(dataFormattata);
-            String oraStringa = rs.getTime("ora_aereo").toLocalTime().format(oraFormattata);
-
-            return new Volo(
-                    rs.getString("codice_volo"),
-                    rs.getString("compagnia_aerea"),
-                    rs.getString("origine"),
-                    rs.getString("destinazione"),
-                    //rs.getDate("data").toLocalDate(),
-                    //rs.getTime("orario").toLocalTime(),
-                    dataStringa,
-                    oraStringa,
-                    rs.getInt("ritardo"));
-        }
-
-        rs.close();
-        ps.close();
-
-        return null;
-    }
 
     @Override
     public ArrayList<Volo> getVoliDB() throws SQLException{

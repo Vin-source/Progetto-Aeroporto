@@ -11,10 +11,8 @@ import java.util.ArrayList;
 
 public interface VoloDAO{
 
-    boolean inserisciVolo(Volo volo) throws SQLException;
+    String inserisciVolo(Volo volo, String numeroGate) throws SQLException;
     boolean aggiornaVolo(Volo volo) throws SQLException;
     ArrayList<Integer> eliminaVolo(String codiceVolo, Gate gate) throws SQLException;
-    Volo getVoloByCodice(String codiceVolo) throws SQLException;
     ArrayList<Volo> getVoliDB() throws SQLException;
-    ArrayList<Volo> getVoloByValore(String valore) throws SQLException;
 }

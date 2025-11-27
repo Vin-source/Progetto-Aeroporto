@@ -9,5 +9,5 @@ public interface GateDAO{
 
     boolean assegnaGate(String codiceVolo, int numeroGate) throws SQLException;
    // Gate getGateByVolo(String codiceVolo) throws SQLException;
-    ArrayList<Gate> getTuttiGate() throws SQLException;
+    ArrayList<String> getGateDisponibiliDAO() throws SQLException;
 }

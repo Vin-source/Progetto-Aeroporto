@@ -93,7 +93,7 @@ public class InserisciVolo {
                         data, orario, ritardo, gate
                 );
 
-                if (result.equals("Volo inserito con successo!") || result.equals("Volo inserito con successo (senza inserire il gate)")) {
+                if (result.equals("Volo inserito con successo!")) {
                     JOptionPane.showMessageDialog(frame, result);
                     frameChiamante.setVisible(true);
                     frame.dispose();
@@ -143,10 +143,10 @@ public class InserisciVolo {
      */
     private void popolaGateDisponibili() {
         ArrayList<String> listaGate = controller.getGateDisponibili();
-
         gateVolo.removeAllItems(); // Svuota
-
         gateVolo.addItem(null);
+
+        if(listaGate == null) return;
 
         for (String gateNum : listaGate) {
             gateVolo.addItem(gateNum);
