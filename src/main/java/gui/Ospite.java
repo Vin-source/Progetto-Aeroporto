@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -56,15 +58,14 @@ public class Ospite extends JFrame {
         frame.setContentPane(ospiteContainer);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setVisible(true);
 
         this.controller = controller;
 
 
 
         listaVoliPanel = new JPanel();
-     //   listaVoliPanel.setLayout(new GridLayout(20, 1));
-     //   listaVoliScroll.setViewportView(listaVoliPanel);
+        listaVoliPanel.setLayout(new GridLayout(20, 1));
+        listaVoliScroll.setViewportView(listaVoliPanel);
 
 
         aggiornaListaVoli(controller.getTuttiVoli());
@@ -72,6 +73,14 @@ public class Ospite extends JFrame {
         frame.pack();
 
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                aggiornaListaVoli(controller.getTuttiVoli());
+            }
+        });
+
         frame.setVisible(true);
     }
 
@@ -128,16 +137,20 @@ public class Ospite extends JFrame {
      * @param listaVoli ArrayList dei Voli disponibili
      */
     private void aggiornaListaVoli(ArrayList<Volo> listaVoli) {
+        listaVoliPanel.removeAll();
+
         if(listaVoli.isEmpty()){
             JPanel pannelloVolo = new JPanel();
             pannelloVolo.setLayout(new GridLayout(1,8, 10, 10));
             pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
 
             pannelloVolo.add(new JLabel("Non ci sono voli attualmente disponibili. Ci scusiamo per il disagio!"));
 
 
             listaVoliPanel.add(pannelloVolo);
             listaVoliPanel.add(Box.createVerticalStrut(5));
+
             listaVoliPanel.revalidate();
             listaVoliPanel.repaint();
         }else{
