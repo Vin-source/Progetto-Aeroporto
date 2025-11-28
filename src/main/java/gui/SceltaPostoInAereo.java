@@ -109,6 +109,10 @@ public class SceltaPostoInAereo {
                                 posto.setBackground(Color.GRAY);
                             }
                         }
+                        if(postoScelto.equals(bttn.getText())){
+                            postoScelto = "";
+                            return;
+                        }
                     }
                     postoScelto = bttn.getText();
                 }
@@ -146,9 +150,10 @@ public class SceltaPostoInAereo {
                     button.setBackground(Color.GRAY);
                 }
 
-
-                for (ActionListener al : button.getActionListeners()) {
-                    button.removeActionListener(al);
+                if(postiOccupati.contains(nomePosto) && button.getBackground().equals(Color.RED)){
+                    for (ActionListener al : button.getActionListeners()) {
+                        button.removeActionListener(al);
+                    }
                 }
             } else {
                 button.setBackground(Color.GRAY);
