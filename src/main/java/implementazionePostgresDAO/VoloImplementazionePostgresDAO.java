@@ -94,7 +94,6 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
         ArrayList<Integer> prenotazioniDaCancellare = new ArrayList<>();
 
         PreparedStatement ps = null;
-        PreparedStatement ps2 = null;
         PreparedStatement ps3 = null;
 
         Connection connection = ConnessioneDatabase.getInstance().connection;
@@ -102,12 +101,6 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
         ps.setObject(1, StatoVolo.CANCELLATO,  Types.OTHER);
         ps.setInt(2, Integer.parseInt(codiceVolo));
 
-        if(gate != null && gate.getNumero() != 0){
-            ps2 = connection.prepareStatement("UPDATE gate SET codice_volo = NULL WHERE numero_gate=?");
-            ps2.setInt(1, gate.getNumero());
-            ps2.executeUpdate();
-            ps2.close();
-        }
 
         ps3 = connection.prepareStatement("SELECT id_prenotazione FROM associa WHERE codice_volo = ?");
         ps3.setInt(1, Integer.parseInt(codiceVolo));
@@ -115,6 +108,7 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
         while(rs.next()){
             prenotazioniDaCancellare.add(rs.getInt("id_prenotazione"));
         }
+
         rs.close();
         ps3.close();
 

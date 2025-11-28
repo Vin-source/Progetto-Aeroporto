@@ -304,14 +304,11 @@ public class Controller {
                 prenotazioneDAO.cancellaPrenotazioneDB(String.valueOf(i));
             }
 
-            ArrayList<Volo> listaVoli = this.amministratore.getVoli();
-
-            for (int i = 0; i < listaVoli.size(); i++) {
-                if (listaVoli.get(i).getCodiceVolo().equals(codiceVolo)) {
-                    listaVoli.get(i).setStatoVolo(StatoVolo.CANCELLATO);
-                    break;
-                }
+            if(gate != null){
+                gateDAO.setCodiceVoloNull(Integer.parseInt(codiceVolo));
             }
+
+            getTuttiVoli();
             return "Volo cancellato correttamente!";
 
         }catch (SQLException e){
