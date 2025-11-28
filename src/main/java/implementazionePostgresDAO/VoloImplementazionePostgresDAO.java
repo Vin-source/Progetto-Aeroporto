@@ -31,7 +31,11 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
             );
 
             ps.setString(1, volo.getCompagniaAerea());
-            ps.setObject(2, volo.getStatoVolo().name(), Types.OTHER);
+            if(volo.getRitardo() == 0){
+                ps.setObject(2, volo.getStatoVolo().name(), Types.OTHER);
+            }else{
+                ps.setObject(2, StatoVolo.IN_RITARDO, Types.OTHER);
+            }
             ps.setString(3, volo.getOrigine());
             ps.setString(4, volo.getDestinazione());
             ps.setString(5, volo.getData());
@@ -76,7 +80,11 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
         ps.setString(1, volo.getData());
         ps.setString(2, volo.getOrarioPrevisto());
         ps.setInt(3, volo.getRitardo());
-        ps.setObject(4, String.valueOf(StatoVolo.PROGRAMMATO), Types.OTHER);
+        if(volo.getRitardo() == 0){
+            ps.setObject(4, String.valueOf(StatoVolo.PROGRAMMATO), Types.OTHER);
+        }else{
+            ps.setObject(4, String.valueOf(StatoVolo.IN_RITARDO), Types.OTHER);
+        }
         if(volo.getGate() == null){
             ps.setObject(5, null);
         }else{

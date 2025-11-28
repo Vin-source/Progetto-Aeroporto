@@ -97,7 +97,7 @@ public class Controller {
             getTutteLePrenotazioni();
             return "Prenotazione effettuata!";
         }
-    }catch (SQLException e){
+    }catch (SQLException _){
         return "Errore nella connessione al server";
     }
         return "Errore: Prenotazione non effettuata correttamente";

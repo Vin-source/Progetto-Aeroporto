@@ -134,7 +134,7 @@ public class Utente {
                 }
                 pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
                 pannelloVolo.add(new JLabel("STATO: " + volo.getStatoVolo()));
-                if(!volo.getStatoVolo().equals(StatoVolo.CANCELLATO)){
+                if(volo.getStatoVolo().equals(StatoVolo.PROGRAMMATO)){
                     JButton prenotazione = new JButton("PRENOTA");
                     pannelloVolo.add(prenotazione);
 
