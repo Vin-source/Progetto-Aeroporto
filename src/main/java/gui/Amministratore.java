@@ -148,7 +148,11 @@ public class Amministratore {
                 if(volo.getOrigine() != null) pannelloVolo.add(new JLabel("ORIGINE: " + volo.getOrigine().toUpperCase()));
                 if(volo.getDestinazione() != null) pannelloVolo.add(new JLabel("DESTINAZIONE: " + volo.getDestinazione().toUpperCase()));
                 pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
-                pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
+                if(volo.getOrigine().equalsIgnoreCase("Napoli")){
+                    pannelloVolo.add(new JLabel("PARTE ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
+                }else{
+                    pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
+                }
                 pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
                 pannelloVolo.add(new JLabel("STATO: " + volo.getStatoVolo()));
 
