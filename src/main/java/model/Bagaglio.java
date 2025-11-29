@@ -5,7 +5,7 @@ package model;
  */
 public class Bagaglio{
     private int codiceBagaglio;
-
+    private float peso;
     private Prenotazione prenotazione;
 
     /**
@@ -21,7 +21,7 @@ public class Bagaglio{
     /**
      * Ritorna il codice del bagaglio
      *
-     * @return codiceBagaglio
+     * @return codiceBagaglio codice
      */
     public int getCodice() {
         if(codiceBagaglio >= 0){
@@ -37,6 +37,21 @@ public class Bagaglio{
      */
     public void setCodice(int codice) { this.codiceBagaglio = codice; }
 
+
+    /**
+     * Inserisce il peso del bagaglio
+     *
+     * @param peso il nuovo peso del bagaglio
+     */
+    public void setPeso(float peso) { this.peso = peso; }
+
+
+    /**
+     * Ritorna il peso del bagaglio calcolato in float
+     *
+     * @return il peso del bagaglio
+     */
+    public float getPeso() { return this.peso; }
 
 
     // ----------------------- OGGETTI ESTERNI --------------------

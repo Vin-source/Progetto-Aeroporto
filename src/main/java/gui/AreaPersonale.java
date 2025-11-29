@@ -1,9 +1,9 @@
 package gui;
 
 import controller.Controller;
+import model.Bagaglio;
 import model.Prenotazione;
 import model.StatoPrenotazione;
-import model.Volo;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -27,6 +27,7 @@ public class AreaPersonale {
     private JScrollPane listaPrenotazioniScroll;
     private JPanel listaPrenotazioni;
     private JButton indietroButton;
+    private JCheckBox cercaBagagliCheckBox;
 
     Controller controller;
     /**
@@ -66,6 +67,7 @@ public class AreaPersonale {
         frame.pack();
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
+
     }
 
 
@@ -80,7 +82,12 @@ public class AreaPersonale {
             private void aggiornaP() {
                 SwingUtilities.invokeLater(() -> {
                     String testo = cercaPrenotazione.getText();
-                    aggiornaPrenotazioni(controller.ricercaPrenotazioni(testo));
+
+                    if(cercaBagagliCheckBox.isSelected()){
+                        aggiornaPrenotazioni(controller.ricercaPrenotazioni(testo, true));
+                    }else{
+                        aggiornaPrenotazioni(controller.ricercaPrenotazioni(testo, false));
+                    }
 
                     cercaPrenotazione.requestFocusInWindow();
                 });
@@ -115,6 +122,19 @@ public class AreaPersonale {
                 frame.dispose();
             }
         });
+
+        cercaBagagliCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String testo = cercaPrenotazione.getText();
+                if(cercaBagagliCheckBox.isSelected()){
+                    aggiornaPrenotazioni(controller.ricercaPrenotazioni(testo, true));
+                }else{
+                    aggiornaPrenotazioni(controller.ricercaPrenotazioni(testo, false));
+                }
+
+            }
+        });
     }
 
 
@@ -142,11 +162,13 @@ public class AreaPersonale {
         else{
 
 
+
+
             for(Prenotazione p : prenotazioni){
                 JPanel prenotazione = new JPanel();
-                prenotazione.setLayout(new GridLayout(1,8, 10, 10));
+                prenotazione.setLayout(new GridLayout(0,6, 10, 10));
                 prenotazione.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                prenotazione.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
+                prenotazione.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100)); // altezza fissa
 
                 prenotazione.add(new JLabel("ID: " + p.getIdPrenotazione().toUpperCase()));
                 prenotazione.add(new JLabel("NOME: " + p.getNome().toUpperCase()));
@@ -155,8 +177,9 @@ public class AreaPersonale {
                 prenotazione.add(new JLabel("POSTO ASSEGNATO: " + p.getPostoAssegnato()));
                 prenotazione.add(new JLabel("STATO: " + p.getStatoPrenotazione()));
 
-                if(!p.getStatoPrenotazione().equals(StatoPrenotazione.CANCELLATA)){
 
+                if(!p.getStatoPrenotazione().equals(StatoPrenotazione.CANCELLATA)){
+                    prenotazione.setLayout(new GridLayout(0,8, 10, 10));
                     JButton modificaPrenotazione = new JButton("MODIFICA");
                     JButton cancellaPrenotazione = new JButton("CANCELLA");
                     prenotazione.add(modificaPrenotazione);
@@ -176,6 +199,23 @@ public class AreaPersonale {
                     });
                 }
 
+                if(cercaBagagliCheckBox.isSelected()){
+                    ArrayList<Bagaglio> g = p.getBagaglio();
+                    if(g != null){
+                        JPanel pannelloListaBagagli = new JPanel();
+                        pannelloListaBagagli.setLayout(new BoxLayout(pannelloListaBagagli, BoxLayout.Y_AXIS));
+                        pannelloListaBagagli.add(new JLabel("BAGAGLI"));
+                        for(int i = 0; i < g.size(); i++) {
+                            JPanel singoloBagaglio = new JPanel();
+                            singoloBagaglio.setLayout( new GridLayout(2, 1));
+                            singoloBagaglio.add(new JLabel("BAGAGLIO " + i + ": " + g.get(i).getCodice()));
+                            singoloBagaglio.add(new JLabel("PESO: " + g.get(i).getPeso()));
+                            singoloBagaglio.setBorder(BorderFactory.createLineBorder(Color.black));
+                            pannelloListaBagagli.add(singoloBagaglio);
+                        }
+                        prenotazione.add(pannelloListaBagagli);
+                    }
+                }
 
 
                 listaPrenotazioni.add(prenotazione);

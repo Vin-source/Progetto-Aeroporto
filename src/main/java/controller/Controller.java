@@ -82,10 +82,10 @@ public class Controller {
         return null;
     }
 
-    public ArrayList<Prenotazione> ricercaPrenotazioni(String valore) {
+    public ArrayList<Prenotazione> ricercaPrenotazioni(String valore, boolean checkBagaglio) {
         ArrayList<Prenotazione> p;
 
-        p = utente.cercaPrenotazioni(valore);
+        p = utente.cercaPrenotazioni(valore, checkBagaglio);
 
         return p;
     }

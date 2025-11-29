@@ -65,7 +65,9 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
 
                     while(bagagliRisultanti.next()){
                         Bagaglio b = new Bagaglio(bagagliRisultanti.getInt("codice_bagaglio"));
+                        b.setPeso(bagagliRisultanti.getFloat("peso"));
                         b.setPrenotazione(p);
+
 
                         bagagliTrovati.add(b);
                     }
