@@ -5,7 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * La gui EffettuaNuovaPrenotazione
+ * Classe che gestisce  il processo di creazione di una nuova prenotazione.
+ * Permette di inserire i dati anagrafici del passeggero.
  */
 public class EffettuaNuovaPrenotazione {
     private JPanel Prenotazione;
@@ -21,7 +22,7 @@ public class EffettuaNuovaPrenotazione {
     private JButton sceltaPostoInAereo;
     private JLabel postoScelto;
     /**
-     * Il frame per EffettuaNuovaPrenotazione
+     * Il Frame della finestra EffettuaNuovaPrenotazione
      */
     public JFrame frame;
 
@@ -30,7 +31,7 @@ public class EffettuaNuovaPrenotazione {
 
 
     /**
-     * Costruttore di EffettuaNuovaPrenotazione.java
+     * Costruisce la finestra per effettuare una nuova prenotazione
      *
      * @param frameChiamante Il frame padre (Utente.java)
      * @param codiceVolo     Il codice del volo selezionato nel frame padre
@@ -53,6 +54,7 @@ public class EffettuaNuovaPrenotazione {
 
     /**
      * Inizializza gli actionListener della pagina
+     * Gestisce i dati di input
      *
      * @param frameChiamante il frame padre
      * @param codiceVolo il codice del volo selezionato
@@ -133,7 +135,7 @@ public class EffettuaNuovaPrenotazione {
     /**
      * Ritorna il panel della pagina
      *
-     * @return prenotazione
+     * @return Il JPanel che contiene Prenotazione
      */
     public JPanel getPanel() {
         return Prenotazione;

@@ -1,7 +1,6 @@
 package gui;
 import controller.Controller;
 
-import model.Gate;
 import model.StatoVolo;
 import model.Volo;
 
@@ -11,18 +10,18 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 
 /**
- * La classe Amministratore della gui
+ * Classe che rappresenta la schermata principale dell'Amministratore
+ * Permette di visualizzare, inserire, modificare ed eliminare i voli
  */
 public class Amministratore {
     /**
-     * The Frame.
+     * Il Frame della finestra Amministratore
      */
     public JFrame frame;
     private JPanel AmministratorePanel;
@@ -36,8 +35,8 @@ public class Amministratore {
 
     /**
      * Costruisce la finestra che si apre
-     * quando l'ospite si logga come amministratore
-     * @param frameChiamante Il frame di Ospite.java
+     * quando l'ospite si logga come amministratore.
+     * @param frameChiamante Il frame di Ospite.java (per il logout)
      * @param controller Il controller che effettua chiamate model/db
      */
     public Amministratore(Controller controller, JFrame frameChiamante) {
@@ -51,12 +50,10 @@ public class Amministratore {
 
 
         initListeners(frameChiamante);
-        //aggiornaListaVoli(voli);
         frame.pack();
 
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-       // frame.setVisible(true);
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
@@ -69,8 +66,8 @@ public class Amministratore {
     }
 
     /**
-     * Metodo che contiene gli ActionListener
-     *
+     * Metodo che contiene gli ActionListener per i componenti della gui
+     * Gestisce la ricerca dei voli e i pulsanti della schermata
      * @param frameChiamante Il frame chiamante di Ospite.java
      */
     public void initListeners(JFrame frameChiamante) {
@@ -108,8 +105,8 @@ public class Amministratore {
 
 
     /**
-     * Metodo che permette di aggiornare la lista dei voli
-     *
+     * Metodo che permette di creare la lista dei voli
+     * Recupera l'elenco aggiornato dei voli dal Controller
      */
     private void creaPannelli() {
         ArrayList<Volo> listaVoli = controller.getTuttiVoli();
@@ -119,6 +116,7 @@ public class Amministratore {
 
     /**
      * Metodo che permette di aggiornare la lista dei voli
+     * Crea per ogni volo della lista una riga in cui ci sono i dettagli
      * @param listaVoli ArrayList contenente la lista dei voli
      */
     private void aggiornaListaVoli(ArrayList<Volo> listaVoli) {

@@ -1,7 +1,6 @@
 package gui;
 
 import controller.Controller;
-import model.StatoPrenotazione;
 import model.StatoVolo;
 import model.Volo;
 
@@ -15,11 +14,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * La Gui Utente
+ * Classe che rappresenta la schermata principale dell'utente.
+ * Permette di visualizzare,ricercare e prenotare i voli.
  */
 public class Utente {
     /**
-     * Frame dell'utente
+     * Il Frame della finestra Utente
      */
     public JFrame frame;
     private JPanel utenteContainer;
@@ -33,9 +33,10 @@ public class Utente {
     private Controller controller;
 
     /**
-     * Costruttore della classe Utente
+     * Costruisce la finestra che si apre
+     * quando l'ospite si logga come utente.
      *
-     * @param frameChiamante Il frame padre (Ospite.java)
+     * @param frameChiamante Il frame di Ospite.java (per il logout)
      * @param controller Il controller che effettua chiamate al DB e comunica con il package Model
      */
     public Utente(Controller controller, JFrame frameChiamante) throws SQLException {
@@ -56,9 +57,9 @@ public class Utente {
     }
 
     /**
-     * Inizializza gli actionListener
-     *
-     * @param frameChiamante il frame Padre
+     * Metodo che contiene gli ActionListener per i componenti della gui
+     * Gestisce la ricerca dei voli,l'accesso all'area personale e il logout
+     * @param frameChiamante Il frame chiamante di Ospite.java
      */
     private void initListeners(JFrame frameChiamante) {
 

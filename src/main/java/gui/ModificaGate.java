@@ -7,14 +7,14 @@ import java.util.ArrayList;
 
 
 /**
- *  Classe Modifica gate della gui
+ *  Classe che rappresenta la schermata ModificaGate della gui
  */
 public class ModificaGate {
     private JComboBox<String> gateDisponibili;
     private JButton confermaGateButton;
     private JPanel modificaGate;
     /**
-     * Il frame della classe ModificaGate
+     * Il Frame della classe ModificaGate
      */
     public JFrame frame;
     private JTextField gateAttuale;
@@ -54,7 +54,8 @@ public class ModificaGate {
 
 
     /**
-     * Popola il menu a tendina dei gate con i gate disponibili
+     * Popola il menu a tendina dei gate con i gate disponibili.
+     * Recupera la lista dei gate dal Controller.
      */
     private void popolaGateDisponibili() {
 
@@ -72,7 +73,7 @@ public class ModificaGate {
      * Metodo che contiene i vari action listener
      *
      * @param frameChiamante Il frame di Amministratore
-     * @param modificaVolo   Il volo da modificare
+     * @param modificaVolo   L'oggetto volo da modificare
      */
     public void initListeners(JFrame frameChiamante, ModificaVolo modificaVolo) {
         confermaGateButton.addActionListener(new ActionListener() {

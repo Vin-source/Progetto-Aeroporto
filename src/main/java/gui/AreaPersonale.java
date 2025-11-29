@@ -17,7 +17,8 @@ import java.util.ArrayList;
 
 
 /**
- * La gui AreaPersonale
+ * Classe che rappresenta l'AreaPersonale dell'utente
+ * Permette di visualizzare e modificare una prenotazione
  */
 public class AreaPersonale {
     private JPanel AreaPersonale;
@@ -30,13 +31,13 @@ public class AreaPersonale {
 
     Controller controller;
     /**
-     * Il frame di AreaPersonale.java
+     * Il Frame della finestra AreaPersonale.java
      */
     JFrame frame;
 
 
     /**
-     * Costruttore di AreaPersonale
+     * Costruisce la finestra AreaPersonale
      *
      * @param framePadre Il frame padre (Utente.java)
      * @param controller Il controller che effettua collegamenti con DB/Model
@@ -70,8 +71,8 @@ public class AreaPersonale {
 
 
     /**
-     * Inizializza i Listener
-     *
+     * Inizializza gli actionListeners
+     * Gestisce la ricerca delle prenotazioni
      * @param framePadre Il frame padre
      */
     public void initListeners(JFrame framePadre) {
@@ -119,8 +120,10 @@ public class AreaPersonale {
 
 
     /**
-     * Crea i JPanel per ogni prenotazione e li popola con i dati
-     * corrispondenti comunicando con il package model
+     * Crea i JPanel per ogni prenotazione e li popola con i dati.
+     * Per ogni prenotazione crea una riga con i dettagli. Se la prenotazione è attiva,
+     * mostra i pulsanti per modificare o cancellare. Se è cancellata, mostra spazi vuoti
+     * per mantenere l'allineamento della griglia.
      *
      * @param prenotazioni ArrayList delle prenotazioni effettuate dallo specifico utente
      */

@@ -1,5 +1,4 @@
 package gui;
-// import controller.Controller;
 import controller.Controller;
 
 import javax.swing.*;
@@ -27,19 +26,18 @@ public class SceltaPostoInAereo {
     private JPanel scegliPostoPanel;
     private JButton confermaButton;
     /**
-     * Il frame della pagina SceltaPostoInAereo.java
+     * Il frame della finestra SceltaPostoInAereo
      */
     public JFrame frame;
     private Controller controller;
 
     /**
-     * Costruttore della pagina
+     * Costruisce la finestra per la scelta di un posto in aereo
      *
      * @param controller           Il controller che effettua chiamate al model/db
      * @param frameChiamante       Il frame padre (EffettuaNuovaPrenotazione.java)
      * @param metodoSelezionePosto Il metodo selezionePosto che applicherà i cambiamenti nel frame padre
      * @param codiceVolo           Il codice del volo selezionato in fase di prenotazione
-     *
      */
     public SceltaPostoInAereo(Controller controller,
                               JFrame frameChiamante,
@@ -74,7 +72,8 @@ public class SceltaPostoInAereo {
 
 
     /**
-     * Inizializza gli actionListeners
+     * Metodo che contiene gli ActionListener per i componenti della gui
+     * Gestisce la logica di selezione del posto
      *
      * @param metodoSelezionePosto Il metodo che applica il posto selezionato durante la creazione della prenotazione
      * @param metodoModificaPosto  Il metodo che viene utilizzato quando viene modificata una prenotazione
@@ -126,7 +125,7 @@ public class SceltaPostoInAereo {
     /**
      * Ritorna il panel dell'attuale pagina
      *
-     * @return scegliPostoPanel
+     * @return il JPanel scegliPostoPanel
      */
 //aggiunto getPanel
     public JPanel getPanel(){

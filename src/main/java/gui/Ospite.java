@@ -1,7 +1,6 @@
 package gui;
 
 import controller.Controller;
-import model.Utente;
 import model.Volo;
 
 import javax.swing.*;
@@ -10,16 +9,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Gui Ospite
+ * Classe che rappresenta la schermata principale dell'Ospite (schermata di accesso).
+ * Permette di inserire i dati nella login e di visualizzare l'elenco dei voli .
  */
 public class Ospite extends JFrame {
     private JPanel ospiteContainer;
     /**
-     * Frame di Ospite
+     * Il frame della finestra Ospite
      */
     public JFrame frame;
     private JTextField email;
@@ -41,10 +40,10 @@ public class Ospite extends JFrame {
 
 
     /**
-     * Costruttore della classe Ospite
-     * <p>
+     * Costruisce la finestra Ospite
+     * <p></p>
      *
-     * Il costruttore inizializza gli elementi, i listener per i bottoni
+     * Il costruttore inizializza gli elementi, il layout, i listener per i bottoni
      * e chiama il metodo aggiornaListaVoli per mostrare i voli disponibili
      *
      * @param controller Il controller che verrà passato dal Main method
@@ -87,7 +86,7 @@ public class Ospite extends JFrame {
 
 
     /**
-     * Inizializza tutti gli actionListener
+     * Metodo che inizializza l'actionListener del bottone accedi per la login
      */
     private void initListeners(Controller controller) {
 
@@ -129,10 +128,9 @@ public class Ospite extends JFrame {
 
 
     /**
-     * Metodo per popolare la pagina Ospite di tutti i voli disponibili
-     * Crea un JPanel per ogni elemento
+     * Metodo per popolare la pagina Ospite con tutti i voli disponibili
+     * Crea un JPanel per ogni volo
      * e lo popola con informazioni utilizzando i metodi dell'oggetto volo corrispondente
-     *
      *
      * @param listaVoli ArrayList dei Voli disponibili
      */
@@ -183,7 +181,7 @@ public class Ospite extends JFrame {
     /**
      * Ritorna il panel principale della pagina Ospite
      *
-     * @return Oggetto panel
+     * @return Oggetto panel principale
      */
     public JPanel getMainPanel() {
         return ospiteContainer;

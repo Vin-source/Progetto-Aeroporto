@@ -10,11 +10,12 @@ import java.awt.event.ActionListener;
 import java.text.ParseException;
 
 /**
- * La classe ModificaVolo della gui
+ * Classe che rappresenta la schermata per modificare i voli
+ *
  */
 public class ModificaVolo {
     /**
-     * Il frame della classe ModificaVolo
+     * Il frame della finestra ModificaVolo
      */
     public JFrame frame;
 
@@ -39,10 +40,10 @@ public class ModificaVolo {
     /**
      * Costruisce l'interfaccia che si apre quando
      * l'Amministratore vuole modificare un volo
-     * @param frameChiamante Il frame dell'Ammistratore che vuole
+     * @param frameChiamante Il frame della finestra Ammistratore che vuole
      *                       modificare il volo
      * @param controller il controller che effettua chiamate al model/db
-     * @param volo Il volo da modificare
+     * @param volo L'oggetto Volo contenente i dati da visualizzare/modificare
      */
     public ModificaVolo(JFrame frameChiamante, Controller controller,Volo volo) {
         this.controller = controller;
@@ -78,8 +79,8 @@ public class ModificaVolo {
     /**
      * Metodo che contiene gli action listener della form ModificaVolo
      *
-     * @param frameChiamante Il frame di Amministratore
-     * @param volo           Il volo da modificare
+     * @param frameChiamante Il frame della finestra Amministratore
+     * @param volo           L'oggetto volo da modificare
      */
     public void initListeners(JFrame frameChiamante, Volo volo) {
 
@@ -152,7 +153,7 @@ public class ModificaVolo {
     /**
      * Metodo che setta il nuovo gate associato al volo
      *
-     * @param gate Il gate da modificare
+     * @param gate Il nuovo numero del gate selezionato
      */
     public void impostaNuovoGate(String gate){
         gateAttuale.setText(gate);

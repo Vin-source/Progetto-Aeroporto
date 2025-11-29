@@ -1,5 +1,5 @@
 package gui;
-// import controller.Controller;
+
 import controller.Controller;
 import model.Prenotazione;
 
@@ -8,7 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * La gui ModificaPrenotazione
+ * Classe che rappresenta la schermata ModificaPrenotazione
+ * Permette all'utente di aggiornare la prenotazione
  */
 public class ModificaPrenotazione {
     private JPanel mainPanel;
@@ -21,7 +22,7 @@ public class ModificaPrenotazione {
     private JLabel postoPrecedente;
     private JTextField nuovoNumeroBagagli;
     /**
-     * Il frame di ModificaPrenotazione
+     * Il frame della finestra ModificaPrenotazione
      */
     public JFrame frame;
 
@@ -30,7 +31,8 @@ public class ModificaPrenotazione {
 
 
     /**
-     * Costruttore di ModificaPrenotazione.java
+     * Costruisce la finestra per modificare una prenotazione.
+     * Inizializza i campi con i dati attuali della prenotazione
      *
      * @param frameChiamante Il frame padre (AreaPersonale.java)
      * @param p              La prenotazione selezionata nel frame padre
@@ -53,8 +55,8 @@ public class ModificaPrenotazione {
     }
 
     /**
-     * Inizializza i Listener
-     *
+     * Metodo che contiene gli ActionListener per i componenti della gui
+     * Gestisce la validazione, la scelta del posto e la conferma delle modifiche
      * @param frameChiamante il frame padre
      * @param p la prenotazione selezionata nel frame padre
      * @param padre L'oggetto padre (AreaPersonale) che aggiornerà la nuova lista prenotazioni
@@ -115,7 +117,7 @@ public class ModificaPrenotazione {
     }
 
     /**
-     * Pulisce i valori inseriti nella pagina gui
+     * Pulisce i valori inseriti nella pagina GUI
      *
      */
     private void resetFields() {

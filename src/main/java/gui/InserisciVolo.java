@@ -10,7 +10,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
- * Classe della gui che permette di Inserire
+ * Classe della gui che permette di inserire
  * un nuovo volo
  */
 public class InserisciVolo {
@@ -30,7 +30,7 @@ public class InserisciVolo {
 
 
     /**
-     * Il frame della pagina InserisciVolo
+     * Il Frame della finestra InserisciVolo
      */
     public JFrame frame;
     private Controller controller;
@@ -38,6 +38,8 @@ public class InserisciVolo {
 
     /**
      * Costruisce la finestra per l'insermento di un volo
+     * Configura il layout, applica i formatter per i campi data/ora,
+     * carica la lista dei gate disponibili dal controller e imposta i listener
      *
      * @param frameChiamante Il frame di Amministratore usato per tornare indietro
      * @param controller     Il controller che effettua le chiamate al model/db
@@ -121,7 +123,7 @@ public class InserisciVolo {
 
 
     /**
-     * Init formatters.
+     * Configura i MaskFormatter per i campi di input formattati.
      */
     public void initFormatters() {
         try {
@@ -139,7 +141,7 @@ public class InserisciVolo {
     }
 
     /**
-     * Mostra a schermo quelli che sono i gate non occupati da altri voli
+     * Mostra a schermo i gate non occupati da altri voli
      */
     private void popolaGateDisponibili() {
         ArrayList<String> listaGate = controller.getGateDisponibili();
@@ -170,7 +172,7 @@ public class InserisciVolo {
     /**
      * Ritorna i pannelli di InserisciVolo
      *
-     * @return I pannelli di InserisciVolo
+     * @return L'oggetto JPanel inserisciVoloPanel
      */
     public JPanel getPanel(){
         return inserisciVoloPanel;
