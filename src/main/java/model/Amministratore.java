@@ -47,7 +47,7 @@ public class Amministratore extends Ospite {
     /**
      * Ritorna tutti i voli associati all'amministratore corrente
      *
-     * @return voli
+     * @return L'Arraylist dei voli
      */
     public ArrayList<Volo> getVoli() {
         return voli;

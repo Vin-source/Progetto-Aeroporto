@@ -5,14 +5,19 @@ import implementazionePostgresDAO.UtenteImplementazionePostgresDAO;
 import implementazionePostgresDAO.GateImplementazionePostgresDAO;
 import model.*;
 
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import implementazionePostgresDAO.*;
 
-import javax.swing.*;
 
+/**
+ * Classe Controller dell'applicazione.
+ * Fa da ponte tra la GUI e il Model/DAO.
+ * Gestisce l'autenticazione degli utenti.
+ * Gestisce le operazioni sui voli.
+ * Gestisce le prenotazioni degli utenti.
+ */
 public class Controller {
     private Amministratore amministratore;
     private Utente utente;
@@ -23,6 +28,9 @@ public class Controller {
     private UtenteDAO utenteDAO;
     private PrenotazioneDAO prenotazioneDAO;
 
+    /**
+     * Costruisce il Controller e inizializza i DAO per la comunicazione con il database.
+     */
     public Controller() {
         this.loginDAO = new LoginImplementazionePostgresDAO();
         this.voloDAO = new VoloImplementazionePostgresDAO();
@@ -32,6 +40,11 @@ public class Controller {
 
     }
 
+    /**
+     * Restituisce l'email dell'ospite loggato
+     *
+     * @return L'email dell'utente/amministratore
+     */
     public String getEmail() {
         if (this.utente != null) {
             return this.utente.getEmail();
@@ -42,6 +55,13 @@ public class Controller {
     }
 
 
+    /**
+     * Permette all'ospite di effettuare la login verificando i dati nel db
+     *
+     * @param username L'email inserita dall'ospite
+     * @param password La password inserita dall'ospite
+     * @return Il ruolo (Utente/Amministratore)
+     */
     public String login(String username, String password){
         String ruolo;
         try{
@@ -65,7 +85,11 @@ public class Controller {
     // --------------------------------- PRENOTAZIONE ------------------------------------------- //
 
 
-
+    /**
+     * Recupera dal database tutte le prenotazioni associate all'utente loggato.
+     *
+     * @return L'Arraylist contenente tutte le prenotazioni
+     */
     public ArrayList<Prenotazione> getTutteLePrenotazioni() {
         try{
             ArrayList<Prenotazione> p;
@@ -82,6 +106,12 @@ public class Controller {
         return null;
     }
 
+    /**
+     * Effettua la ricerca delle prenotazioni dell'utente
+     *
+     * @param valore Il valore da cercare
+     * @return L'Arraylist con le prenotazioni ricercate
+     */
     public ArrayList<Prenotazione> ricercaPrenotazioni(String valore) {
         ArrayList<Prenotazione> p;
 
@@ -90,6 +120,17 @@ public class Controller {
         return p;
     }
 
+    /**
+     * Effettua una nuova prenotazione per uno specifico volo
+     *
+     * @param codiceVolo    Il codice volo del volo da prenotare
+     * @param nome          Il nome del passeggero
+     * @param cognome       Il cognome del passeggero
+     * @param cid           Il documento d'identità
+     * @param postoInAereo  Il posto selezionato in aereo
+     * @param numeroBagagli Il numero dei bagagli
+     * @return L'esito della prenotazione
+     */
     public String effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo, int numeroBagagli) {
 
     try{
@@ -103,6 +144,17 @@ public class Controller {
         return "Errore: Prenotazione non effettuata correttamente";
     }
 
+    /**
+     * Modifica i dati di una prenotazione.
+     *
+     * @param codiceVolo       Il codice volo
+     * @param nome             Il nome del passeggero
+     * @param cognome          Il cognome del passeggero
+     * @param cartaIdentita    La carta identita del passeggero
+     * @param nuovoPostoScelto Il posto scelto
+     * @param p                L'oggetto prenotazione
+     * @return Il risultato dell'operazione
+     */
     public String modificaPrenotazione(String codiceVolo, String nome, String cognome, String cartaIdentita,String nuovoPostoScelto, Prenotazione p) {
 
         if(nome.isEmpty()) nome = p.getNome();
@@ -119,6 +171,12 @@ public class Controller {
         return "Prenotazione modificata correttamente!";
     }
 
+    /**
+     * Cancella una prenotazione dal db.
+     *
+     * @param idPrenotazione L'id della  prenotazione da cancellare
+     * @return Il risultato dell'operazione
+     */
     public String cancellaPrenotazione(String idPrenotazione){
         try{
             prenotazioneDAO.cancellaPrenotazioneDB(idPrenotazione);
@@ -128,6 +186,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Recupera la lista dei voli occupati di un volo
+     *
+     * @param codiceVolo Il codice volo
+     * @return i posti occupati
+     */
     public ArrayList<String> getPostiOccupati(String codiceVolo) {
 
         try{
@@ -138,6 +202,12 @@ public class Controller {
         return null;
     }
 
+    /**
+     * Ricerca un volo nel db in base ad un valore.
+     *
+     * @param valore Il valore da cercare (codiceVolo o compagnia)
+     * @return L'Arraylist contenente i voli trovati
+     */
     public ArrayList<Volo> cercaVoli(String valore) {
 
         try{
@@ -171,8 +241,11 @@ public class Controller {
     // --------------------------------- VOLO ------------------------------------------- //
 
 
-
-
+    /**
+     * Recupera l'elenco di tutti i voli.
+     *
+     * @return L'Arraylist voli
+     */
     public ArrayList<Volo> getTuttiVoli() {
         try{
             ArrayList<Volo> voli;
@@ -189,7 +262,12 @@ public class Controller {
     }
 
 
-
+    /**
+     * Ricerca i voli nella finestra Amministratore
+     *
+     * @param valore il valore del volo
+     * @return L'Arraylist dei voli trovati
+     */
     public ArrayList<Volo> cercaVoliAmministratore(String valore) {
         if (valore == null || valore.isEmpty()) return amministratore.getVoli();
 
@@ -201,9 +279,18 @@ public class Controller {
     }
 
 
-
-
-
+    /**
+     * Crea un nuovo volo e lo inserisce nel db.
+     *
+     * @param compagniaAerea Il nome della compagnia aerea
+     * @param origine        Aeroporto di partenza
+     * @param destinazione   Aeroporto di arrivo
+     * @param data           La data del volo
+     * @param ora            L'orario del volo
+     * @param ritardo        L'eventuale ritardo del volo
+     * @param numeroGate     Il numero del gate
+     * @return  Messaggio di esito
+     */
     public String creaNuovoVolo(String compagniaAerea, String origine, String destinazione,
                                  String data, String ora, String ritardo, String numeroGate) {
         try {
@@ -231,8 +318,16 @@ public class Controller {
     }
 
 
-
-
+    /**
+     * Aggiorna i dati di un volo nel db
+     *
+     * @param codiceVolo       Il codice del volo da aggiornare
+     * @param nuovaData        La nuova data del volo
+     * @param nuovoOrario      Il nuovo orario del volo
+     * @param nuovoRitardo     Il nuovo ritardo del volo
+     * @param nuovoNumeroGateS Il nuovo numero del gate
+     * @return Messaggio di esito
+     */
     public String aggiornaVolo(String codiceVolo, String nuovaData, String nuovoOrario,
                                 String nuovoRitardo, String nuovoNumeroGateS) {
 
@@ -276,6 +371,11 @@ public class Controller {
     }
 
 
+    /**
+     * Recupera la lista dei gate disponibili.
+     *
+     * @return L'Arraylist dei gate disponibili
+     */
     public ArrayList<String> getGateDisponibili() {
         ArrayList<String> gatesString = null;
 
@@ -291,8 +391,13 @@ public class Controller {
     }
 
 
-
-
+    /**
+     * Elimina un volo e cancella tutte le prenotazioni assocciate al volo eliminato.
+     *
+     * @param codiceVolo Il codice del volo da eliminare
+     * @param gate       Il gate associato al volo da eliminare
+     * @return Messaggio di esito.
+     */
     public String eliminaVolo(String codiceVolo, Gate gate) {
         if (voloDAO == null) {
             return "Errore di sistema";
