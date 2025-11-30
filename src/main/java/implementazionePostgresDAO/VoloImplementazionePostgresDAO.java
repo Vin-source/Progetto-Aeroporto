@@ -156,12 +156,15 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
     }
 
 
-    public ArrayList<String> getIdPrenotazioni(ArrayList<Volo> voli) throws SQLException{
+    public ArrayList<Volo> setPrenotazioni(ArrayList<Volo> voli) throws SQLException{
         PreparedStatement ps = null;
         PreparedStatement ps2 =  null;
+        PreparedStatement ps3 = null;
+        ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
+        ArrayList<Volo> nuoviVoli = new ArrayList<>();
 
         for(Volo v : voli){
-            ps = connection.prepareStatement("SELECT DISTINCT id_prenotazione FROM ASSOCIA WHERE codice_volo = ?");
+            ps = connection.prepareStatement("SELECT DISTINCT id_prenotazione FROM associa WHERE codice_volo = ?");
             ps.setInt(1, Integer.parseInt(v.getCodiceVolo()));
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
@@ -172,12 +175,45 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
                     Prenotazione p = new Prenotazione(rs2.getString("nome"),
                             rs2.getString("cognome"),
                             rs2.getString("carta_identita"),
-                            rs2.getString("00"));
+                            "00");
 
-                    // aggiungi bagaglio qui
+                    p.setIdPrenotazione(rs2.getString("id"));
+
+                    ps3 = connection.prepareStatement("SELECT * FROM bagaglio WHERE id_prenotazione = ?");
+                    ps3.setInt(1, Integer.parseInt(p.getIdPrenotazione()));
+                    ResultSet rs3 = ps3.executeQuery();
+
+                    ArrayList<Bagaglio> bagagli = new ArrayList<>();
+
+                    while(rs3.next()){
+                        Bagaglio b = new Bagaglio(rs3.getInt("codice_bagaglio"));
+                        b.setPeso(rs3.getFloat("peso"));
+                        bagagli.add(b);
+                    }
+
+                    p.setBagagli(bagagli);
+
+                    prenotazioni.add(p);
+                    rs3.close();
+
                 }
+
+                rs2.close();
             }
+
+            v.setPrenotazioni(prenotazioni);
+            prenotazioni = new ArrayList<>();
+
+            rs.close();
+
+        nuoviVoli.add(v);
         }
+
+        if(ps3 != null) ps3.close();
+        if(ps2 != null) ps2.close();
+        if(ps != null) ps.close();
+
+        return nuoviVoli;
 
     }
 

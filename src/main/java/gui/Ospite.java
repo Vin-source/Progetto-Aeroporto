@@ -139,7 +139,7 @@ public class Ospite extends JFrame {
     private void aggiornaListaVoli(ArrayList<Volo> listaVoli) {
         listaVoliPanel.removeAll();
 
-        if(listaVoli.isEmpty()){
+        if(listaVoli.isEmpty()) {
             JPanel pannelloVolo = new JPanel();
             pannelloVolo.setLayout(new GridLayout(1,8, 10, 10));
             pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
