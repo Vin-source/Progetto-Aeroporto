@@ -15,4 +15,5 @@ public interface VoloDAO{
     boolean aggiornaVolo(Volo volo) throws SQLException;
     ArrayList<Integer> eliminaVolo(String codiceVolo, Gate gate) throws SQLException;
     ArrayList<Volo> getVoliDB() throws SQLException;
+    ArrayList<Volo> setPrenotazioni(ArrayList<Volo> voli) throws SQLException;
 }

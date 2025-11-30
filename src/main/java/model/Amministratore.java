@@ -30,14 +30,41 @@ public class Amministratore extends Ospite {
      * @param valore     il valore di ricerca
      * @return arrayList dei voli cercati
      */
-    public ArrayList<Volo> ricercaRapida(String valore) {
+    public ArrayList<Volo> ricercaRapida(String valore, boolean passeggeri, boolean bagagli) {
         ArrayList<Volo> voliTrovati = new ArrayList<>();
+        boolean isPasseggeriIn;
+        boolean isBagagliIn;
+
+        isPasseggeriIn = false;
+        isBagagliIn = false;
+
         if(voli != null){
-            voli.forEach(volo -> {
-                if (volo.getCompagniaAerea().toLowerCase().contains(valore) || volo.getCodiceVolo().toLowerCase().contains(valore)) {
+            for(Volo volo: voli){
+                if(passeggeri){
+                    for(Prenotazione p : volo.getPrenotazioni()){
+                        if(p.getNome().equalsIgnoreCase(valore)){
+                            isPasseggeriIn = true;
+                        }
+                    }
+                }
+
+                if(bagagli){
+                    for(Prenotazione p : volo.getPrenotazioni()){
+                        for(Bagaglio b : p.getBagaglio()){
+                            if(String.valueOf(b.getCodice()).equals(valore)){
+                                isBagagliIn = true;
+                            }
+                        }
+                    }
+                }
+
+
+                if (volo.getCompagniaAerea().toLowerCase().contains(valore) ||
+                        volo.getCodiceVolo().toLowerCase().contains(valore) ||
+                        isPasseggeriIn || isBagagliIn) {
                     voliTrovati.add(volo);
                 }
-            });
+            }
             return voliTrovati;
         }
         return null;

@@ -156,6 +156,31 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
     }
 
 
+    public ArrayList<String> getIdPrenotazioni(ArrayList<Volo> voli) throws SQLException{
+        PreparedStatement ps = null;
+        PreparedStatement ps2 =  null;
+
+        for(Volo v : voli){
+            ps = connection.prepareStatement("SELECT DISTINCT id_prenotazione FROM ASSOCIA WHERE codice_volo = ?");
+            ps.setInt(1, Integer.parseInt(v.getCodiceVolo()));
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                ps2 = connection.prepareStatement("SELECT * FROM prenotazione WHERE id = ?");
+                ps2.setInt(1, Integer.parseInt(rs.getString("id_prenotazione")));
+                ResultSet rs2 = ps2.executeQuery();
+                while(rs2.next()){
+                    Prenotazione p = new Prenotazione(rs2.getString("nome"),
+                            rs2.getString("cognome"),
+                            rs2.getString("carta_identita"),
+                            rs2.getString("00"));
+
+                    // aggiungi bagaglio qui
+                }
+            }
+        }
+
+    }
+
 
 
 }

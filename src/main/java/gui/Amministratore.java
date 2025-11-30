@@ -1,7 +1,6 @@
 package gui;
 import controller.Controller;
 
-import model.Gate;
 import model.StatoVolo;
 import model.Volo;
 
@@ -11,7 +10,6 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -30,6 +28,8 @@ public class Amministratore {
     private JButton logoutButton;
     private JTextField ricercaVoli;
     private JPanel listaVoliPanel;
+    private JCheckBox bagagliCheckBox;
+    private JCheckBox passeggeriCheckBox;
 
     private Controller controller;
 
@@ -66,6 +66,8 @@ public class Amministratore {
 
 
         frame.setVisible(true);
+
+
     }
 
     /**
@@ -95,13 +97,43 @@ public class Amministratore {
         ricercaVoli.getDocument().addDocumentListener(new DocumentListener() {
 
             public void insertUpdate(DocumentEvent e) {
-                aggiornaListaVoli(controller.cercaVoliAmministratore(ricercaVoli.getText()));
+                boolean passeggeri = false;
+                boolean bagagli = false;
+                if(passeggeriCheckBox.isSelected()) passeggeri = true;
+                if(bagagliCheckBox.isSelected()) bagagli = true;
+                aggiornaListaVoli(controller.cercaVoliAmministratore(ricercaVoli.getText(), passeggeri, bagagli));
             }
             public void removeUpdate(DocumentEvent e){
-                aggiornaListaVoli(controller.cercaVoliAmministratore(ricercaVoli.getText()));
+                boolean passeggeri = false;
+                boolean bagagli = false;
+                if(passeggeriCheckBox.isSelected()) passeggeri = true;
+                if(bagagliCheckBox.isSelected()) bagagli = true;
+                aggiornaListaVoli(controller.cercaVoliAmministratore(ricercaVoli.getText(), passeggeri, bagagli));
             }
             public void changedUpdate(DocumentEvent e){
                 // ignorato per campi plain text
+            }
+        });
+
+        bagagliCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean passeggeri = false;
+                boolean bagagli = false;
+                if(passeggeriCheckBox.isSelected()) passeggeri = true;
+                if(bagagliCheckBox.isSelected()) bagagli = true;
+                aggiornaListaVoli(controller.cercaVoliAmministratore(ricercaVoli.getText(), passeggeri, bagagli));
+            }
+        });
+
+        passeggeriCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean passeggeri = false;
+                boolean bagagli = false;
+                if(passeggeriCheckBox.isSelected()) passeggeri = true;
+                if(bagagliCheckBox.isSelected()) bagagli = true;
+                aggiornaListaVoli(controller.cercaVoliAmministratore(ricercaVoli.getText(), passeggeri, bagagli));
             }
         });
     }

@@ -177,6 +177,7 @@ public class Controller {
         try{
             ArrayList<Volo> voli;
             voli = voloDAO.getVoliDB();
+            voli = voloDAO.setPrenotazioni(voli);
             if(amministratore != null){
                 amministratore.setVoli(voli);
             }
@@ -190,13 +191,13 @@ public class Controller {
 
 
 
-    public ArrayList<Volo> cercaVoliAmministratore(String valore) {
+    public ArrayList<Volo> cercaVoliAmministratore(String valore, boolean passeggeri, boolean bagagli) {
         if (valore == null || valore.isEmpty()) return amministratore.getVoli();
 
         ArrayList<Volo> filtrati;
         String valoreLowerCase = valore.toLowerCase();
 
-        filtrati = amministratore.ricercaRapida(valoreLowerCase);
+        filtrati = amministratore.ricercaRapida(valoreLowerCase, passeggeri, bagagli);
         return filtrati;
     }
 
