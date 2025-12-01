@@ -251,6 +251,10 @@ public class Controller {
         try{
             ArrayList<Volo> voli;
             voli = voloDAO.getVoliDB();
+            for(Volo v : voli){
+                v.setPrenotazioni(getPrenotazioniByIdVolo(v.getCodiceVolo()));
+            }
+
             if(amministratore != null){
                 amministratore.setVoli(voli);
             }

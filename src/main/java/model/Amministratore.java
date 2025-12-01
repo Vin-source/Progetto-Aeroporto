@@ -34,7 +34,30 @@ public class Amministratore extends Ospite {
         ArrayList<Volo> voliTrovati = new ArrayList<>();
         if(voli != null){
             voli.forEach(volo -> {
-                if (volo.getCompagniaAerea().toLowerCase().contains(valore) || volo.getCodiceVolo().toLowerCase().contains(valore)) {
+                boolean prenotazioneBagaglioTrovato = false;
+
+
+                if(volo.getPrenotazioni() != null && !volo.getPrenotazioni().isEmpty()){
+                    ArrayList<Prenotazione> prenotazioni = volo.getPrenotazioni();
+                    for(Prenotazione p : prenotazioni){
+                        if(p.getNome().toLowerCase().contains(valore.toLowerCase())){
+                            prenotazioneBagaglioTrovato = true;
+                        }
+                        ArrayList<Bagaglio> bagagli = p.getBagaglio();
+                        if(bagagli != null && !bagagli.isEmpty()){
+                            for(Bagaglio b : bagagli){
+                                if(String.valueOf(b.getCodice()).equals(valore)){
+                                    prenotazioneBagaglioTrovato = true;
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                if (volo.getCompagniaAerea().toLowerCase().contains(valore) ||
+                        volo.getCodiceVolo().toLowerCase().contains(valore) ||
+                            prenotazioneBagaglioTrovato) {
                     voliTrovati.add(volo);
                 }
             });
