@@ -21,6 +21,7 @@ public class EffettuaNuovaPrenotazione {
     private JButton cancellaButton;
     private JButton sceltaPostoInAereo;
     private JLabel postoScelto;
+    private JTextField pesoTotaleDeiBagagli;
     /**
      * Il Frame della finestra EffettuaNuovaPrenotazione
      */
@@ -83,13 +84,20 @@ public class EffettuaNuovaPrenotazione {
                 }
 
 
+                if(numeroBagagli != 0 && pesoTotaleDeiBagagli.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Errore: Inserisci anche il peso totale dei bagagli");
+                    return;
+                }
+                if(pesoTotaleDeiBagagli.getText().isEmpty()) pesoTotaleDeiBagagli.setText("0");
+
+
                 if (posizioneInAereo.equals(" ")) {
                     JOptionPane.showMessageDialog(null, "Devi selezionare un posto sull'aereo prima di prenotare.");
                     return;
                 }
 
 
-                String res = controller.effettuaPrenotazione(codiceVolo, nome, cognome, cid, postoScelto.getText(), numeroBagagli);
+                String res = controller.effettuaPrenotazione(codiceVolo, nome, cognome, cid, postoScelto.getText(), numeroBagagli, pesoTotaleDeiBagagli.getText());
 
                 JOptionPane.showMessageDialog(null, res);
 

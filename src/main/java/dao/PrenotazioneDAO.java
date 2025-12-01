@@ -18,10 +18,11 @@ public interface PrenotazioneDAO {
      * @param posto         Il codice del posto selezionato.
      * @param email_utente  L'email dell'utente che sta effettuando la prenotazione.
      * @param numeroBagagli Il numero dei bagagli.
+     * @param pesoTotaleDeiBagagli il peso totale dei bagagli inseriti
      * @return il valore booleano true o false.
      * @throws SQLException Se si verifica un errore durante la query di inserimento.
      */
-    public boolean effettuaPrenotazioneDB(String codiceVolo, String nome, String cognome, String cid, String posto, String email_utente, int numeroBagagli) throws SQLException;
+    public boolean effettuaPrenotazioneDB(String codiceVolo, String nome, String cognome, String cid, String posto, String email_utente, int numeroBagagli, String pesoTotaleDeiBagagli) throws SQLException;
 
     /**
      * Recupera l'elenco dei posti prenotati per un determinato volo.

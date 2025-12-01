@@ -44,12 +44,20 @@ public class Utente extends Ospite {
             }
 
             prenotazioni.forEach(prenotazione -> {
+                boolean bagaglioTrovato = false;
+                ArrayList<Bagaglio> bagagli = prenotazione.getBagaglio();
+                for(Bagaglio b : bagagli){
+                    if(String.valueOf(b.getPeso()).equals(valore) || String.valueOf(b.getCodice()).equals(valore)){
+                        bagaglioTrovato = true;
+                    }
+                }
 
                 String nome = prenotazione.getNome();
                 String codVolo = (prenotazione.getVolo() != null) ? prenotazione.getVolo().getCodiceVolo() : "";
 
                 if ((nome != null && nome.toLowerCase().contains(valore.toLowerCase())) ||
-                        (codVolo != null && codVolo.toLowerCase().contains(valore.toLowerCase()))) {
+                        (codVolo != null && codVolo.toLowerCase().contains(valore.toLowerCase())) ||
+                            bagaglioTrovato) {
 
                     prenotazioniTrovate.add(prenotazione);
                 }

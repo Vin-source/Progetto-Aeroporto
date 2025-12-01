@@ -154,6 +154,10 @@ public class Amministratore {
                 pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
                 pannelloVolo.add(new JLabel("STATO: " + volo.getStatoVolo()));
 
+                if(volo.getStatoVolo().equals(StatoVolo.CANCELLATO) || volo.getStatoVolo().equals(StatoVolo.IN_RITARDO)){
+                    pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.RED));
+                }
+
                 if(!volo.getStatoVolo().equals(StatoVolo.CANCELLATO)){
                     JButton modifica = new JButton("MODIFICA");
                     pannelloVolo.add(modifica);

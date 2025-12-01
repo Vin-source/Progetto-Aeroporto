@@ -5,6 +5,7 @@ package model;
  */
 public class Bagaglio{
     private int codiceBagaglio;
+    private float peso;
 
     private Prenotazione prenotazione;
 
@@ -36,6 +37,24 @@ public class Bagaglio{
      * @param codice il nuovo codiceBagaglio
      */
     public void setCodice(int codice) { this.codiceBagaglio = codice; }
+
+    /**
+     * Ritorna il peso dello specifico bagaglio
+     *
+     * @return Il valore del peso in formato float
+     */
+    public float getPeso(){
+        return this.peso;
+    }
+
+    /**
+     * Salva il peso per il bagaglio
+     *
+     * @param peso Il nuovo peso da assegnare al bagaglio
+     */
+    public void setPeso(float peso){
+        this.peso = peso;
+    }
 
 
 

@@ -129,12 +129,13 @@ public class Controller {
      * @param cid           Il documento d'identità
      * @param postoInAereo  Il posto selezionato in aereo
      * @param numeroBagagli Il numero dei bagagli
+     * @param pesoTotaleDeiBagagli il peso totale dei bagagli inseriti
      * @return L'esito della prenotazione
      */
-    public String effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo, int numeroBagagli) {
+    public String effettuaPrenotazione(String codiceVolo, String nome, String cognome, String cid, String postoInAereo, int numeroBagagli, String pesoTotaleDeiBagagli) {
 
     try{
-        if(prenotazioneDAO.effettuaPrenotazioneDB(codiceVolo, nome, cognome, cid, postoInAereo, utente.getEmail(), numeroBagagli)){
+        if(prenotazioneDAO.effettuaPrenotazioneDB(codiceVolo, nome, cognome, cid, postoInAereo, utente.getEmail(), numeroBagagli, pesoTotaleDeiBagagli)){
             getTutteLePrenotazioni();
             return "Prenotazione effettuata!";
         }

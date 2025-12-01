@@ -39,7 +39,7 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
      * @return L'esito dell'operazione.
      * @throws SQLException Se si verifica un errore nella query SQL.
      */
-    public boolean effettuaPrenotazioneDB(String codiceVolo, String nome, String cognome, String cid, String posto, String email_utente, int numeroBagagli) throws  SQLException{
+    public boolean effettuaPrenotazioneDB(String codiceVolo, String nome, String cognome, String cid, String posto, String email_utente, int numeroBagagli, String pesoTotaleDeiBagagli) throws  SQLException{
         String sql = "INSERT INTO prenotazione(nome, cognome, carta_identita, email_utente, stato_prenotazione) VALUES (?,?,?,?,?)";
         String sql2 = "INSERT INTO associa(codice_volo, posto, id_prenotazione) VALUES (?, ?, ?)";
         String sql3;
@@ -71,9 +71,10 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
             associaSQL.executeUpdate();
 
             for(int i = 0; i < numeroBagagli; i++) {
-                sql3 = "INSERT INTO bagaglio(id_prenotazione) VALUES (?)";
+                sql3 = "INSERT INTO bagaglio(id_prenotazione, peso) VALUES (?, ?)";
                 PreparedStatement bagaglioSQL = connection.prepareStatement(sql3);
                 bagaglioSQL.setInt(1, nuovoId);
+                bagaglioSQL.setFloat(2,  Float.parseFloat(pesoTotaleDeiBagagli));
                 bagaglioSQL.executeUpdate();
                 bagaglioSQL.close();
             }

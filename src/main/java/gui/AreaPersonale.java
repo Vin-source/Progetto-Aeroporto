@@ -1,6 +1,7 @@
 package gui;
 
 import controller.Controller;
+import model.Bagaglio;
 import model.Prenotazione;
 import model.StatoPrenotazione;
 import model.Volo;
@@ -149,7 +150,7 @@ public class AreaPersonale {
                 JPanel prenotazione = new JPanel();
                 prenotazione.setLayout(new GridLayout(1,8, 10, 10));
                 prenotazione.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                prenotazione.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
+                // prenotazione.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60)); // altezza fissa
 
                 prenotazione.add(new JLabel("ID: " + p.getIdPrenotazione().toUpperCase()));
                 prenotazione.add(new JLabel("NOME: " + p.getNome().toUpperCase()));
@@ -157,6 +158,24 @@ public class AreaPersonale {
                 prenotazione.add(new JLabel("CARTA D'IDENTITA: " + p.getCartaIdentita().toUpperCase()));
                 prenotazione.add(new JLabel("POSTO ASSEGNATO: " + p.getPostoAssegnato()));
                 prenotazione.add(new JLabel("STATO: " + p.getStatoPrenotazione()));
+
+                ArrayList<Bagaglio> bagagli = p.getBagaglio();
+                if(bagagli != null){
+                    JPanel bagagliPanel = new JPanel();
+                    bagagliPanel.setLayout(new BoxLayout(bagagliPanel, BoxLayout.Y_AXIS));
+
+                    JPanel pesoBagagli = new JPanel();
+                    float pesoTotale = 0;
+
+                    for(Bagaglio b : bagagli){
+                        bagagliPanel.add(new JLabel("CODICE BAGAGLIO: " + b.getCodice()));
+                        pesoTotale = b.getPeso();
+                    }
+                    pesoBagagli.add(new JLabel("PESO TOTALE BAGAGLI: " + pesoTotale));
+                    prenotazione.add(bagagliPanel);
+                    prenotazione.add(pesoBagagli);
+                }
+
 
                 if(!p.getStatoPrenotazione().equals(StatoPrenotazione.CANCELLATA)){
 
@@ -180,11 +199,14 @@ public class AreaPersonale {
                 }
 
 
-
+                prenotazione.setMaximumSize(new Dimension(Integer.MAX_VALUE,
+                        prenotazione.getPreferredSize().height));
                 listaPrenotazioni.add(prenotazione);
                 listaPrenotazioni.add(Box.createVerticalStrut(5));
 
             }
+
+            listaPrenotazioni.add(Box.createVerticalGlue());
         }
 
         listaPrenotazioni.revalidate();
