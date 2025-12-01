@@ -7,10 +7,6 @@ import java.sql.SQLException;
  */
 public interface LoginDAO {
 
-
-    // Verifica le credenziali di accesso e ritorna il ruolo dell'utente.
-//    String loginDB(String username, String password) throws SQLException;
-
     /**
      * Verifica le credenziali di accesso e ritorna il ruolo dell'utente.
      *
@@ -20,5 +16,4 @@ public interface LoginDAO {
      * @throws SQLException Se si verifica un errore durante la connessione al database.
      */
     public String getUtentiDB(String email, String password) throws SQLException;
-    // public String getIdOspite(String email, String password) throws SQLException;
 }

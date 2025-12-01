@@ -5,13 +5,18 @@ import database.ConnessioneDatabase;
 import model.*;
 
 import java.sql.*;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
+/**
+ * Implementazione dell'interfaccia {@link VoloDAO}.
+ */
 public class VoloImplementazionePostgresDAO implements VoloDAO {
 
     private Connection connection;
 
+    /**
+     * Costruttore che inizializza la connessione al db.
+     */
     public VoloImplementazionePostgresDAO() {
         try {
             this.connection = ConnessioneDatabase.getInstance().connection;
@@ -20,6 +25,14 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
         }
     }
 
+    /**
+     * Inserisce un nuovo volo nel DB.
+     *
+     * @param volo       Il nuovo volo da inserire.
+     * @param numeroGate Il numero del gate da assegnare al volo.
+     * @return Il nuovo codiceVolo generato dal db.
+     * @throws SQLException Se si verifica un errore nella query SQL.
+     */
     @Override
     public String inserisciVolo(Volo volo, String numeroGate) throws SQLException {
         PreparedStatement ps = null;
@@ -66,6 +79,13 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
 
     }
 
+    /**
+     * Aggiorna i dati su un volo esistente nel DB.
+     *
+     * @param volo Il volo da aggiornare.
+     * @return L'esito dell'operazione.
+     * @throws SQLException Se si verifica un errore nella query SQL.
+     */
     @Override
     public boolean aggiornaVolo(Volo volo) throws SQLException {
         PreparedStatement ps = null;
@@ -97,6 +117,15 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
 
     }
 
+
+    /**
+     * Modifica lo stato del volo a CANCELLATO.
+     *
+     * @param codiceVolo Il codice volo del volo da eliminare.
+     * @param gate       Il gate associato al volo eliminato.
+     * @return           Un ArrayList contenente l'id delle prenotazioni associate al volo da cancellare.
+     * @throws SQLException Se si verifica un errore nella query SQL
+     */
     @Override
     public ArrayList<Integer> eliminaVolo(String codiceVolo, Gate gate) throws SQLException {
         ArrayList<Integer> prenotazioniDaCancellare = new ArrayList<>();
@@ -127,6 +156,12 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
     }
 
 
+    /**
+     * Recupera tutti i voli dal DB.
+     *
+     * @return Un ArrayList contenente tutti i voli nel DB
+     * @throws SQLException Se si verifica un errore nella query SQL
+     */
     @Override
     public ArrayList<Volo> getVoliDB() throws SQLException{
         ArrayList<Volo> voli = new ArrayList<>();

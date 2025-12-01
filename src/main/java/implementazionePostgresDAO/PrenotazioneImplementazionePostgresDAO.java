@@ -6,11 +6,17 @@ import database.ConnessioneDatabase;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Implementazione dell'interfaccia {@link PrenotazioneDAO}.
+ */
 public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
 
 
     private Connection connection;
 
+    /**
+     * Costruttore che inizializza la connessione al db.
+     */
     public PrenotazioneImplementazionePostgresDAO() {
         try {
             this.connection = ConnessioneDatabase.getInstance().connection;
@@ -19,6 +25,20 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
         }
     }
 
+
+    /**
+     * Effettua una nuova prenotazione per l'utente nel db.
+     *
+     * @param codiceVolo    Il codice univoco del volo da prenotare.
+     * @param nome          Il nome del passeggero.
+     * @param cognome       Il cognome del passeggero.
+     * @param cid           La carta d'identità del passeggero.
+     * @param posto         Il codice del posto selezionato.
+     * @param email_utente  L'email dell'utente che sta effettuando la prenotazione.
+     * @param numeroBagagli Il numero dei bagagli.
+     * @return L'esito dell'operazione.
+     * @throws SQLException Se si verifica un errore nella query SQL.
+     */
     public boolean effettuaPrenotazioneDB(String codiceVolo, String nome, String cognome, String cid, String posto, String email_utente, int numeroBagagli) throws  SQLException{
         String sql = "INSERT INTO prenotazione(nome, cognome, carta_identita, email_utente, stato_prenotazione) VALUES (?,?,?,?,?)";
         String sql2 = "INSERT INTO associa(codice_volo, posto, id_prenotazione) VALUES (?, ?, ?)";
@@ -70,6 +90,13 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
     }
 
 
+    /**
+     * Recupera i posti occupati nell'aereo dato il codice di uno specifico volo.
+     *
+     * @param codiceVolo Il codice del volo di cui si vogliono conoscere i posti occupati.
+     * @return Un'Arraylist contenente i posti occupati.
+     * @throws SQLException Se si verifica un errore nella query SQL.
+     */
     public ArrayList<String> getPostiOccupatiDB(String codiceVolo) throws SQLException{
         String sql = "SELECT posto FROM associa WHERE codice_volo = ?";
         ArrayList<String> postiTrovati = new ArrayList<>();
@@ -90,6 +117,19 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
         return postiTrovati;
     }
 
+
+    /**
+     * Aggiorna i dati su una prenotazione esistente.
+     *
+     * @param codiceVolo       Il codice volo.
+     * @param nome             Il nuovo nome del passeggero.
+     * @param cognome          Il nuovo cognome del passeggero.
+     * @param cartaIdentita    Il nuovo numero di carta d'identità.
+     * @param idPrenotazione   L'id della prenotazione.
+     * @param nuovoPostoScelto Il nuovo posto scelto.
+     * @return L'esito dell'operazione.
+     * @throws SQLException Se si verifica un errore nella query SQL.
+     */
     public boolean modificaPrenotazioneDB(String codiceVolo,String nome,String cognome,String cartaIdentita,String idPrenotazione, String nuovoPostoScelto) throws SQLException{
         String sql = "UPDATE prenotazione SET nome = ?, cognome = ?, carta_identita = ? WHERE id = ?";
         String sql2 = "UPDATE associa SET posto = ? WHERE id_prenotazione = ?";
@@ -118,6 +158,13 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
         return true;
     }
 
+    /**
+     * Elimina una prenotazione esistente prenotata dall'utente.
+     *
+     * @param idPrenotazione L'id della prenotazione da eliminare.
+     * @return L'esito dell'operazione.
+     * @throws SQLException Se si verifica un errore nella query SQL.
+     */
     public boolean cancellaPrenotazioneDB(String idPrenotazione) throws SQLException{
         String sql = "UPDATE prenotazione SET stato_prenotazione = 'CANCELLATA' WHERE id = ?";
         String sql2 = "DELETE FROM associa WHERE  id_prenotazione = ?";

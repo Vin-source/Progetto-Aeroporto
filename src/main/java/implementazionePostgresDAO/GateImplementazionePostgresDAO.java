@@ -2,15 +2,19 @@ package implementazionePostgresDAO;
 
 import dao.GateDAO;
 import database.ConnessioneDatabase;
-import model.Gate;
-
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Implementazione dell'interfaccia {@link GateDAO}.
+ */
 public class GateImplementazionePostgresDAO implements GateDAO {
 
     private Connection connection;
 
+    /**
+     * Costruttore che inizializza la connessione al db.
+     */
     public GateImplementazionePostgresDAO() {
         try {
             this.connection = ConnessioneDatabase.getInstance().connection;
@@ -19,6 +23,14 @@ public class GateImplementazionePostgresDAO implements GateDAO {
         }
     }
 
+    /**
+     *  Assegna un volo ad un gate.
+     *
+     * @param codiceVolo Il codice del volo da assegnare al gate.
+     * @param numeroGate Il numero del gate alla quale è assegnato il volo.
+     * @return L'esito dell'operazione.
+     * @throws SQLException Se si verifica un problema durante l'operazione sul db.
+     */
     @Override
     public boolean assegnaGate(String codiceVolo, int numeroGate) throws SQLException {
         PreparedStatement ps;
@@ -39,7 +51,12 @@ public class GateImplementazionePostgresDAO implements GateDAO {
     }
 
 
-
+    /**
+     * Recupera tutti i gate che non sono assegnati ad un volo.
+     *
+     * @return Un'Arraylist dei gate disponibili.
+     * @throws SQLException Se si verifica un errore nel recupero dei gate dal db.
+     */
     public ArrayList<String> getGateDisponibiliDAO() throws SQLException {
         ArrayList<String> listaGates = new ArrayList<>();
 
@@ -60,6 +77,12 @@ public class GateImplementazionePostgresDAO implements GateDAO {
         return listaGates;
     }
 
+    /**
+     * Elimina il riferimento al volo in un determinato gate
+     *
+     * @param codiceVolo Il codice del volo di cui liberare il gate.
+     * @throws SQLException Se si verifica un errore durante l'assegnazione nel db.
+     */
     public void setCodiceVoloNull(int codiceVolo) throws SQLException{
         PreparedStatement ps = null;
 

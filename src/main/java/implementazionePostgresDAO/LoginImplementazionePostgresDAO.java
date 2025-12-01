@@ -8,10 +8,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Implementazione dell'interfaccia {@link LoginDAO}.
+ */
 public class LoginImplementazionePostgresDAO implements LoginDAO {
 
     private Connection connection;
 
+    /**
+     * Costruttore che inizializza la connessione al db.
+     */
     public LoginImplementazionePostgresDAO() {
         try {
             this.connection = ConnessioneDatabase.getInstance().connection;
@@ -20,6 +26,15 @@ public class LoginImplementazionePostgresDAO implements LoginDAO {
         }
     }
 
+
+    /**
+     * Verifica le credenziali di accesso al db.
+     *
+     * @param email    L'indirizzo email dell'utente.
+     * @param password La password dell'utente.
+     * @return il ruolo dell'utente trovato.
+     * @throws SQLException Se si verifica un errore di query SQL.
+     */
     @Override
     public String getUtentiDB(String email, String password) throws SQLException{
 
@@ -41,29 +56,5 @@ public class LoginImplementazionePostgresDAO implements LoginDAO {
 
         return "utente o amministratore non trovato";
     }
-
-    /*
-    @Override
-    public String getIdOspite(String email, String password) throws SQLException {
-
-        String sql = "SELECT id FROM utenti WHERE email = ? AND password = ?";
-
-        try (PreparedStatement st = connection.prepareStatement(sql)) {
-
-            st.setString(1, email);
-            st.setString(2, password);
-
-            try (ResultSet rs = st.executeQuery()) {
-
-                if (rs.next()) {
-                    return rs.getString("id");
-                }
-
-            }
-        }
-
-        return null;
-    }
-*/
 }
 

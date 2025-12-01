@@ -4,14 +4,19 @@ import dao.UtenteDAO;
 import database.ConnessioneDatabase;
 import model.*;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Implementazione dell'interfaccia {@link UtenteDAO}.
+ */
 public class UtenteImplementazionePostgresDAO implements UtenteDAO {
 
     private Connection connection;
 
+    /**
+     * Costruttore che inizializza la connessione al db.
+     */
     public UtenteImplementazionePostgresDAO() {
         try {
             this.connection = ConnessioneDatabase.getInstance().connection;
@@ -21,6 +26,13 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
     }
 
 
+    /**
+     * Recupera tutte le prenotazioni associate ad uno specifico utente.
+     *
+     * @param email_utente L'email dell'utente.
+     * @return Un ArrayList con le prenotazioni trovate.
+     * @throws SQLException Se si verifica un errore nella query SQL.
+     */
     public ArrayList<Prenotazione> getPrenotazioniDB(String email_utente) throws SQLException {
         ArrayList<Prenotazione> prenotazioniFinali = new ArrayList<>();
 
