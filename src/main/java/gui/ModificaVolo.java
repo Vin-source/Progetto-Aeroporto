@@ -5,6 +5,7 @@ import model.Volo;
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -50,7 +51,7 @@ public class ModificaVolo {
 
         frame = new JFrame("Aggiorna Volo");
         frame.setContentPane(aggiornaVoloPanel);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         codiceVolo.setText(volo.getCodiceVolo());
         dataAttuale.setText(volo.getData());
@@ -71,7 +72,7 @@ public class ModificaVolo {
         initListeners(frameChiamante, volo);
 
         frame.pack();
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         frame.setVisible(true);
     }
 

@@ -1,6 +1,7 @@
 package gui;
 import controller.Controller;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -42,9 +43,9 @@ public class EffettuaNuovaPrenotazione {
 
         frame = new JFrame("Dati prenotazione");
         frame.setContentPane(Prenotazione);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         frame.setVisible(true);
         this.controller = controller;
 

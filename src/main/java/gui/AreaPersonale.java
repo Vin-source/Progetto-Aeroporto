@@ -49,7 +49,7 @@ public class AreaPersonale {
 
         frame = new JFrame("Area Personale");
         frame.setContentPane(AreaPersonale);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 
         email.setText(this.controller.getEmail());
@@ -66,7 +66,7 @@ public class AreaPersonale {
 
 
         frame.pack();
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         frame.setVisible(true);
     }
 
@@ -95,6 +95,7 @@ public class AreaPersonale {
                 aggiornaP();
             }
             public void changedUpdate(DocumentEvent e){
+                // Metodo non necessario per questo listener, ma obbligatorio per l'interfaccia
             }
         });
 

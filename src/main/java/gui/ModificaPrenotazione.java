@@ -43,7 +43,7 @@ public class ModificaPrenotazione {
 
         frame = new JFrame("Modifica Prenotazione");
         frame.setContentPane(mainPanel);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.pack();
         this.controller = controller;
         this.codiceVolo = p.getCodiceVolo();

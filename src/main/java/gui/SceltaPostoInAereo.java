@@ -49,7 +49,7 @@ public class SceltaPostoInAereo {
 
         frame = new JFrame("Scelta Posto in Aereo");
         frame.setContentPane(scegliPostoPanel);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.pack();
         this.controller = controller;
 

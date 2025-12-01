@@ -8,9 +8,6 @@ import java.util.ArrayList;
  */
 public class Utente extends Ospite {
     private ArrayList<Prenotazione> prenotazioni;
-    private String id;
-    private String email;
-    private String password;
 
     /**
      * Costruttore della classe Utente.java
@@ -44,13 +41,7 @@ public class Utente extends Ospite {
             }
 
             prenotazioni.forEach(prenotazione -> {
-                boolean bagaglioTrovato = false;
-                ArrayList<Bagaglio> bagagli = prenotazione.getBagaglio();
-                for(Bagaglio b : bagagli){
-                    if(String.valueOf(b.getPeso()).equals(valore) || String.valueOf(b.getCodice()).equals(valore)){
-                        bagaglioTrovato = true;
-                    }
-                }
+                boolean bagaglioTrovato = verificaValorePerBagaglio(prenotazione, valore);
 
                 String nome = prenotazione.getNome();
                 String codVolo = (prenotazione.getVolo() != null) ? prenotazione.getVolo().getCodiceVolo() : "";
@@ -63,11 +54,28 @@ public class Utente extends Ospite {
                 }
             });
 
-            return prenotazioniTrovate;
 
-        } else {
-            return new ArrayList<>();
+
         }
+        return prenotazioniTrovate;
+    }
+
+    /**
+     * Verifica se i dati dei bagagli associati ad una specifica prenotazione coincidono con un valore ricercato.
+     * @param prenotazione la prenotazione nel quale cercare il valore.
+     * @param valore il valore da cercare.
+     * @return L'esito dell'operazione.
+     */
+    private boolean verificaValorePerBagaglio(Prenotazione prenotazione, String valore){
+        boolean bagaglioTrovato = false;
+        ArrayList<Bagaglio> bagagli = prenotazione.getBagaglio();
+        for(Bagaglio b : bagagli){
+            if(String.valueOf(b.getPeso()).equals(valore) || String.valueOf(b.getCodice()).equals(valore)){
+                bagaglioTrovato = true;
+            }
+        }
+
+        return bagaglioTrovato;
     }
 
 

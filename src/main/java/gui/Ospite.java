@@ -55,7 +55,7 @@ public class Ospite extends JFrame {
 
         frame = new JFrame("La mia GUI Swing");
         frame.setContentPane(ospiteContainer);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
 
         this.controller = controller;
@@ -71,7 +71,7 @@ public class Ospite extends JFrame {
         initListeners(controller);
         frame.pack();
 
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 
         frame.addWindowListener(new WindowAdapter() {
             @Override

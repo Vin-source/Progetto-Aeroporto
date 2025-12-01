@@ -29,7 +29,7 @@ public class DettagliVolo {
         this.controller = controller;
         JFrame frame = new JFrame("Dettagli Volo");
         frame.setContentPane(dettagliVoloContainer);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         dettagliVoloPanel.setLayout(new BoxLayout(dettagliVoloPanel, BoxLayout.Y_AXIS));
 
         mostraInfo(volo);
@@ -50,10 +50,7 @@ public class DettagliVolo {
         ArrayList<Prenotazione> prenotazioni = controller.getPrenotazioniByIdVolo(volo.getCodiceVolo());
         if(prenotazioni != null){
             if(prenotazioni.isEmpty()){
-                JPanel prenotazioniVuote = new JPanel();
-                prenotazioniVuote.setLayout(new BoxLayout(prenotazioniVuote, BoxLayout.Y_AXIS));
-                prenotazioniVuote.add(new JLabel("Non ci sono prenotazioni per questo volo"));
-                dettagliVoloPanel.add(prenotazioniVuote);
+                mostraPanelVuoto();
                 return;
             }
 
@@ -65,21 +62,7 @@ public class DettagliVolo {
                 prenotazioniPanel.add(new JLabel("Cognome: " + p.getCognome()));
                 prenotazioniPanel.add(new JLabel("Carta d'identità: " + p.getCartaIdentita()));
 
-                ArrayList<Bagaglio> bagagli;
-                bagagli = p.getBagaglio();
-                float pesoTotale = 0;
-                if(bagagli != null && !bagagli.isEmpty() && bagagli.get(0) != null) pesoTotale = bagagli.get(0).getPeso();
-
-                prenotazioniPanel.add(new JLabel("BAGAGLI: "));
-
-                if(bagagli.isEmpty()){
-                    prenotazioniPanel.add(new JLabel("Non ci sono bagagli"));
-                }else if(bagagli != null){
-                    for(Bagaglio b : bagagli){
-                        prenotazioniPanel.add(new JLabel("Codice Bagaglio: " + b.getCodice()));
-                    }
-                    prenotazioniPanel.add(new JLabel("Peso totale dei bagagli: " + pesoTotale));
-                }
+                mostraBagagli(prenotazioniPanel, p);
 
                 prenotazioniPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 dettagliVoloPanel.add(Box.createVerticalStrut(5));
@@ -93,6 +76,32 @@ public class DettagliVolo {
         dettagliVoloPanel.revalidate();
         dettagliVoloPanel.repaint();
 
+    }
+
+
+    public void mostraPanelVuoto() {
+        JPanel prenotazioniVuote = new JPanel();
+        prenotazioniVuote.setLayout(new BoxLayout(prenotazioniVuote, BoxLayout.Y_AXIS));
+        prenotazioniVuote.add(new JLabel("Non ci sono prenotazioni per questo volo"));
+        dettagliVoloPanel.add(prenotazioniVuote);
+    }
+
+    public void mostraBagagli(JPanel prenotazioniPanel, Prenotazione p){
+        ArrayList<Bagaglio> bagagli;
+        bagagli = p.getBagaglio();
+        float pesoTotale = 0;
+        if(bagagli != null && !bagagli.isEmpty() && bagagli.get(0) != null) pesoTotale = bagagli.get(0).getPeso();
+
+        prenotazioniPanel.add(new JLabel("BAGAGLI: "));
+
+        if(bagagli.isEmpty()){
+            prenotazioniPanel.add(new JLabel("Non ci sono bagagli"));
+        }else if(bagagli != null){
+            for(Bagaglio b : bagagli){
+                prenotazioniPanel.add(new JLabel("Codice Bagaglio: " + b.getCodice()));
+            }
+            prenotazioniPanel.add(new JLabel("Peso totale dei bagagli: " + pesoTotale));
+        }
     }
 
 }

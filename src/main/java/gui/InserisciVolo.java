@@ -4,6 +4,7 @@ import controller.Controller;
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -49,14 +50,14 @@ public class InserisciVolo {
 
         frame = new JFrame("Schermata InserisciVolo");
         frame.setContentPane(inserisciVoloPanel);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         initFormatters();
         popolaGateDisponibili();
         initListeners(frameChiamante);
 
         frame.pack();
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         frame.setVisible(true);
     }
 
@@ -78,14 +79,16 @@ public class InserisciVolo {
                 String ritardo = ritardoVolo.getText();
                 String gate = (String) gateVolo.getSelectedItem();
 
+                String titoloErrore = "Errore";
+
                 if (compagnia.isEmpty() || origine.isEmpty() || destinazione.isEmpty()
                         || data.contains("_") || orario.contains("_") || ritardo.isEmpty()) {
-                    JOptionPane.showMessageDialog(frame, "Errore: Popolare tutti i campi.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Errore: Popolare tutti i campi.", titoloErrore, JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 if (!origine.equalsIgnoreCase("Napoli") && !destinazione.equalsIgnoreCase("Napoli")) {
-                    JOptionPane.showMessageDialog(frame, "Errore: Un volo deve avere come partenza o destinazione Napoli!", "Errore", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Errore: Un volo deve avere come partenza o destinazione Napoli!", titoloErrore, JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -100,7 +103,7 @@ public class InserisciVolo {
                     frameChiamante.setVisible(true);
                     frame.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(frame, result, "Errore", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, result, titoloErrore, JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

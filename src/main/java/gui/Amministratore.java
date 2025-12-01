@@ -44,7 +44,7 @@ public class Amministratore {
         this.controller = controller;
         frame = new JFrame("Pannello Amministratore TEST");
         frame.setContentPane(AmministratorePanel);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         listaVoliPanel.setLayout(new BoxLayout(listaVoliPanel, BoxLayout.Y_AXIS));
 
@@ -52,7 +52,7 @@ public class Amministratore {
         initListeners(frameChiamante);
         frame.pack();
 
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 
         frame.addWindowListener(new WindowAdapter() {
             @Override
@@ -124,16 +124,7 @@ public class Amministratore {
         listaVoliPanel.removeAll();
 
         if(listaVoli.isEmpty()){
-            JPanel pannelloVolo = new JPanel();
-            pannelloVolo.setLayout(new GridLayout(1,9, 10, 10));
-            pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
-
-            pannelloVolo.add(new JLabel("Non ci sono voli attualmente disponibili. Ci scusiamo per il disagio!"));
-
-            listaVoliPanel.add(pannelloVolo);
-            listaVoliPanel.add(Box.createVerticalStrut(5));
-
+            pannelloVuoto();
         }else{
             for(Volo volo: listaVoli){
                 JPanel pannelloVolo = new JPanel();
@@ -141,59 +132,14 @@ public class Amministratore {
                 pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 
-                pannelloVolo.add(new JLabel("CODICE: " + volo.getCodiceVolo().toUpperCase()));
-                pannelloVolo.add(new JLabel("COMPAGNIA AEREA: " + volo.getCompagniaAerea().toUpperCase()));
-                if(volo.getOrigine() != null) pannelloVolo.add(new JLabel("ORIGINE: " + volo.getOrigine().toUpperCase()));
-                if(volo.getDestinazione() != null) pannelloVolo.add(new JLabel("DESTINAZIONE: " + volo.getDestinazione().toUpperCase()));
-                pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
-                if(volo.getOrigine().equalsIgnoreCase("Napoli")){
-                    pannelloVolo.add(new JLabel("PARTE ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
-                }else{
-                    pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
-                }
-                pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
-                pannelloVolo.add(new JLabel("STATO: " + volo.getStatoVolo()));
+                popolaDati(pannelloVolo, volo);
 
                 if(volo.getStatoVolo().equals(StatoVolo.CANCELLATO) || volo.getStatoVolo().equals(StatoVolo.IN_RITARDO)){
                     pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.RED));
                 }
 
                 if(!volo.getStatoVolo().equals(StatoVolo.CANCELLATO)){
-                    JButton modifica = new JButton("MODIFICA");
-                    pannelloVolo.add(modifica);
-                    JButton elimina = new JButton("ELIMINA");
-
-                    elimina.addActionListener(e -> {
-                        int scelta = JOptionPane.showConfirmDialog(
-                                frame,
-                                "Sei sicuro di voler eliminare il volo " + volo.getCodiceVolo() + "?",
-                                "Conferma Eliminazione",
-                                JOptionPane.YES_NO_OPTION,
-                                JOptionPane.WARNING_MESSAGE
-                        );
-
-                        if (scelta == JOptionPane.YES_OPTION) {
-
-                            String esito = controller.eliminaVolo(volo.getCodiceVolo(), volo.getGate());
-
-                            if (esito.equals("Volo cancellato correttamente!")) {
-                                JOptionPane.showMessageDialog(frame, esito);
-                                creaPannelli();
-                            } else {
-                                JOptionPane.showMessageDialog(frame,
-                                        esito,
-                                        "Errore",
-                                        JOptionPane.ERROR_MESSAGE);
-                            }
-                        }
-                    });
-                    pannelloVolo.add(elimina);
-
-
-                    modifica.addActionListener(e -> {
-                        new ModificaVolo(frame,controller,volo);
-                        frame.setVisible(false);
-                    });
+                    aggiungiBottoni(pannelloVolo, volo);
                 }
 
                 JButton dettagliVolo = new JButton("DETTAGLI VOLO");
@@ -217,5 +163,88 @@ public class Amministratore {
         listaVoliPanel.revalidate();
         listaVoliPanel.repaint();
     }
+
+
+    /**
+     * Mostra una stringa in un pannello per indicare che non ci sono voli disponibili.
+     */
+    public void pannelloVuoto(){
+        JPanel pannelloVolo = new JPanel();
+        pannelloVolo.setLayout(new GridLayout(1,9, 10, 10));
+        pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
+
+        pannelloVolo.add(new JLabel("Non ci sono voli attualmente disponibili. Ci scusiamo per il disagio!"));
+
+        listaVoliPanel.add(pannelloVolo);
+        listaVoliPanel.add(Box.createVerticalStrut(5));
+    }
+
+
+    /**
+     * Aggiunge bottoni per eliminare e modificare un volo e inizializza gli actionListener.
+     *
+     * @param pannelloVolo il pannello dove inserire i bottoni.
+     * @param volo oggetto volo considerato.
+     */
+    public void aggiungiBottoni(JPanel pannelloVolo, Volo volo){
+        JButton modifica = new JButton("MODIFICA");
+        pannelloVolo.add(modifica);
+        JButton elimina = new JButton("ELIMINA");
+
+        elimina.addActionListener(e -> {
+            int scelta = JOptionPane.showConfirmDialog(
+                    frame,
+                    "Sei sicuro di voler eliminare il volo " + volo.getCodiceVolo() + "?",
+                    "Conferma Eliminazione",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            if (scelta == JOptionPane.YES_OPTION) {
+
+                String esito = controller.eliminaVolo(volo.getCodiceVolo(), volo.getGate());
+
+                if (esito.equals("Volo cancellato correttamente!")) {
+                    JOptionPane.showMessageDialog(frame, esito);
+                    creaPannelli();
+                } else {
+                    JOptionPane.showMessageDialog(frame,
+                            esito,
+                            "Errore",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        pannelloVolo.add(elimina);
+
+
+        modifica.addActionListener(e -> {
+            new ModificaVolo(frame,controller,volo);
+            frame.setVisible(false);
+        });
+    }
+
+    /**
+     * Popola il panel con i dati sul volo indicato.
+     * @param pannelloVolo il pannello dove inserire i dati.
+     * @param volo l'oggetto volo dal quale prendere i dati.
+     */
+    public void popolaDati(JPanel pannelloVolo, Volo volo){
+        pannelloVolo.add(new JLabel("CODICE: " + volo.getCodiceVolo().toUpperCase()));
+        pannelloVolo.add(new JLabel("COMPAGNIA AEREA: " + volo.getCompagniaAerea().toUpperCase()));
+        if(volo.getOrigine() != null) pannelloVolo.add(new JLabel("ORIGINE: " + volo.getOrigine().toUpperCase()));
+        if(volo.getDestinazione() != null) pannelloVolo.add(new JLabel("DESTINAZIONE: " + volo.getDestinazione().toUpperCase()));
+        pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
+        if(volo.getOrigine().equalsIgnoreCase("Napoli")){
+            pannelloVolo.add(new JLabel("PARTE ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
+        }else{
+            pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
+        }
+        pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
+        pannelloVolo.add(new JLabel("STATO: " + volo.getStatoVolo()));
+    }
+
+
 }
 

@@ -34,26 +34,7 @@ public class Amministratore extends Ospite {
         ArrayList<Volo> voliTrovati = new ArrayList<>();
         if(voli != null){
             voli.forEach(volo -> {
-                boolean prenotazioneBagaglioTrovato = false;
-
-
-                if(volo.getPrenotazioni() != null && !volo.getPrenotazioni().isEmpty()){
-                    ArrayList<Prenotazione> prenotazioni = volo.getPrenotazioni();
-                    for(Prenotazione p : prenotazioni){
-                        if(p.getNome().toLowerCase().contains(valore.toLowerCase())){
-                            prenotazioneBagaglioTrovato = true;
-                        }
-                        ArrayList<Bagaglio> bagagli = p.getBagaglio();
-                        if(bagagli != null && !bagagli.isEmpty()){
-                            for(Bagaglio b : bagagli){
-                                if(String.valueOf(b.getCodice()).equals(valore)){
-                                    prenotazioneBagaglioTrovato = true;
-                                }
-                            }
-                        }
-                    }
-                }
-
+                boolean prenotazioneBagaglioTrovato = verificaPerBagaglioPasseggero(volo, valore);
 
                 if (volo.getCompagniaAerea().toLowerCase().contains(valore) ||
                         volo.getCodiceVolo().toLowerCase().contains(valore) ||
@@ -66,6 +47,49 @@ public class Amministratore extends Ospite {
         return null;
     }
 
+
+    /**
+     * Verifica che il passeggero associato a una prenotazione abbia valori coincidenti con il valore ricercato.
+     * @param volo l'oggetto volo.
+     * @param valore il valore da ricercare.
+     * @return  L'esito dell'operazione
+     */
+    private boolean verificaPerBagaglioPasseggero(Volo volo, String valore) {
+        boolean prenotazioneBagaglioTrovato = false;
+
+
+        if(!volo.getPrenotazioni().isEmpty()){
+            ArrayList<Prenotazione> prenotazioni = volo.getPrenotazioni();
+            for(Prenotazione p : prenotazioni){
+                if(p.getNome().toLowerCase().contains(valore.toLowerCase())){
+                    prenotazioneBagaglioTrovato = true;
+                }
+                prenotazioneBagaglioTrovato = verificaBagaglio(p, valore);
+            }
+        }
+
+        return prenotazioneBagaglioTrovato;
+    }
+
+    /**
+     * verifica che il bagaglio associato a una prenotazione abbia valori coincidenti con il valore ricercato.
+     *
+     * @param p la prenotazione presa in considerazione
+     * @param valore il valore ricercato
+     * @return L'esito dell'operazione
+     */
+    private boolean verificaBagaglio(Prenotazione p, String valore) {
+        boolean prenotazioneBagaglioTrovato = false;
+        ArrayList<Bagaglio> bagagli = p.getBagaglio();
+        if(bagagli != null && !bagagli.isEmpty()){
+            for(Bagaglio b : bagagli){
+                if(String.valueOf(b.getCodice()).equals(valore)){
+                    prenotazioneBagaglioTrovato = true;
+                }
+            }
+        }
+        return prenotazioneBagaglioTrovato;
+    }
 
     /**
      * Ritorna tutti i voli associati all'amministratore corrente
