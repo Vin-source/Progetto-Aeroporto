@@ -1,5 +1,7 @@
 package dao;
 
+import model.Prenotazione;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -55,4 +57,14 @@ public interface PrenotazioneDAO {
      * @throws SQLException Se si verifica un errore durante l'eliminazione nel db.
      */
     public boolean cancellaPrenotazioneDB(String idPrenotazione) throws SQLException;
+
+
+    /**
+     * Recupera tutte le prenotazioni legate al volo tramite il suo codice
+     *
+     * @param codiceVolo il codice del volo dal quale trarre le prenotazioni corrispondenti
+     * @return Un ArrayList delle prenotazioni trovate
+     * @throws SQLException Se si verifica un errore durante l'eliminazione nel db
+     */
+    public ArrayList<Prenotazione> getPrenotazioniByIdVoloPostgresDAO(String codiceVolo) throws SQLException;
 }

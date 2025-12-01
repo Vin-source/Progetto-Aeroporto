@@ -196,6 +196,13 @@ public class Amministratore {
                     });
                 }
 
+                JButton dettagliVolo = new JButton("DETTAGLI VOLO");
+                pannelloVolo.add(dettagliVolo);
+
+                dettagliVolo.addActionListener(e -> {
+                    new DettagliVolo(frame, controller, volo);
+                });
+
 
 
                 listaVoliPanel.add(pannelloVolo);

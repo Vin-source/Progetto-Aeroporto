@@ -421,4 +421,13 @@ public class Controller {
             return "Errore nel server durante l'eliminazione del volo";
         }
     }
+
+    public ArrayList<Prenotazione> getPrenotazioniByIdVolo(String codiceVolo){
+        try{
+            return prenotazioneDAO.getPrenotazioniByIdVoloPostgresDAO(codiceVolo);
+        }catch(SQLException e){
+            return null;
+        }
+
+    }
 }

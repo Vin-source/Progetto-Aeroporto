@@ -2,6 +2,8 @@ package implementazionePostgresDAO;
 
 import dao.PrenotazioneDAO;
 import database.ConnessioneDatabase;
+import model.Bagaglio;
+import model.Prenotazione;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -187,6 +189,49 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
             st2.close();
             st3.close();
             return true;
+    }
+
+
+    public ArrayList<Prenotazione> getPrenotazioniByIdVoloPostgresDAO(String codiceVolo) throws SQLException{
+        PreparedStatement ps = null;
+        PreparedStatement ps2 = null;
+        ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
+
+        ps = connection.prepareStatement("SELECT * FROM associa JOIN prenotazione ON id_prenotazione=id WHERE codice_volo=?");
+        ps.setInt(1, Integer.parseInt(codiceVolo));
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+            ps2 = connection.prepareStatement("SELECT * FROM bagaglio where id_prenotazione=?");
+            ps2.setInt(1, Integer.parseInt(rs.getString("id_prenotazione")));
+            ResultSet rs2 = ps2.executeQuery();
+
+            ArrayList<Bagaglio> bagagli = new ArrayList<>();
+            while(rs2.next()){
+                Bagaglio b = new Bagaglio(rs2.getInt("codice_bagaglio"));
+                b.setPeso(rs2.getFloat("peso"));
+                bagagli.add(b);
+            }
+
+            Prenotazione p = new Prenotazione(
+                    rs.getString("nome"),
+                    rs.getString("cognome"),
+                    rs.getString("carta_identita"),
+                    "00"
+            );
+            p.setBagagli(bagagli);
+
+            prenotazioni.add(p);
+
+            rs2.close();
+            ps2.close();
+
+        }
+
+        rs.close();
+        ps.close();
+
+        return prenotazioni;
     }
 
 }
