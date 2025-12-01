@@ -60,11 +60,11 @@ public interface PrenotazioneDAO {
 
 
     /**
-     * Recupera tutte le prenotazioni legate al volo tramite il suo codice
+     * Recupera tutte le prenotazioni legate al volo tramite il suo codice.
      *
-     * @param codiceVolo il codice del volo dal quale trarre le prenotazioni corrispondenti
-     * @return Un ArrayList delle prenotazioni trovate
-     * @throws SQLException Se si verifica un errore durante l'eliminazione nel db
+     * @param codiceVolo il codice del volo dal quale trarre le prenotazioni corrispondenti.
+     * @return Un ArrayList delle prenotazioni trovate.
+     * @throws SQLException Se si verifica un errore durante l'eliminazione nel db.
      */
     public ArrayList<Prenotazione> getPrenotazioniByIdVoloPostgresDAO(String codiceVolo) throws SQLException;
 }

@@ -9,12 +9,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Classe che permette di mostrare tutte le prenotazioni e i bagagli associati ad un volo
+ */
 public class DettagliVolo {
     private JPanel dettagliVoloPanel;
     private JScrollPane dettagliVoloScrollPane;
     private JPanel dettagliVoloContainer;
     private Controller controller;
 
+    /**
+     * Costruttore di DettagliVolo.java
+     *
+     * @param framePadre Il frame padre (Amministratore.java)
+     * @param controller Il controller che recupera i dati dal DB
+     * @param volo       Il volo dal quale ottenere le prenotazioni associate
+     */
     public DettagliVolo(JFrame framePadre, Controller controller, Volo volo) {
         this.controller = controller;
         JFrame frame = new JFrame("Dettagli Volo");
@@ -29,6 +39,11 @@ public class DettagliVolo {
         frame.setVisible(true);
     }
 
+    /**
+     * Mostra a schermo le prenotazioni e i Bagagli per il volo in considerazione
+     *
+     * @param volo l'oggetto volo che riferisce alle prenotazioni ad esso associate
+     */
     private void mostraInfo(Volo volo) {
         dettagliVoloPanel.removeAll();
 

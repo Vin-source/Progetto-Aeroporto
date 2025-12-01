@@ -422,6 +422,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Recupera le prenotazioni associate ad uno specifico volo.
+     *
+     * @param codiceVolo il codice del volo da cui ottenere le prenotazioni.
+     * @return Un ArrayList delle prenotazioni trovate.
+     */
     public ArrayList<Prenotazione> getPrenotazioniByIdVolo(String codiceVolo){
         try{
             return prenotazioneDAO.getPrenotazioniByIdVoloPostgresDAO(codiceVolo);

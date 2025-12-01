@@ -192,6 +192,13 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
     }
 
 
+    /**
+     * Recupera le prenotazioni associate ad un volo nel DB.
+     *
+     * @param codiceVolo il codice del volo dal quale trarre le prenotazioni corrispondenti.
+     * @return Un ArrayList di prenotazioni trovate.
+     * @throws SQLException Se si verifica un errore nelle query SQL.
+     */
     public ArrayList<Prenotazione> getPrenotazioniByIdVoloPostgresDAO(String codiceVolo) throws SQLException{
         PreparedStatement ps = null;
         PreparedStatement ps2 = null;
