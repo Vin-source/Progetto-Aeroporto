@@ -79,6 +79,9 @@ public class ModificaVolo {
 
     /**
      * Metodo che contiene gli action listener della form ModificaVolo
+     * Contiene il bottone per confermare la modifica di un volo,
+     * la possibilità di modificare il gate associato ad un volo e
+     * la possibilità di annullare l'operazione
      *
      * @param frameChiamante Il frame della finestra Amministratore
      * @param volo           L'oggetto volo da modificare
@@ -146,13 +149,15 @@ public class ModificaVolo {
             nuovoOrario.setFormatterFactory(new DefaultFormatterFactory(formatterOra));
             nuovaData.setColumns(10);
             nuovoOrario.setColumns(2);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+        } catch (ParseException _) {
+            JOptionPane.showConfirmDialog(frame, "Errore di conversione di data e ora");
         }
     }
 
     /**
-     * Metodo che setta il nuovo gate associato al volo
+     * Metodo che salva il nuovo gate associato al volo
+     * Questo metodo viene utilizzato nella GUI {@link ModificaGate}
+     * Per salvare il nuovo valore scelto anche nella schermata padre (ModificaVolo)
      *
      * @param gate Il nuovo numero del gate selezionato
      */

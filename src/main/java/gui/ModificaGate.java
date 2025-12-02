@@ -71,7 +71,8 @@ public class ModificaGate {
 
 
     /**
-     * Metodo che contiene i vari action listener
+     * Metodo che contiene action listener per i bottoni
+     * Permettono di confermate la modifica di un gate o di annullare l'operazione
      *
      * @param frameChiamante Il frame di Amministratore
      * @param modificaVolo   L'oggetto volo da modificare

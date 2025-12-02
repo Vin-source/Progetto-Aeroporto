@@ -56,7 +56,11 @@ public class EffettuaNuovaPrenotazione {
 
     /**
      * Inizializza gli actionListener della pagina
-     * Gestisce i dati di input
+     * L'ActionListener prenotaButton Gestisce i dati di input,
+     * verifica che sono logicamente corretti e coerenti.
+     * L'ActionListener per sceltaPostoInAereo crea una pagina per
+     * effettuare la scelta di un posto disponibile nell'aereo.
+     * Il bottone cancella permette di tornare al frame padre.
      *
      * @param frameChiamante il frame padre
      * @param codiceVolo il codice del volo selezionato
@@ -65,20 +69,20 @@ public class EffettuaNuovaPrenotazione {
         prenotaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String nome = EffettuaNuovaPrenotazione.this.nome.getText();
-                String cognome = EffettuaNuovaPrenotazione.this.cognome.getText();
-                String numBagagli = EffettuaNuovaPrenotazione.this.numBagagli.getText();
+                String nomeInserito = EffettuaNuovaPrenotazione.this.nome.getText();
+                String cognomeInserito = EffettuaNuovaPrenotazione.this.cognome.getText();
+                String numBagagliInseriti = EffettuaNuovaPrenotazione.this.numBagagli.getText();
                 String cid = cartaIdentita.getText();
                 String posizioneInAereo = postoScelto.getText();
 
 
-                if (nome.isEmpty() || cognome.isEmpty() || numBagagli.isEmpty() || cid.isEmpty() || posizioneInAereo.isEmpty()) {
+                if (nomeInserito.isEmpty() || cognomeInserito.isEmpty() || numBagagliInseriti.isEmpty() || cid.isEmpty() || posizioneInAereo.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Errore: Devi compilare tutti i campi");
                     return;
                 }
 
 
-                int numeroBagagli = Integer.parseInt(numBagagli);
+                int numeroBagagli = Integer.parseInt(numBagagliInseriti);
                 if(numeroBagagli < 0 || numeroBagagli > 5) {
                     JOptionPane.showMessageDialog(null, "Errore: Inserisci un numero valido di bagagli");
                     return;
@@ -98,7 +102,7 @@ public class EffettuaNuovaPrenotazione {
                 }
 
 
-                String res = controller.effettuaPrenotazione(codiceVolo, nome, cognome, cid, postoScelto.getText(), numeroBagagli, pesoTotaleDeiBagagli.getText());
+                String res = controller.effettuaPrenotazione(codiceVolo, nomeInserito, cognomeInserito, cid, postoScelto.getText(), numeroBagagli, pesoTotaleDeiBagagli.getText());
 
                 JOptionPane.showMessageDialog(null, res);
 

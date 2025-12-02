@@ -87,6 +87,9 @@ public class Ospite extends JFrame {
 
     /**
      * Metodo che inizializza l'actionListener del bottone accedi per la login
+     * L'actionListener verifica prima se i dati esistono, chiama il controller
+     * per verificare se esiste l'utente e ritorna un messaggio sulla base dell'esito
+     * dell'operazione.
      */
     private void initListeners(Controller controller) {
 
@@ -119,7 +122,7 @@ public class Ospite extends JFrame {
                 } catch (IllegalArgumentException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore di accesso", JOptionPane.ERROR_MESSAGE);
                 }
-                catch (Exception ex) {
+                catch (Exception _) {
                     JOptionPane.showMessageDialog(null, "Errore imprevisto: ", "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }

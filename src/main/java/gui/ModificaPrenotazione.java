@@ -57,6 +57,8 @@ public class ModificaPrenotazione {
     /**
      * Metodo che contiene gli ActionListener per i componenti della gui
      * Gestisce la validazione, la scelta del posto e la conferma delle modifiche
+     *
+     *
      * @param frameChiamante il frame padre
      * @param p la prenotazione selezionata nel frame padre
      * @param padre L'oggetto padre (AreaPersonale) che aggiornerà la nuova lista prenotazioni
@@ -68,17 +70,15 @@ public class ModificaPrenotazione {
                 try {
                     String nuovoNome = nome.getText();
                     String nuovoCognome = cognome.getText();
-                    String cartaIdentita = ModificaPrenotazione.this.cartaIdentita.getText();
+                    String nuovaCartaIdentita = ModificaPrenotazione.this.cartaIdentita.getText();
                     String nuovoPostoScelto = postoPrecedente.getText();
 
-                    // prima verifica se non c'è nessun nuovo valore,
-                    // dopodichè sostituisco i valori vuoti con i vecchi valori
-                    // così da non creare problemi nell'aggiornamento del database
-                    if(nuovoNome.isEmpty() && nuovoCognome.isEmpty() && cartaIdentita.isEmpty() && nuovoPostoScelto.isEmpty()){
+
+                    if(nuovoNome.isEmpty() && nuovoCognome.isEmpty() && nuovaCartaIdentita.isEmpty() && nuovoPostoScelto.isEmpty()){
                         throw new IllegalArgumentException("Riempire almeno un valore!");
                     }
 
-                    String risultato = controller.modificaPrenotazione(codiceVolo, nuovoNome, nuovoCognome, cartaIdentita, nuovoPostoScelto, p);
+                    String risultato = controller.modificaPrenotazione(codiceVolo, nuovoNome, nuovoCognome, nuovaCartaIdentita, nuovoPostoScelto, p);
                     JOptionPane.showMessageDialog(null, risultato);
 
                     if (risultato.equals("Prenotazione modificata correttamente!")) {
@@ -136,6 +136,12 @@ public class ModificaPrenotazione {
     }
 
 
+    /**
+     * Modifica nel frame padre
+     * il posto scelto dall'utente tramite il file {@link SceltaPostoInAereo}
+     *
+     * @param nuovoPosto il nuovo posto scelto dall'utente
+     */
     public void setPostoScelto(String nuovoPosto) {
         postoPrecedente.setText(nuovoPosto);
     }

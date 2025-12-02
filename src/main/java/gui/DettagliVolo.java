@@ -40,7 +40,11 @@ public class DettagliVolo {
     }
 
     /**
-     * Mostra a schermo le prenotazioni e i Bagagli per il volo in considerazione
+     * Mostra a schermo  informazioni su
+     * prenotazioni e Bagagli per il volo corrente.
+     * Itera su tutte le prenotazioni esistenti, crea un JPanel per ognuna
+     * e inserisce i vari dati su Passeggeri e bagagli
+     *
      *
      * @param volo l'oggetto volo che riferisce alle prenotazioni ad esso associate
      */
@@ -79,6 +83,10 @@ public class DettagliVolo {
     }
 
 
+    /**
+     * Inserisce una stringa su un JPanel.
+     * Questa indica che il volo non possiede prenotazioni effettuate.
+     */
     public void mostraPanelVuoto() {
         JPanel prenotazioniVuote = new JPanel();
         prenotazioniVuote.setLayout(new BoxLayout(prenotazioniVuote, BoxLayout.Y_AXIS));
@@ -86,17 +94,28 @@ public class DettagliVolo {
         dettagliVoloPanel.add(prenotazioniVuote);
     }
 
+    /**
+     * Mostra i bagagli associati alla prenotazione passata come parametro del metodo
+     * Il metodo verifica che esista un oggetto bagaglio associato alla prenotazione,
+     * dopodichè itera sugli oggetti Bagaglio trovati e salva i suoi dati nel JPanel
+     *
+     * @param prenotazioniPanel Il panel che mostrerà i dati dei bagagli
+     * @param p La prenotazione dalla quale ottenere i dati sui bagagli
+     */
     public void mostraBagagli(JPanel prenotazioniPanel, Prenotazione p){
         ArrayList<Bagaglio> bagagli;
+        if(p.getBagaglio() == null){
+            return;
+        }
         bagagli = p.getBagaglio();
         float pesoTotale = 0;
-        if(bagagli != null && !bagagli.isEmpty() && bagagli.get(0) != null) pesoTotale = bagagli.get(0).getPeso();
+        if(!bagagli.isEmpty() && bagagli.get(0) != null) pesoTotale = bagagli.get(0).getPeso();
 
         prenotazioniPanel.add(new JLabel("BAGAGLI: "));
 
         if(bagagli.isEmpty()){
             prenotazioniPanel.add(new JLabel("Non ci sono bagagli"));
-        }else if(bagagli != null){
+        }else{
             for(Bagaglio b : bagagli){
                 prenotazioniPanel.add(new JLabel("Codice Bagaglio: " + b.getCodice()));
             }

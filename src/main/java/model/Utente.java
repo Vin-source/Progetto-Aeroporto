@@ -19,14 +19,17 @@ public class Utente extends Ospite {
     public Utente(String id, String email, String password) {
         super(email, password);
         this.id = id;
-        this.prenotazioni = new ArrayList<Prenotazione>();
+        this.prenotazioni = new ArrayList<>();
     }
 
 
     /**
-     * Cerca la prenotazione dello specifico utente
-     * sulla base del nome del passaggero o del
-     * numero volo
+     * Cerca delle specifiche prenotazioni di un utente
+     * sulla base del nome del passaggero registrato o del
+     * numero volo associato che coincidono con un parametro passato dal controller.
+     * Inoltre, controlla tramite
+     * {@link #verificaValorePerBagaglio(Prenotazione, String) verificaValorePerBagaglio}
+     * se il valore ricercato è presente nel peso o nel codice dei bagagli associati alla prenotazione
      *
      * @param valore il nome del passaggero o il numero del volo
      * @return l'array list prenotazioniTrovate
@@ -85,7 +88,7 @@ public class Utente extends Ospite {
     /**
      * Ritorna tutte le prenotazioni associate allo
      * specifico utente
-     * @return le prenotazioni
+     * @return l'ArrayList delle prenotazioni salvate
      */
     public ArrayList<Prenotazione> getPrenotazioni() {
         if(prenotazioni != null){
@@ -98,7 +101,7 @@ public class Utente extends Ospite {
      * Salva tutte le prenotazioni associate all'utente
      * nell'arraylist corrispondente
      *
-     * @param prenotazioni L'arraylist delle prenotazioni
+     * @param prenotazioni Nuovo ArrayList delle prenotazioni
      */
     public void setPrenotazioni(ArrayList<Prenotazione> prenotazioni) { this.prenotazioni = prenotazioni; }
 

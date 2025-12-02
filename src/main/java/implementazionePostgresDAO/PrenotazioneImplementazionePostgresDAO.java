@@ -30,6 +30,8 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
 
     /**
      * Effettua una nuova prenotazione per l'utente nel db.
+     * Il metodo è anche responsabile di associare il posto in aereo scelto dall'utente
+     * all'interno del database
      *
      * @param codiceVolo    Il codice univoco del volo da prenotare.
      * @param nome          Il nome del passeggero.
@@ -47,49 +49,42 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
         String sql3;
 
 
-            PreparedStatement prenotazioneSQL = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            PreparedStatement associaSQL = connection.prepareStatement(sql2);
+            try(PreparedStatement prenotazioneSQL = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
 
+                prenotazioneSQL.setString(1, nome);
+                prenotazioneSQL.setString(2, cognome);
+                prenotazioneSQL.setString(3, cid);
+                prenotazioneSQL.setString(4, email_utente);
+                prenotazioneSQL.setObject(5, "IN_ATTESA", Types.OTHER);
 
-            prenotazioneSQL.setString(1, nome);
-            prenotazioneSQL.setString(2, cognome);
-            prenotazioneSQL.setString(3, cid);
-            prenotazioneSQL.setString(4, email_utente);
-            prenotazioneSQL.setObject(5, "IN_ATTESA", Types.OTHER);
+                prenotazioneSQL.executeUpdate();
 
-            prenotazioneSQL.executeUpdate();
+                ResultSet rs = prenotazioneSQL.getGeneratedKeys();
+                int nuovoId = 0;
+                if(rs.next()){
+                    nuovoId = rs.getInt(1);
+                }
 
-            ResultSet rs = prenotazioneSQL.getGeneratedKeys();
-            int nuovoId = 0;
-            if(rs.next()){
-                nuovoId = rs.getInt(1);
+                try(PreparedStatement associaSQL = connection.prepareStatement(sql2)){
+                    associaSQL.setInt(1, Integer.parseInt(codiceVolo));
+                    associaSQL.setString(2, posto);
+                    associaSQL.setInt(3, nuovoId);
+
+                    associaSQL.executeUpdate();
+
+                    for(int i = 0; i < numeroBagagli; i++) {
+                        sql3 = "INSERT INTO bagaglio(id_prenotazione, peso) VALUES (?, ?)";
+                        try(PreparedStatement bagaglioSQL = connection.prepareStatement(sql3)){
+                            bagaglioSQL.setInt(1, nuovoId);
+                            bagaglioSQL.setFloat(2,  Float.parseFloat(pesoTotaleDeiBagagli));
+                            bagaglioSQL.executeUpdate();
+                        }
+
+                    }
+                    rs.close();
+                }
+                return true;
             }
-
-
-            associaSQL.setInt(1, Integer.parseInt(codiceVolo));
-            associaSQL.setString(2, posto);
-            associaSQL.setInt(3, nuovoId);
-
-            associaSQL.executeUpdate();
-
-            for(int i = 0; i < numeroBagagli; i++) {
-                sql3 = "INSERT INTO bagaglio(id_prenotazione, peso) VALUES (?, ?)";
-                PreparedStatement bagaglioSQL = connection.prepareStatement(sql3);
-                bagaglioSQL.setInt(1, nuovoId);
-                bagaglioSQL.setFloat(2,  Float.parseFloat(pesoTotaleDeiBagagli));
-                bagaglioSQL.executeUpdate();
-                bagaglioSQL.close();
-            }
-
-            rs.close();
-            prenotazioneSQL.close();
-            associaSQL.close();
-
-
-
-
-
-        return true;
     }
 
 
@@ -105,24 +100,27 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
         ArrayList<String> postiTrovati = new ArrayList<>();
 
 
-            PreparedStatement st = connection.prepareStatement(sql);
+            try(PreparedStatement st = connection.prepareStatement(sql)){
+                st.setInt(1, Integer.parseInt(codiceVolo));
+                ResultSet rs = st.executeQuery();
 
-            st.setInt(1, Integer.parseInt(codiceVolo));
-            ResultSet rs = st.executeQuery();
+                while(rs.next()){
+                    postiTrovati.add(rs.getString("posto"));
+                }
 
-            while(rs.next()){
-                postiTrovati.add(rs.getString("posto"));
+                rs.close();
+
+                return postiTrovati;
             }
 
-            rs.close();
-            st.close();
 
-        return postiTrovati;
     }
 
 
     /**
      * Aggiorna i dati su una prenotazione esistente.
+     * Il metodo è anche responsabile di modificare il posto assegnato in aereo
+     * dall'utente (nel caso in cui si sceglie un posto diverso).
      *
      * @param codiceVolo       Il codice volo.
      * @param nome             Il nuovo nome del passeggero.
@@ -138,31 +136,29 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
         String sql2 = "UPDATE associa SET posto = ? WHERE id_prenotazione = ?";
 
 
-            PreparedStatement st = connection.prepareStatement(sql);
-            PreparedStatement st2 = connection.prepareStatement(sql2);
+            try(PreparedStatement st = connection.prepareStatement(sql)){
+                st.setString(1, nome);
+                st.setString(2, cognome);
+                st.setString(3, cartaIdentita);
+                st.setInt(4, Integer.parseInt(idPrenotazione));
 
-            st.setString(1, nome);
-            st.setString(2, cognome);
-            st.setString(3, cartaIdentita);
-            st.setInt(4, Integer.parseInt(idPrenotazione));
+                st.execute();
+            }
 
-            st.execute();
+            try(PreparedStatement st2 = connection.prepareStatement(sql2)){
+                st2.setString(1, nuovoPostoScelto);
+                st2.setInt(2, Integer.parseInt(idPrenotazione));
 
-            st2.setString(1, nuovoPostoScelto);
-            st2.setInt(2, Integer.parseInt(idPrenotazione));
-
-            st2.execute();
-
-            st.close();
-            st2.close();
-
-
+                st2.execute();
+            }
 
         return true;
     }
 
     /**
      * Elimina una prenotazione esistente prenotata dall'utente.
+     * Il metodo è responsabile anche dell'aggiornamento delle tabelle associa e bagaglio
+     * eliminando i relativi elementi associati alla prenotazione eliminata.
      *
      * @param idPrenotazione L'id della prenotazione da eliminare.
      * @return L'esito dell'operazione.
@@ -173,70 +169,65 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
         String sql2 = "DELETE FROM associa WHERE  id_prenotazione = ?";
         String sql3 = "DELETE FROM bagaglio WHERE id_prenotazione = ?";
 
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, Integer.parseInt(idPrenotazione));
+            try(PreparedStatement st = connection.prepareStatement(sql)){
+                st.setInt(1, Integer.parseInt(idPrenotazione));
+            }
 
-            PreparedStatement st2 = connection.prepareStatement(sql2);
-            st2.setInt(1, Integer.parseInt(idPrenotazione));
+            try(PreparedStatement st2 = connection.prepareStatement(sql2)){
+                st2.setInt(1, Integer.parseInt(idPrenotazione));
+            }
 
-            PreparedStatement st3 = connection.prepareStatement(sql3);
-            st3.setInt(1, Integer.parseInt(idPrenotazione));
+            try(PreparedStatement st3 = connection.prepareStatement(sql3)){
+                st3.setInt(1, Integer.parseInt(idPrenotazione));
+            }
 
-            st.executeUpdate();
-            st2.executeUpdate();
-            st3.executeUpdate();
-            st.close();
-            st2.close();
-            st3.close();
             return true;
     }
 
 
     /**
      * Recupera le prenotazioni associate ad un volo nel DB.
+     * Il metodo recupera le prenotazioni associate al volo, dopodichè
+     * recupera i dati sui bagagli associati ad ogni prenotazione
      *
      * @param codiceVolo il codice del volo dal quale trarre le prenotazioni corrispondenti.
      * @return Un ArrayList di prenotazioni trovate.
      * @throws SQLException Se si verifica un errore nelle query SQL.
      */
     public ArrayList<Prenotazione> getPrenotazioniByIdVoloPostgresDAO(String codiceVolo) throws SQLException{
-        PreparedStatement ps = null;
-        PreparedStatement ps2 = null;
         ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
 
-        ps = connection.prepareStatement("SELECT * FROM associa JOIN prenotazione ON id_prenotazione=id WHERE codice_volo=?");
-        ps.setInt(1, Integer.parseInt(codiceVolo));
-        ResultSet rs = ps.executeQuery();
+        try(PreparedStatement ps = connection.prepareStatement("SELECT * FROM associa JOIN prenotazione ON id_prenotazione=id WHERE codice_volo=?")){
+            ps.setInt(1, Integer.parseInt(codiceVolo));
+            ResultSet rs = ps.executeQuery();
 
-        while(rs.next()){
-            ps2 = connection.prepareStatement("SELECT * FROM bagaglio where id_prenotazione=?");
-            ps2.setInt(1, Integer.parseInt(rs.getString("id_prenotazione")));
-            ResultSet rs2 = ps2.executeQuery();
+            while(rs.next()){
+                try(PreparedStatement ps2 = connection.prepareStatement("SELECT * FROM bagaglio where id_prenotazione=?")){
+                    ps2.setInt(1, Integer.parseInt(rs.getString("id_prenotazione")));
+                    ResultSet rs2 = ps2.executeQuery();
 
-            ArrayList<Bagaglio> bagagli = new ArrayList<>();
-            while(rs2.next()){
-                Bagaglio b = new Bagaglio(rs2.getInt("codice_bagaglio"));
-                b.setPeso(rs2.getFloat("peso"));
-                bagagli.add(b);
+                    ArrayList<Bagaglio> bagagli = new ArrayList<>();
+                    while(rs2.next()){
+                        Bagaglio b = new Bagaglio(rs2.getInt("codice_bagaglio"));
+                        b.setPeso(rs2.getFloat("peso"));
+                        bagagli.add(b);
+                    }
+
+                    Prenotazione p = new Prenotazione(
+                            rs.getString("nome"),
+                            rs.getString("cognome"),
+                            rs.getString("carta_identita"),
+                            "00"
+                    );
+                    p.setBagagli(bagagli);
+
+                    prenotazioni.add(p);
+
+                    rs2.close();
+                }
             }
-
-            Prenotazione p = new Prenotazione(
-                    rs.getString("nome"),
-                    rs.getString("cognome"),
-                    rs.getString("carta_identita"),
-                    "00"
-            );
-            p.setBagagli(bagagli);
-
-            prenotazioni.add(p);
-
-            rs2.close();
-            ps2.close();
-
+            rs.close();
         }
-
-        rs.close();
-        ps.close();
 
         return prenotazioni;
     }

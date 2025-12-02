@@ -10,7 +10,6 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -39,7 +38,7 @@ public class Utente {
      * @param frameChiamante Il frame di Ospite.java (per il logout)
      * @param controller Il controller che effettua chiamate al DB e comunica con il package Model
      */
-    public Utente(Controller controller, JFrame frameChiamante) throws SQLException {
+    public Utente(Controller controller, JFrame frameChiamante) {
          this.controller = controller;
 
          frame = new JFrame("Area Utente");
@@ -135,6 +134,12 @@ public class Utente {
     }
 
 
+    /**
+     * Aggiunge un bottone a schermo per effettuare una prenotazione con relativo actionListener
+     *
+     * @param pannelloVolo Il pannello dove viene aggiunto il bottone
+     * @param volo L'oggetto volo che è associato alla prenotazione
+     */
     public void aggiungiBottoniPrenotazione(JPanel pannelloVolo, Volo volo){
         JButton prenotazione = new JButton("PRENOTA");
         pannelloVolo.add(prenotazione);
@@ -150,6 +155,9 @@ public class Utente {
     }
 
 
+    /**
+     * Mostra una stringa di testo per indicare che non esistono voli disponibili.
+     */
     public void mostraListaVuota(){
         JPanel pannelloVolo = new JPanel();
         pannelloVolo.setLayout(new GridLayout(1,9, 10, 10));
@@ -163,6 +171,13 @@ public class Utente {
     }
 
 
+    /**
+     * Aggiunge i dati di uno specifico volo ad un pannello della gui
+     *
+     *
+     * @param pannelloVolo il pannello dove vengono aggiunti i dati
+     * @param volo L'oggetto volo dal quale i dati vengono recuperati
+     */
     public void aggiungiDatiAlVolo(JPanel pannelloVolo, Volo volo){
         pannelloVolo.add(new JLabel("CODICE: " + volo.getCodiceVolo().toUpperCase()));
         pannelloVolo.add(new JLabel("COMPAGNIA AEREA: " + volo.getCompagniaAerea().toUpperCase()));

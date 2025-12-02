@@ -4,7 +4,6 @@ import controller.Controller;
 import model.Bagaglio;
 import model.Prenotazione;
 import model.StatoPrenotazione;
-import model.Volo;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -38,7 +37,9 @@ public class AreaPersonale {
 
 
     /**
-     * Costruisce la finestra AreaPersonale
+     * Costruisce la finestra AreaPersonale,
+     * inserisce le prenotazioni
+     * e inizializza i metodi che aggiungono gli ActionListener ai bottoni
      *
      * @param framePadre Il frame padre (Utente.java)
      * @param controller Il controller che effettua collegamenti con DB/Model
@@ -53,7 +54,7 @@ public class AreaPersonale {
 
 
         email.setText(this.controller.getEmail());
-        id.setText("Pippo");
+        id.setText("0");
         email.setEditable(false);
         id.setEditable(false);
 
@@ -73,7 +74,7 @@ public class AreaPersonale {
 
     /**
      * Inizializza gli actionListeners
-     * Gestisce la ricerca delle prenotazioni
+     * Gestisce la ricerca delle prenotazioni chiamando il controller
      * @param framePadre Il frame padre
      */
     public void initListeners(JFrame framePadre) {
@@ -186,9 +187,9 @@ public class AreaPersonale {
                     prenotazione.add(cancellaPrenotazione);
 
 
-                    modificaPrenotazione.addActionListener(e -> {
-                        new ModificaPrenotazione(this.controller, frame, p, gui.AreaPersonale.this).frame.setVisible(true);
-                    });
+                    modificaPrenotazione.addActionListener(e ->
+                        new ModificaPrenotazione(this.controller, frame, p, gui.AreaPersonale.this).frame.setVisible(true)
+                    );
 
                     cancellaPrenotazione.addActionListener(e -> {
                         String res = controller.cancellaPrenotazione(p.getIdPrenotazione());

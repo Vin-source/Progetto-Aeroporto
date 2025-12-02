@@ -60,11 +60,13 @@ public class Amministratore extends Ospite {
 
         if(!volo.getPrenotazioni().isEmpty()){
             ArrayList<Prenotazione> prenotazioni = volo.getPrenotazioni();
-            for(Prenotazione p : prenotazioni){
-                if(p.getNome().toLowerCase().contains(valore.toLowerCase())){
-                    prenotazioneBagaglioTrovato = true;
+            if(!prenotazioni.isEmpty()){
+                for(Prenotazione p : prenotazioni){
+                    if(p.getNome().toLowerCase().contains(valore.toLowerCase())){
+                        prenotazioneBagaglioTrovato = true;
+                    }
+                    prenotazioneBagaglioTrovato = verificaBagaglio(p, valore);
                 }
-                prenotazioneBagaglioTrovato = verificaBagaglio(p, valore);
             }
         }
 

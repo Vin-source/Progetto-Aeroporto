@@ -25,6 +25,8 @@ public class Prenotazione {
 
     /**
      * Costruttore della classe Prenotazione.java
+     * Inizializza le principali variabili nel momento della creazione
+     * di un nuovo oggetto Prenotazione
      *
      * @param nome           Nome del passeggero
      * @param cognome        Cognome del passeggero
@@ -55,7 +57,7 @@ public class Prenotazione {
     }
 
     /**
-     * Salva il nome del passeggero
+     * Salva un nuovo nome per il passeggero
      *
      * @param nome il nuovo nome del passeggero
      */

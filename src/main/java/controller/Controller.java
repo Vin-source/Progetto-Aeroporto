@@ -56,11 +56,13 @@ public class Controller {
 
 
     /**
-     * Permette all'ospite di effettuare la login verificando i dati nel db
+     * Permette all'ospite di effettuare la login verificando i dati nel db.
+     * Dopo aver effettuato un corretto login, l'oggetto corrispondente salva
+     * i dati di email e password
      *
      * @param username L'email inserita dall'ospite
      * @param password La password inserita dall'ospite
-     * @return Il ruolo (Utente/Amministratore)
+     * @return Il ruolo (Utente/Amministratore) in formato stringa
      */
     public String login(String username, String password){
         String ruolo;
@@ -74,7 +76,7 @@ public class Controller {
                 this.utente = new Utente("ID_UTENTE", username, password);
                 return "utente";
             }
-        }catch(SQLException e){
+        }catch(SQLException _){
             return "Errore durante l'accesso al sistema";
         }
 
@@ -87,6 +89,8 @@ public class Controller {
 
     /**
      * Recupera dal database tutte le prenotazioni associate all'utente loggato.
+     * Le prenotazioni vengono poi salvate all'interno dell'oggetto utente già presente
+     * ed inizalizzato nel controller
      *
      * @return L'Arraylist contenente tutte le prenotazioni
      */
@@ -100,14 +104,16 @@ public class Controller {
             utente.setPrenotazioni(p);
             // Salvo le prenotazioni ottenute nell'oggetto utente
             return p;
-        }catch (SQLException e){
+        }catch (SQLException _){
             System.err.println("Errore SQL durante il caricamento delle prenotazioni utente");
         }
         return null;
     }
 
     /**
-     * Effettua la ricerca delle prenotazioni dell'utente
+     * Effettua la ricerca delle prenotazioni dell'utente.
+     * Il metodo utilizza una chiamata all'oggetto utente del package model
+     * e utilizza un suo metodo per ottenere le prenotazioni risultanti
      *
      * @param valore Il valore da cercare
      * @return L'Arraylist con le prenotazioni ricercate
@@ -122,6 +128,7 @@ public class Controller {
 
     /**
      * Effettua una nuova prenotazione per uno specifico volo
+     * chiamando il corrispondente metodo per l'accesso al Database
      *
      * @param codiceVolo    Il codice volo del volo da prenotare
      * @param nome          Il nome del passeggero
@@ -147,6 +154,9 @@ public class Controller {
 
     /**
      * Modifica i dati di una prenotazione.
+     * Esegue verifiche sui nuovi dati prima della modifica
+     * (nel caso in cui vengano inseriti dati vuoti dalla gui)
+     * sostituendoli con i dati già presenti nella prenotazione nel caso di valori vuoti
      *
      * @param codiceVolo       Il codice volo
      * @param nome             Il nome del passeggero
@@ -165,7 +175,7 @@ public class Controller {
 
         try{
             prenotazioneDAO.modificaPrenotazioneDB(codiceVolo, nome, cognome, cartaIdentita, p.getIdPrenotazione(), nuovoPostoScelto);
-        }catch (SQLException e){
+        }catch (SQLException _){
             return "Errore nel server durante la modifica della prenotazione";
         }
 
@@ -173,7 +183,8 @@ public class Controller {
     }
 
     /**
-     * Cancella una prenotazione dal db.
+     * Cancella una prenotazione dal db chiamando l'apposito metodo
+     * per l'accesso al database.
      *
      * @param idPrenotazione L'id della  prenotazione da cancellare
      * @return Il risultato dell'operazione
@@ -182,29 +193,34 @@ public class Controller {
         try{
             prenotazioneDAO.cancellaPrenotazioneDB(idPrenotazione);
             return "Prenotazione cancellata Correttamente!";
-        }catch (SQLException e){
+        }catch (SQLException _){
             return "Errore nel server durante la cancellazione della prenotazione";
         }
     }
 
     /**
-     * Recupera la lista dei voli occupati di un volo
+     * Recupera la lista dei posti occupati all'interno di un volo
+     * Tramite il parametro codiceVolo è possibile stabilire i posti occupati
+     * in quello specifico volo.
      *
      * @param codiceVolo Il codice volo
-     * @return i posti occupati
+     * @return Un ArrayList dei posti occupati
      */
     public ArrayList<String> getPostiOccupati(String codiceVolo) {
 
         try{
             return prenotazioneDAO.getPostiOccupatiDB(codiceVolo);
-        }catch (SQLException e){
+        }catch (SQLException _){
             System.err.println("Errore SQL durante la ricerca dei posti occupati");
         }
         return null;
     }
 
     /**
-     * Ricerca un volo nel db in base ad un valore.
+     * Ricerca un volo in base ad un valore passato come parametro.
+     * Questo metodo è reso necessario dalla funzione di ricerca voli
+     * presente all'interno della gui Utente che non ha la possibilità
+     * di accedere in modo diretto ai voli registrati.
      *
      * @param valore Il valore da cercare (codiceVolo o compagnia)
      * @return L'Arraylist contenente i voli trovati
@@ -225,7 +241,7 @@ public class Controller {
                 }
                 return voliTrovati;
             }
-        } catch (SQLException e) {
+        } catch (SQLException _) {
             System.err.println("Errore SQL durante la ricerca volo");
         }
 
@@ -243,7 +259,7 @@ public class Controller {
 
 
     /**
-     * Recupera l'elenco di tutti i voli.
+     * Recupera l'elenco di tutti i voli dal database.
      *
      * @return L'Arraylist voli
      */
@@ -259,7 +275,7 @@ public class Controller {
                 amministratore.setVoli(voli);
             }
             return voli;
-        }catch(SQLException e){
+        }catch(SQLException _){
             System.err.println("Errore SQL durante il caricamento dei voli: ");
         }
 
@@ -269,6 +285,11 @@ public class Controller {
 
     /**
      * Ricerca i voli nella finestra Amministratore
+     * Il metodo utilizza l'oggetto model.amministratore e chiama il suo metodo
+     * ricercaRapida per recuperare i voli che contengono il valore cercato
+     * (la ricerca viene effettuata verificando il codice del volo, la compagnia aerea,
+     * i nomi dei passeggeri del volo e i dati dei bagagli associati ai passeggeri).
+     *
      *
      * @param valore il valore del volo
      * @return L'Arraylist dei voli trovati
@@ -286,6 +307,9 @@ public class Controller {
 
     /**
      * Crea un nuovo volo e lo inserisce nel db.
+     * Insieme all'inserimento del volo, nel caso in cui venga scelto
+     * un numero gate da associare al nuovo volo, viene chiamato il metodo assegnaGate
+     * che associa il gate al volo nel database
      *
      * @param compagniaAerea Il nome della compagnia aerea
      * @param origine        Aeroporto di partenza
@@ -315,9 +339,9 @@ public class Controller {
 
             getTuttiVoli();
             return "Volo inserito con successo!";
-        } catch (SQLException e) {
+        } catch (SQLException _) {
             return "Errore del server durante la creazione del volo";
-        }catch(Exception e){
+        }catch(Exception _){
             return "Errore nel sistema";
         }
     }
@@ -325,6 +349,9 @@ public class Controller {
 
     /**
      * Aggiorna i dati di un volo nel db
+     * Insieme all'aggiornamento del volo il metodo è responsabile
+     * di associare un nuovo gate al volo (se un nuovo valore è stato inserito)
+     * o di nullificare il valore del gate (se il nuovo valore gate è nullo)
      *
      * @param codiceVolo       Il codice del volo da aggiornare
      * @param nuovaData        La nuova data del volo
@@ -346,31 +373,33 @@ public class Controller {
                 }
             }
 
+            if(voloDaAggiornare != null){
+                voloDaAggiornare.setData(nuovaData);
+                voloDaAggiornare.setOrarioPrevisto(nuovoOrario);
+                voloDaAggiornare.setRitardo(Integer.parseInt(nuovoRitardo));
 
-            voloDaAggiornare.setData(nuovaData);
-            voloDaAggiornare.setOrarioPrevisto(nuovoOrario);
-            voloDaAggiornare.setRitardo(Integer.parseInt(nuovoRitardo));
+
+                if(nuovoNumeroGateS == null){
+                    voloDaAggiornare.setGate(null);
+                    int codiceVoloInt = Integer.parseInt(codiceVolo);
+                    gateDAO.setCodiceVoloNull(codiceVoloInt);
+                }else if (!(nuovoNumeroGateS.equals("Gate non assegnato"))){
+                    int numeroGate = Integer.parseInt(nuovoNumeroGateS);
+                    voloDaAggiornare.setGate(new Gate(numeroGate));
+                    int codiceVoloInt = Integer.parseInt(codiceVolo);
+                    gateDAO.setCodiceVoloNull(codiceVoloInt);
+                    gateDAO.assegnaGate(codiceVolo, numeroGate);
+                }
 
 
-            if(nuovoNumeroGateS == null){
-                voloDaAggiornare.setGate(null);
-                int codiceVoloInt = Integer.parseInt(codiceVolo);
-                gateDAO.setCodiceVoloNull(codiceVoloInt);
-            }else if (!(nuovoNumeroGateS.equals("Gate non assegnato"))){
-                int numeroGate = Integer.parseInt(nuovoNumeroGateS);
-                voloDaAggiornare.setGate(new Gate(numeroGate));
-                int codiceVoloInt = Integer.parseInt(codiceVolo);
-                gateDAO.setCodiceVoloNull(codiceVoloInt);
-                gateDAO.assegnaGate(codiceVolo, numeroGate);
+                voloDAO.aggiornaVolo(voloDaAggiornare);
+                return "Volo aggiornato con successo!";
+
             }
-
-
-            voloDAO.aggiornaVolo(voloDaAggiornare);
-            return "Volo aggiornato con successo!";
-
-        } catch (SQLException e) {
+            return "Volo non trovato";
+        } catch (SQLException _) {
             return "Errore del server durante l'aggiornamento del volo";
-        } catch(Exception e){
+        } catch(Exception _){
             return "Errore nel sistema";
         }
     }
@@ -378,6 +407,9 @@ public class Controller {
 
     /**
      * Recupera la lista dei gate disponibili.
+     * Durante la registrazione o la modifica di nuovi voli
+     * è necessario conoscere quali sono i gate ancora assegnabili ad un volo.
+     * Il metodo recupera tutti i gate che non sono già stati assegnati ad un determinato volo.
      *
      * @return L'Arraylist dei gate disponibili
      */
@@ -388,7 +420,7 @@ public class Controller {
         try {
             gatesString = gateDAO.getGateDisponibiliDAO();
 
-        } catch (SQLException e) {
+        } catch (SQLException _) {
             return null;
         }
 
@@ -397,7 +429,7 @@ public class Controller {
 
 
     /**
-     * Elimina un volo e cancella tutte le prenotazioni assocciate al volo eliminato.
+     * Elimina un volo e cancella tutte le prenotazioni assocciate al volo eliminato dal database.
      *
      * @param codiceVolo Il codice del volo da eliminare
      * @param gate       Il gate associato al volo da eliminare
@@ -421,7 +453,7 @@ public class Controller {
             getTuttiVoli();
             return "Volo cancellato correttamente!";
 
-        }catch (SQLException e){
+        }catch (SQLException _){
             return "Errore nel server durante l'eliminazione del volo";
         }
     }
@@ -435,7 +467,7 @@ public class Controller {
     public ArrayList<Prenotazione> getPrenotazioniByIdVolo(String codiceVolo){
         try{
             return prenotazioneDAO.getPrenotazioniByIdVoloPostgresDAO(codiceVolo);
-        }catch(SQLException e){
+        }catch(SQLException _){
             return null;
         }
 

@@ -33,21 +33,18 @@ public class GateImplementazionePostgresDAO implements GateDAO {
      */
     @Override
     public boolean assegnaGate(String codiceVolo, int numeroGate) throws SQLException {
-        PreparedStatement ps;
 
-
-        ps = connection.prepareStatement(
+        try(PreparedStatement ps = connection.prepareStatement(
                 "UPDATE gate SET codice_volo = ? WHERE numero_gate = ?"
-        );
+        )){
+            ps.setInt(1, Integer.parseInt(codiceVolo));
+            ps.setInt(2, numeroGate);
+            boolean res = ps.executeUpdate() > 0;
 
-        ps.setInt(1, Integer.parseInt(codiceVolo));
-        ps.setInt(2, numeroGate);
-        boolean res = ps.executeUpdate() > 0;
+            return res;
+        }
 
 
-        ps.close();
-
-        return res;
     }
 
 
@@ -62,19 +59,18 @@ public class GateImplementazionePostgresDAO implements GateDAO {
 
         String sql = "SELECT numero_gate FROM gate WHERE codice_volo IS null ORDER BY numero_gate ASC";
 
-        PreparedStatement stmt = connection.prepareStatement(sql);
-        ResultSet rs = stmt.executeQuery();
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            ResultSet rs = stmt.executeQuery();
 
-        while (rs.next()) {
-            int numero = rs.getInt("numero_gate");
-            listaGates.add(String.valueOf(numero));
+            while (rs.next()) {
+                int numero = rs.getInt("numero_gate");
+                listaGates.add(String.valueOf(numero));
+            }
+
+            rs.close();
+            return listaGates;
         }
 
-        rs.close();
-        stmt.close();
-
-
-        return listaGates;
     }
 
     /**
@@ -84,13 +80,11 @@ public class GateImplementazionePostgresDAO implements GateDAO {
      * @throws SQLException Se si verifica un errore durante l'assegnazione nel db.
      */
     public void setCodiceVoloNull(int codiceVolo) throws SQLException{
-        PreparedStatement ps = null;
 
-        ps = connection.prepareStatement("UPDATE gate SET codice_volo = null WHERE codice_volo = ?");
-        ps.setInt(1, codiceVolo);
+        try(PreparedStatement ps = connection.prepareStatement("UPDATE gate SET codice_volo = null WHERE codice_volo = ?")){
+            ps.setInt(1, codiceVolo);
+            ps.executeUpdate();
+        }
 
-        ps.executeUpdate();
-
-        ps.close();
     }
 }

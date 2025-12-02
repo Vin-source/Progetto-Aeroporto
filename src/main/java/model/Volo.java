@@ -6,7 +6,8 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 
 /**
- * Il volo preso dal passaggero
+ * La classe volo preso dal passaggero.
+ * La classe definisce le caratteristiche di ogni volo all'interno dell'applicazione.
  */
 public class Volo {
     private String codiceVolo; // auto increment
@@ -16,15 +17,13 @@ public class Volo {
     private LocalDate data;
     private LocalTime orarioPrevisto;
     private int ritardo;
-    private String[] postiOccupati = new String[30];
     private Amministratore amministratore;
     private ArrayList<Prenotazione> prenotazioni;
     private Gate gate;
     private StatoVolo statoVolo = StatoVolo.PROGRAMMATO;
 
 
-
-    // Uniformati con Controller (prima era HH:mm:ss)
+    // Uniformati con Controller
     private final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("d/MM/yyyy");
     private final DateTimeFormatter formatterOra = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -34,6 +33,7 @@ public class Volo {
 
     /**
      * Il costruttore della classe Volo.java
+     * Inizializza tutte le principali variabili dell'oggetto volo
      *
      * @param codiceVolo     Il codice del volo
      * @param compagniaAerea La compagnia aerea del volo
@@ -70,7 +70,7 @@ public class Volo {
     /**
      * Ritorna il codice del volo
      *
-     * @return il codice del volo
+     * @return il codice del volo precedentemente salvato nel Model
      */
     public String getCodiceVolo() {
         if(codiceVolo != null){
@@ -80,9 +80,9 @@ public class Volo {
     }
 
     /**
-     * Salva il codice del volo
+     * Salva un nuovo codice per l'oggetto volo
      *
-     * @param codiceVolo Il codice del volo
+     * @param codiceVolo Il nuovo codice del volo
      */
     public void setCodiceVolo(String codiceVolo) {
         this.codiceVolo = codiceVolo;
@@ -90,7 +90,7 @@ public class Volo {
 
 
     /**
-     * Ritorna la compagnia aerea
+     * Ritorna la variabile compagnia aerea
      *
      * @return la compagnia aerea associata al volo
      */
@@ -101,20 +101,10 @@ public class Volo {
         return null;
     }
 
-    /**
-     * Salva la compagnia aerea associata al volo
-     *
-     * @param compagniaAerea La compagnia aerea associata al volo
-     */
-    public void setCompagniaAerea(String compagniaAerea){
-        this.compagniaAerea = compagniaAerea;
-    }
-
-
 
 
     /**
-     * Ritorna l'origine di partenza del volo
+     * Ritorna il luogo di origine del volo
      *
      * @return L'origine di partenza del volo
      */
@@ -125,21 +115,9 @@ public class Volo {
         return null;
     }
 
-    /**
-     * Salva l'origine di partenza del volo
-     *
-     * @param origine L'origine di partenza del volo
-     */
-    public void setOrigine(String origine){
-        this.origine = origine;
-    }
-
-
-
-
 
     /**
-     * Ritorna la destinazione del volo
+     * Ritorna la variabile destinazione dell'oggetto volo
      *
      * @return La destinazione del volo
      */
@@ -153,21 +131,9 @@ public class Volo {
 
 
 
-
-    /**
-     * Salva la destinazione del volo
-     *
-     * @param destinazione La destinazione del volo
-     */
-    public void setDestinazione(String destinazione){
-        this.destinazione = destinazione;
-    }
-
-
-
-
     /**
      * Ritorna la data di partenza del volo
+     * (formattata secondo la variabile formatterData)
      *
      * @return La data di partenza del volo
      */
@@ -195,6 +161,7 @@ public class Volo {
 
     /**
      * Ritorna l'orario di partenza del volo
+     * (formattato secondo la variabile formatterOra)
      *
      * @return L'orario previsto di partenza del volo
      */
@@ -210,9 +177,9 @@ public class Volo {
 
 
     /**
-     * Salva l'orario di partenza del volo
+     * Salva un nuovo orario di partenza del volo
      *
-     * @param orarioPrevisto  L'orario previsto di partenza del volo
+     * @param orarioPrevisto  Il nuovo orario previsto di partenza del volo
      */
     public void setOrarioPrevisto(String orarioPrevisto){
         this.orarioPrevisto = LocalTime.parse(orarioPrevisto, formatterOra);
@@ -223,6 +190,7 @@ public class Volo {
 
     /**
      * Ritorna il possibile ritardo del volo
+     * ( nel caso in cui non c'è un ritardo il valore è 0 )
      *
      * @return Il possibile ritardo del volo
      */
@@ -239,36 +207,10 @@ public class Volo {
     /**
      * Salva il possibile ritardo del volo
      *
-     * @param ritardo Il possibile ritardo
+     * @param ritardo Il nuovo valore ritardo
      */
     public void setRitardo(int ritardo){
         this.ritardo = ritardo;
-    }
-
-
-
-
-    /**
-     * Ritorna i posti occupati nell'aereo
-     *
-     * @return the string [ ]
-     */
-    public String[] getPostiOccupati(){
-
-        if(postiOccupati != null && (postiOccupati.length > 0)){
-            return this.postiOccupati;
-        }
-        return null;
-    }
-
-
-    /**
-     * Salva un nuovo array di posti occupati nell'aereo corrispondente
-     *
-     * @param posti un nuovo array di posti occupati
-     */
-    public void setPostiOccupati(String[] posti){
-        this.postiOccupati = posti;
     }
 
 
@@ -280,7 +222,7 @@ public class Volo {
     /**
      * Gets Ritorna l'amministratore del sistemq
      *
-     * @return L'amministratore del sistema
+     * @return L'oggetto amministratore del sistema
      */
     public Amministratore getAmministratore(){
         if(amministratore != null){
@@ -301,16 +243,20 @@ public class Volo {
     }
 
 
-
+    /**
+     * Ritorna l'ArrayList di prenotazioni salvate nell'oggetto volo
+     * (nel caso non fossero salvate nell'oggetto ritornerebbe un ArrayList vuoto)
+     * @return prenotazioni le prenotazioni salvate
+     */
     public ArrayList<Prenotazione> getPrenotazioni(){
         if(prenotazioni != null){
             return this.prenotazioni;
         }
-        return null;
+        return prenotazioni;
     }
 
     /**
-     * Salva le prenotazioni effettuate
+     * Salva un nuovo oggetto prenotazioni
      *
      * @param prenotazioni Le prenotazioni effettuate
      */
@@ -321,7 +267,7 @@ public class Volo {
 
 
     /**
-     * Ritorna i gate del volo
+     * Ritorna l'oggetto gate associato al volo
      *
      * @return Il gate associato al volo
      */
@@ -337,7 +283,7 @@ public class Volo {
     /**
      * Salva il gate associato al volo
      *
-     * @param gate the gate
+     * @param gate Il nuovo oggetto Gate
      */
     public void setGate(Gate gate){
         this.gate = gate;

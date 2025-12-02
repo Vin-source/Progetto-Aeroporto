@@ -64,6 +64,7 @@ public class InserisciVolo {
 
     /**
      * Metodo che contiene gli ActionListener dei vari button
+     * Permettono di confermare, annullare o cancellare i campi inseriti.
      *
      * @param frameChiamante Il frame di Amministratore usato per tornare indietro
      */
@@ -138,8 +139,8 @@ public class InserisciVolo {
             orarioVolo.setFormatterFactory(new DefaultFormatterFactory(formatterOra));
             dataVolo.setColumns(10);
             orarioVolo.setColumns(2);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+        } catch (ParseException _) {
+            JOptionPane.showMessageDialog(frame, "Errore nella conversione di data e ora");
         }
     }
 
@@ -160,7 +161,7 @@ public class InserisciVolo {
 
 
     /**
-     * Metodo usato per resettare i campi del form InserisciVolo
+     * Metodo usato per cancellare i campi del form InserisciVolo
      */
     private void resetFields() {
         compagniaVolo.setText("");

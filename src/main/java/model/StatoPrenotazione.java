@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Enumeration per indicare lo stato di una prenotazione richiesta dall'utente
+ * Enumeration per indicare lo stato di una prenotazione fatta dall'utente
  */
 public enum StatoPrenotazione {
     CONFERMATA,

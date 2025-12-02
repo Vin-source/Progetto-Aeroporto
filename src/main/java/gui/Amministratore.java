@@ -105,7 +105,7 @@ public class Amministratore {
 
 
     /**
-     * Metodo che permette di creare la lista dei voli
+     * Permette di creare la lista dei voli
      * Recupera l'elenco aggiornato dei voli dal Controller
      */
     private void creaPannelli() {
@@ -115,8 +115,9 @@ public class Amministratore {
 
 
     /**
-     * Metodo che permette di aggiornare la lista dei voli
+     * Aggiorna la lista dei voli
      * Crea per ogni volo della lista una riga in cui ci sono i dettagli
+     *
      * @param listaVoli ArrayList contenente la lista dei voli
      */
     private void aggiornaListaVoli(ArrayList<Volo> listaVoli) {
@@ -145,9 +146,8 @@ public class Amministratore {
                 JButton dettagliVolo = new JButton("DETTAGLI VOLO");
                 pannelloVolo.add(dettagliVolo);
 
-                dettagliVolo.addActionListener(e -> {
-                    new DettagliVolo(frame, controller, volo);
-                });
+                dettagliVolo.addActionListener(e ->
+                    new DettagliVolo(frame, controller, volo));
 
 
 
@@ -166,7 +166,7 @@ public class Amministratore {
 
 
     /**
-     * Mostra una stringa in un pannello per indicare che non ci sono voli disponibili.
+     * Mostra una stringa in un JPanel per indicare che non ci sono voli disponibili.
      */
     public void pannelloVuoto(){
         JPanel pannelloVolo = new JPanel();
@@ -182,7 +182,8 @@ public class Amministratore {
 
 
     /**
-     * Aggiunge bottoni per eliminare e modificare un volo e inizializza gli actionListener.
+     * Aggiunge bottoni per eliminare e modificare un volo e
+     * inizializza gli actionListener
      *
      * @param pannelloVolo il pannello dove inserire i bottoni.
      * @param volo oggetto volo considerato.
@@ -226,7 +227,8 @@ public class Amministratore {
     }
 
     /**
-     * Popola il panel con i dati sul volo indicato.
+     * Popola il JPanel con i dati sul volo inserito come parametro del metodo.
+     *
      * @param pannelloVolo il pannello dove inserire i dati.
      * @param volo l'oggetto volo dal quale prendere i dati.
      */
