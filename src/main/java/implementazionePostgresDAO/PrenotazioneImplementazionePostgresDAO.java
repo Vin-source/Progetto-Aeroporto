@@ -171,14 +171,17 @@ public class PrenotazioneImplementazionePostgresDAO implements PrenotazioneDAO {
 
             try(PreparedStatement st = connection.prepareStatement(sql)){
                 st.setInt(1, Integer.parseInt(idPrenotazione));
+                st.executeUpdate();
             }
 
             try(PreparedStatement st2 = connection.prepareStatement(sql2)){
                 st2.setInt(1, Integer.parseInt(idPrenotazione));
+                st2.execute();
             }
 
             try(PreparedStatement st3 = connection.prepareStatement(sql3)){
                 st3.setInt(1, Integer.parseInt(idPrenotazione));
+                st3.execute();
             }
 
             return true;
