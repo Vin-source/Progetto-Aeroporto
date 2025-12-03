@@ -22,7 +22,6 @@ import java.util.ArrayList;
  */
 public class AreaPersonale {
     private JPanel AreaPersonale;
-    private JTextField id;
     private JTextField email;
     private JTextField cercaPrenotazione;
     private JScrollPane listaPrenotazioniScroll;
@@ -54,9 +53,7 @@ public class AreaPersonale {
 
 
         email.setText(this.controller.getEmail());
-        id.setText("0");
         email.setEditable(false);
-        id.setEditable(false);
 
         listaPrenotazioni.setLayout(new BoxLayout(listaPrenotazioni, BoxLayout.Y_AXIS));
 
