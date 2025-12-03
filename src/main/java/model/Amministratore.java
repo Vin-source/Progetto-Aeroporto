@@ -11,13 +11,11 @@ public class Amministratore extends Ospite {
     /**
      * Costruttore della classe Amministratore.java
      *
-     * @param id       id dell'amministratore
      * @param email    email dell'amministratore
      * @param password password dell'amministratore
      */
-    public Amministratore(String id, String email, String password) {
+    public Amministratore(String email, String password) {
         super(email, password);
-        this.id = id;
 
         voli = new ArrayList<>();
     }
@@ -64,6 +62,7 @@ public class Amministratore extends Ospite {
                 for(Prenotazione p : prenotazioni){
                     if(p.getNome().toLowerCase().contains(valore.toLowerCase())){
                         prenotazioneBagaglioTrovato = true;
+                        return prenotazioneBagaglioTrovato;
                     }
                     prenotazioneBagaglioTrovato = verificaBagaglio(p, valore);
                 }

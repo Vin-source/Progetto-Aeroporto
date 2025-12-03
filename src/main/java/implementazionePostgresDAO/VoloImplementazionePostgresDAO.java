@@ -3,8 +3,11 @@ package implementazionePostgresDAO;
 import dao.VoloDAO;
 import database.ConnessioneDatabase;
 import model.*;
-
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -48,6 +51,28 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
                 }else{
                     ps.setObject(2, StatoVolo.IN_RITARDO, Types.OTHER);
                 }
+
+
+                // ------------------ DATA e ORA ------------------
+
+                DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                DateTimeFormatter formatterOra = DateTimeFormatter.ofPattern("HH:mm");
+
+                LocalDate data = LocalDate.parse(volo.getData(), formatterData);
+                LocalTime ora = LocalTime.parse(volo.getOrarioPrevisto(), formatterOra);
+
+                LocalDateTime dataOraInput = LocalDateTime.of(data, ora);
+
+                LocalDateTime adesso = LocalDateTime.now();
+
+                if (dataOraInput.isBefore(adesso)) {
+                    if(volo.getOrigine().toLowerCase().equalsIgnoreCase("Napoli"))
+                        ps.setObject(2, StatoVolo.DECOLLATO, Types.OTHER);
+                    else ps.setObject(2, StatoVolo.ATTERRATO, Types.OTHER);
+                }
+
+
+
                 ps.setString(3, volo.getOrigine());
                 ps.setString(4, volo.getDestinazione());
                 ps.setString(5, volo.getData());
@@ -98,6 +123,23 @@ public class VoloImplementazionePostgresDAO implements VoloDAO {
             }else{
                 ps.setObject(4, String.valueOf(StatoVolo.IN_RITARDO), Types.OTHER);
             }
+
+            DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            DateTimeFormatter formatterOra = DateTimeFormatter.ofPattern("HH:mm");
+
+            LocalDate data = LocalDate.parse(volo.getData(), formatterData);
+            LocalTime ora = LocalTime.parse(volo.getOrarioPrevisto(), formatterOra);
+
+            LocalDateTime dataOraInput = LocalDateTime.of(data, ora);
+
+            LocalDateTime adesso = LocalDateTime.now();
+
+            if (dataOraInput.isBefore(adesso)) {
+                if(volo.getOrigine().toLowerCase().equalsIgnoreCase("Napoli"))
+                    ps.setObject(4, StatoVolo.DECOLLATO, Types.OTHER);
+                else ps.setObject(4, StatoVolo.ATTERRATO, Types.OTHER);
+            }
+
             if(volo.getGate() == null){
                 ps.setObject(5, null);
             }else{

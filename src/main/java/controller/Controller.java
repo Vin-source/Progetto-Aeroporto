@@ -60,20 +60,20 @@ public class Controller {
      * Dopo aver effettuato un corretto login, l'oggetto corrispondente salva
      * i dati di email e password
      *
-     * @param username L'email inserita dall'ospite
+     * @param email L'email inserita dall'ospite
      * @param password La password inserita dall'ospite
      * @return Il ruolo (Utente/Amministratore) in formato stringa
      */
-    public String login(String username, String password){
+    public String login(String email, String password){
         String ruolo;
         try{
-            ruolo = loginDAO.getUtentiDB(username, password);
+            ruolo = loginDAO.getUtentiDB(email, password);
 
             if ("amministratore".equals(ruolo)) {
-                this.amministratore = new Amministratore("ID_ADMIN", username, password);
+                this.amministratore = new Amministratore(email, password);
                 return "amministratore";
             } else if ("utente".equals(ruolo)) {
-                this.utente = new Utente("ID_UTENTE", username, password);
+                this.utente = new Utente(email, password);
                 return "utente";
             }
         }catch(SQLException _){
@@ -327,7 +327,7 @@ public class Controller {
             int ritardoParsed = Integer.parseInt(ritardo);
 
             Volo volo = new Volo("00", compagniaAerea, origine, destinazione, data, ora, ritardoParsed);
-            volo.setAmministratore(new Amministratore("00", amministratore.getEmail(), amministratore.getPassword()));
+            volo.setAmministratore(new Amministratore(amministratore.getEmail(), amministratore.getPassword()));
 
 
             String nuovoCodiceVolo = voloDAO.inserisciVolo(volo, numeroGate);

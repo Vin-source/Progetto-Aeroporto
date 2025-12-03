@@ -12,13 +12,11 @@ public class Utente extends Ospite {
     /**
      * Costruttore della classe Utente.java
      *
-     * @param id       id dell'utente
      * @param email    email dell'utente
      * @param password password dell'utente
      */
-    public Utente(String id, String email, String password) {
+    public Utente(String email, String password) {
         super(email, password);
-        this.id = id;
         this.prenotazioni = new ArrayList<>();
     }
 

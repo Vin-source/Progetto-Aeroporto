@@ -5,7 +5,6 @@ package model;
  *   Il tipo ospite che entra nel sistema
  */
 public class Ospite {
-    protected String id;
     protected String email;
     protected String password;
 
@@ -21,12 +20,6 @@ public class Ospite {
     }
 
 
-    /**
-     * @return id dell'utente\amministratore
-     */
-    public String getId() {
-        return this.id;
-    }
 
     /**
      * @return email dell'utente\amministratore
