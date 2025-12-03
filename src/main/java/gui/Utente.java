@@ -110,7 +110,7 @@ public class Utente {
         }else{
             for(Volo volo: listaVoli){
                 JPanel pannelloVolo = new JPanel();
-                pannelloVolo.setLayout(new GridLayout(1,9, 10, 10));
+                pannelloVolo.setLayout(new GridLayout(1,10, 10, 10));
                 pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
 
@@ -191,6 +191,8 @@ public class Utente {
         }
         pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
         pannelloVolo.add(new JLabel("STATO: " + volo.getStatoVolo()));
+        if(volo.getGate() != null) pannelloVolo.add(new JLabel("GATE: " + volo.getGate().getNumero()));
+        else pannelloVolo.add(new JLabel("GATE: NON ASSEGNATO"));
     }
 
 
