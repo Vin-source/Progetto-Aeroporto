@@ -55,7 +55,7 @@ public class AreaPersonale {
         email.setText(this.controller.getEmail());
         email.setEditable(false);
 
-        listaPrenotazioni.setLayout(new BoxLayout(listaPrenotazioni, BoxLayout.Y_AXIS));
+        listaPrenotazioni.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
 
 
         aggiornaPrenotazioni(this.controller.getTutteLePrenotazioni());
@@ -147,7 +147,8 @@ public class AreaPersonale {
 
             for(Prenotazione p : prenotazioni){
                 JPanel prenotazione = new JPanel();
-                prenotazione.setLayout(new GridLayout(1,8, 10, 10));
+                prenotazione.setPreferredSize(new Dimension(300, 300));
+                prenotazione.setLayout(new GridLayout(0,1));
                 prenotazione.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 // prenotazione.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60)); // altezza fissa
 
@@ -201,7 +202,7 @@ public class AreaPersonale {
                 prenotazione.setMaximumSize(new Dimension(Integer.MAX_VALUE,
                         prenotazione.getPreferredSize().height));
                 listaPrenotazioni.add(prenotazione);
-                listaPrenotazioni.add(Box.createVerticalStrut(5));
+                // listaPrenotazioni.add(Box.createVerticalStrut(5));
 
             }
 

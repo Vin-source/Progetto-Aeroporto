@@ -46,7 +46,7 @@ public class Amministratore {
         frame.setContentPane(AmministratorePanel);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        listaVoliPanel.setLayout(new BoxLayout(listaVoliPanel, BoxLayout.Y_AXIS));
+        listaVoliPanel.setLayout(new FlowLayout(FlowLayout.LEFT,20, 20));
 
 
         initListeners(frameChiamante);
@@ -129,9 +129,10 @@ public class Amministratore {
         }else{
             for(Volo volo: listaVoli){
                 JPanel pannelloVolo = new JPanel();
-                pannelloVolo.setLayout(new GridLayout(1,10, 10, 10));
+                pannelloVolo.setPreferredSize(new Dimension(300, 300));
+                pannelloVolo.setLayout(new GridLayout(0, 1));
                 pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+                // pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 
                 popolaDati(pannelloVolo, volo);
 
@@ -152,7 +153,7 @@ public class Amministratore {
 
 
                 listaVoliPanel.add(pannelloVolo);
-                listaVoliPanel.add(Box.createVerticalStrut(5));
+                // listaVoliPanel.add(Box.createVerticalStrut(5));
 
             }
         }
