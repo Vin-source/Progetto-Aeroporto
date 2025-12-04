@@ -1,17 +1,25 @@
 package gui;
 
-// import controller.Controller;
-import model.Utente;
+import controller.Controller;
 import model.Volo;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
+/**
+ * Classe che rappresenta la schermata principale dell'Ospite (schermata di accesso).
+ * Permette di inserire i dati nella login e di visualizzare l'elenco dei voli .
+ */
 public class Ospite extends JFrame {
     private JPanel ospiteContainer;
+    /**
+     * Il frame della finestra Ospite
+     */
     public JFrame frame;
     private JTextField email;
     private JPasswordField password;
@@ -28,20 +36,29 @@ public class Ospite extends JFrame {
 
 
 
- //   private Controller controller;
+    private Controller controller;
 
-    public Ospite() {
-        // this.controller = new Controller();
+
+    /**
+     * Costruisce la finestra Ospite
+     * <p></p>
+     *
+     * Il costruttore inizializza gli elementi, il layout, i listener per i bottoni
+     * e chiama il metodo aggiornaListaVoli per mostrare i voli disponibili
+     *
+     * @param controller Il controller che verrà passato dal Main method
+     */
+
+    public Ospite(Controller controller){
+
+
 
         frame = new JFrame("La mia GUI Swing");
         frame.setContentPane(ospiteContainer);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setVisible(true);
 
-
-
-        // aggiornaListaVoli(this.controller.getVoli());
+        this.controller = controller;
 
 
 
@@ -49,18 +66,33 @@ public class Ospite extends JFrame {
         listaVoliPanel.setLayout(new GridLayout(20, 1));
         listaVoliScroll.setViewportView(listaVoliPanel);
 
-        ArrayList<Volo> voli = new ArrayList<>();
-        voli.add(new Volo("a", "a", "a", "q", "12/10/1999", "13:23", 2));
-        voli.add(new Volo("AZ78893", "ItAirways", "Roma", "Napoli", "16/10/1999", "17:30", 23));
-        aggiornaListaVoli(voli);
-        initListeners();
+
+        aggiornaListaVoli(controller.getTuttiVoli());
+        initListeners(controller);
         frame.pack();
+
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                aggiornaListaVoli(controller.getTuttiVoli());
+            }
+        });
+
+        frame.setVisible(true);
     }
 
 
 
+    /**
+     * Metodo che inizializza l'actionListener del bottone accedi per la login
+     * L'actionListener verifica prima se i dati esistono, chiama il controller
+     * per verificare se esiste l'utente e ritorna un messaggio sulla base dell'esito
+     * dell'operazione.
+     */
+    private void initListeners(Controller controller) {
 
-    private void initListeners() {
         accediButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -70,28 +102,23 @@ public class Ospite extends JFrame {
 
                     if(emailInserita.isEmpty() || passwordInserita.isEmpty()) {
                         throw new IllegalArgumentException("Username o password mancante!");
+                    }else if(emailInserita.length() > 30 || passwordInserita.length() > 30){
+                        throw new IllegalArgumentException("Username o password troppo lunghi!");
                     }
 
 
-                    if(emailInserita.contains("admin")){
-                        new Amministratore(frame).frame.setVisible(true);
-                    }else {
-                        new gui.Utente(frame).frame.setVisible(true);
-                    }
-                    frame.dispose();
-                    // String result = controller.login(emailInserita, passwordInserita);
+                    String result = controller.login(emailInserita, passwordInserita);
 
-                    /*if ("amministratore".equals(result)) {
-                        Amministratore amministratore = new Amministratore(controller);
-                        amministratore.frame.setVisible(true);
-                        frame.setVisible(false);
-
+                    if ("amministratore".equals(result)) {
+                        new Amministratore(controller, frame).frame.setVisible(true);
+                        frame.dispose();
                     } else if ("utente".equals(result)) {
-                        Utente utente = new Utente(controller);
-                        utente.frame.setVisible(true);
-                        frame.setVisible(false);
+                        new gui.Utente(controller, frame).frame.setVisible(true);
+                        frame.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, result, "Errore di accesso", JOptionPane.ERROR_MESSAGE);
                     }
-                    */
+
                 } catch (IllegalArgumentException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore di accesso", JOptionPane.ERROR_MESSAGE);
                 }
@@ -103,29 +130,62 @@ public class Ospite extends JFrame {
     }
 
 
-
-
+    /**
+     * Metodo per popolare la pagina Ospite con tutti i voli disponibili
+     * Crea un JPanel per ogni volo
+     * e lo popola con informazioni utilizzando i metodi dell'oggetto volo corrispondente
+     *
+     * @param listaVoli ArrayList dei Voli disponibili
+     */
     private void aggiornaListaVoli(ArrayList<Volo> listaVoli) {
-        for(Volo volo: listaVoli){
-            JPanel pannelloVolo = new JPanel();
-            pannelloVolo.setLayout(new GridLayout(1,7, 10, 10));
-            pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        listaVoliPanel.removeAll();
 
-            pannelloVolo.add(new JLabel("CODICE: " + volo.getCodiceVolo().toUpperCase()));
-            pannelloVolo.add(new JLabel("COMPAGNIA AEREA: " + volo.getCompagniaAerea().toUpperCase()));
-            if(volo.getOrigine() != null) pannelloVolo.add(new JLabel("ORIGINE: " + volo.getOrigine().toUpperCase()));
-            if(volo.getDestinazione() != null) pannelloVolo.add(new JLabel("DESTINAZIONE: " + volo.getDestinazione().toUpperCase()));
-            pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
-            pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
-            pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
+        if(listaVoli.isEmpty()){
+            JPanel pannelloVolo = new JPanel();
+            pannelloVolo.setLayout(new GridLayout(1,8, 10, 10));
+            pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+
+            pannelloVolo.add(new JLabel("Non ci sono voli attualmente disponibili. Ci scusiamo per il disagio!"));
+
 
             listaVoliPanel.add(pannelloVolo);
             listaVoliPanel.add(Box.createVerticalStrut(5));
+
             listaVoliPanel.revalidate();
             listaVoliPanel.repaint();
+        }else{
+            for(Volo volo: listaVoli){
+                JPanel pannelloVolo = new JPanel();
+                pannelloVolo.setLayout(new GridLayout(1,8, 10, 10));
+                pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+                pannelloVolo.add(new JLabel("CODICE: " + volo.getCodiceVolo().toUpperCase()));
+                pannelloVolo.add(new JLabel("COMPAGNIA AEREA: " + volo.getCompagniaAerea().toUpperCase()));
+                if(volo.getOrigine() != null) pannelloVolo.add(new JLabel("ORIGINE: " + volo.getOrigine().toUpperCase()));
+                if(volo.getDestinazione() != null) pannelloVolo.add(new JLabel("DESTINAZIONE: " + volo.getDestinazione().toUpperCase()));
+                pannelloVolo.add(new JLabel("DATA: " + volo.getData().toUpperCase()));
+                if(volo.getOrigine().equalsIgnoreCase("Napoli")){
+                    pannelloVolo.add(new JLabel("PARTE ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
+                }else{
+                    pannelloVolo.add(new JLabel("ARRIVA ALLE ORE: " + volo.getOrarioPrevisto().toUpperCase()));
+                }
+                pannelloVolo.add(new JLabel("RITARDO: " + volo.getRitardo() + " minuti"));
+                pannelloVolo.add(new JLabel("STATO: " + volo.getStatoVolo()));
+
+                listaVoliPanel.add(pannelloVolo);
+                listaVoliPanel.add(Box.createVerticalStrut(5));
+                listaVoliPanel.revalidate();
+                listaVoliPanel.repaint();
+            }
         }
     }
 
+    /**
+     * Ritorna il panel principale della pagina Ospite
+     *
+     * @return Oggetto panel principale
+     */
     public JPanel getMainPanel() {
         return ospiteContainer;
     }

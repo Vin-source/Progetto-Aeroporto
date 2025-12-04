@@ -1,0 +1,41 @@
+package database;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class ConnessioneDatabase {
+    private static ConnessioneDatabase instance;
+    public Connection connection = null;
+    private String nome = "postgres";
+    private String password = "napoli192676";
+    private String url = "jdbc:postgresql://localhost:5432/AeroportoDB";
+    private String driver = "org.postgresql.Driver";
+
+
+    private ConnessioneDatabase() throws SQLException {
+        try{
+            Class.forName(driver);
+            connection = DriverManager.getConnection(url, nome, password);
+        } catch(ClassNotFoundException ex){
+            System.out.println("Connessione al database Fallita: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    public static ConnessioneDatabase getInstance() throws SQLException {
+        if(instance == null){
+            instance = new ConnessioneDatabase();
+        }else if(instance.connection.isClosed()){
+            return instance;
+        }
+        return instance;
+    }
+
+    public void close() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+        }
+    }
+
+}

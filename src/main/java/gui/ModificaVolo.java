@@ -1,15 +1,23 @@
 package gui;
-// import controller.*;
+import controller.Controller;
 import model.Volo;
 
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 
+/**
+ * Classe che rappresenta la schermata per modificare i voli
+ *
+ */
 public class ModificaVolo {
+    /**
+     * Il frame della finestra ModificaVolo
+     */
     public JFrame frame;
 
     private JTextField dataAttuale;
@@ -26,30 +34,58 @@ public class ModificaVolo {
 
     private JLabel gateAttuale;
     private JButton modificaGate;
+    private JButton AnnullaBUTTON;
 
+    private Controller controller;
 
-    public ModificaVolo(/*Controller controller,*/ JFrame frameChiamante, Volo volo) {
+    /**
+     * Costruisce l'interfaccia che si apre quando
+     * l'Amministratore vuole modificare un volo
+     * @param frameChiamante Il frame della finestra Ammistratore che vuole
+     *                       modificare il volo
+     * @param controller il controller che effettua chiamate al model/db
+     * @param volo L'oggetto Volo contenente i dati da visualizzare/modificare
+     */
+    public ModificaVolo(JFrame frameChiamante, Controller controller,Volo volo) {
+        this.controller = controller;
+
         frame = new JFrame("Aggiorna Volo");
         frame.setContentPane(aggiornaVoloPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         codiceVolo.setText(volo.getCodiceVolo());
         dataAttuale.setText(volo.getData());
         orarioAttuale.setText(volo.getOrarioPrevisto());
         ritardoAttuale.setText(String.valueOf(volo.getRitardo()));
-        gateAttuale.setText(String.valueOf(volo.getGate().getNumero()));
+
+        if (volo.getGate() != null) {
+            gateAttuale.setText(String.valueOf(volo.getGate().getNumero()));
+        } else {
+            gateAttuale.setText("Gate non assegnato");
+        }
 
         dataAttuale.setEditable(false);
-        orarioAttuale.setEditable(false);
         orarioAttuale.setEditable(false);
         ritardoAttuale.setEditable(false);
 
         initFormatters();
         initListeners(frameChiamante, volo);
+
+        frame.pack();
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+        frame.setVisible(true);
     }
 
 
+    /**
+     * Metodo che contiene gli action listener della form ModificaVolo
+     * Contiene il bottone per confermare la modifica di un volo,
+     * la possibilità di modificare il gate associato ad un volo e
+     * la possibilità di annullare l'operazione
+     *
+     * @param frameChiamante Il frame della finestra Amministratore
+     * @param volo           L'oggetto volo da modificare
+     */
     public void initListeners(JFrame frameChiamante, Volo volo) {
 
         confermaCambiamentiVolo.addActionListener(new ActionListener() {
@@ -58,7 +94,7 @@ public class ModificaVolo {
                 String nuovaDataText = nuovaData.getText();
                 String nuovoOrarioText = nuovoOrario.getText();
                 String nuovoRitardoText = nuovoRitardo.getText();
-                int gate = Integer.parseInt(gateAttuale.getText());
+                String gateText = gateAttuale.getText();
 
                 if(nuovaDataText.contains("_")){
                     nuovaDataText = volo.getData();
@@ -70,18 +106,13 @@ public class ModificaVolo {
                     nuovoRitardoText = String.valueOf(volo.getRitardo());
                 }
 
-                /*
 
 
+                String result = controller.aggiornaVolo(volo.getCodiceVolo(), nuovaDataText, nuovoOrarioText, nuovoRitardoText, gateText);
 
-                    Boolean result = controller.aggiornaVolo(volo.getCodiceVolo(), nuovaDataText, nuovoOrarioText, nuovoRitardoText, gate);
-                    if(result){
-                        JOptionPane.showMessageDialog(null, "Volo aggiornato con successo.");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Errore! Volo non aggiornato");
-                    }
+                JOptionPane.showMessageDialog(frame, result);
 
-                */
+
                 frameChiamante.setVisible(true);
                 frame.setVisible(false);
                 frame.dispose();
@@ -91,13 +122,23 @@ public class ModificaVolo {
         modificaGate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ModificaGate nuovoGate = new ModificaGate(/*controller, AggiornaVolo.this, gateAttuale.getText()*/frame, gateAttuale.getText(), ModificaVolo.this);
-                nuovoGate.frame.setVisible(true);
+                new ModificaGate(frame, controller, gateAttuale.getText(),ModificaVolo.this, volo.getCodiceVolo());
                 frame.setVisible(false);
+            }
+        });
+
+        AnnullaBUTTON.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frameChiamante.setVisible(true);
+                frame.dispose();
             }
         });
     }
 
+    /**
+     * Metodo che contiene i formatter della data e dell'ora
+     */
     public void initFormatters() {
         try {
             MaskFormatter formatterOra = new MaskFormatter("##:##");
@@ -108,12 +149,19 @@ public class ModificaVolo {
             nuovoOrario.setFormatterFactory(new DefaultFormatterFactory(formatterOra));
             nuovaData.setColumns(10);
             nuovoOrario.setColumns(2);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+        } catch (ParseException _) {
+            JOptionPane.showConfirmDialog(frame, "Errore di conversione di data e ora");
         }
     }
 
-    public void impostaNuovoGate(Integer gate){
-        gateAttuale.setText(String.valueOf(gate));
+    /**
+     * Metodo che salva il nuovo gate associato al volo
+     * Questo metodo viene utilizzato nella GUI {@link ModificaGate}
+     * Per salvare il nuovo valore scelto anche nella schermata padre (ModificaVolo)
+     *
+     * @param gate Il nuovo numero del gate selezionato
+     */
+    public void impostaNuovoGate(String gate){
+        gateAttuale.setText(gate);
     }
 }
