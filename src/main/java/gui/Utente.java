@@ -28,6 +28,7 @@ public class Utente {
     private JLabel voli;
     private JButton areaPersonaleButton;
     private JButton logoutButton;
+    private JScrollPane listaVoliScroll;
 
     private Controller controller;
 
@@ -44,7 +45,11 @@ public class Utente {
          frame = new JFrame("Area Utente");
          frame.setContentPane(utenteContainer);
          frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-         listaVoliPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+         listaVoliPanel.setLayout(new GridLayout(0, 4, 5, 5));
+
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        wrapperPanel.add(listaVoliPanel, BorderLayout.NORTH);
+        listaVoliScroll.setViewportView(wrapperPanel);
 
 
         aggiornaListaVoli(this.controller.getTuttiVoli());
@@ -112,7 +117,10 @@ public class Utente {
                 JPanel pannelloVolo = new JPanel();
                 pannelloVolo.setPreferredSize(new Dimension(300, 300));
                 pannelloVolo.setLayout(new GridLayout(0, 1));
-                pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                javax.swing.border.Border lineaNera = BorderFactory.createLineBorder(Color.BLACK, 3);
+                javax.swing.border.Border paddingInterno = BorderFactory.createEmptyBorder(15, 15, 15, 15);
+                pannelloVolo.setBorder(BorderFactory.createCompoundBorder(lineaNera, paddingInterno));
+
                 // pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
 
                 aggiungiDatiAlVolo(pannelloVolo, volo);
