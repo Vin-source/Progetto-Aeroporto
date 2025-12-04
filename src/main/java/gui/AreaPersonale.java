@@ -6,6 +6,7 @@ import model.Prenotazione;
 import model.StatoPrenotazione;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
@@ -55,8 +56,11 @@ public class AreaPersonale {
         email.setText(this.controller.getEmail());
         email.setEditable(false);
 
-        listaPrenotazioni.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+        listaPrenotazioni.setLayout(new GridLayout(0, 4, 5, 5));
 
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        wrapperPanel.add(listaPrenotazioni, BorderLayout.NORTH);
+        listaPrenotazioniScroll.setViewportView(wrapperPanel);
 
         aggiornaPrenotazioni(this.controller.getTutteLePrenotazioni());
         initListeners(framePadre);
@@ -132,25 +136,29 @@ public class AreaPersonale {
 
         if(prenotazioni.isEmpty()){
             JPanel prenotazione = new JPanel();
-            prenotazione.setLayout(new GridLayout(1,7, 10, 10));
-            prenotazione.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            prenotazione.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
+            prenotazione.setLayout(new GridLayout(0,1, 5, 5));
+
+            Border lineaNera = BorderFactory.createLineBorder(Color.BLACK, 3);
+            Border paddingInterno = BorderFactory.createEmptyBorder(15, 15, 15, 15);
+            prenotazione.setBorder(BorderFactory.createCompoundBorder(lineaNera, paddingInterno));
 
 
             prenotazione.add(new JLabel("Non hai nessuna prenotazione effettuata!"));
 
             listaPrenotazioni.add(prenotazione);
-            listaPrenotazioni.add(Box.createVerticalStrut(5));
         }
         else{
 
 
             for(Prenotazione p : prenotazioni){
                 JPanel prenotazione = new JPanel();
-                prenotazione.setPreferredSize(new Dimension(300, 300));
+                prenotazione.setPreferredSize(new Dimension(350, 350));
                 prenotazione.setLayout(new GridLayout(0,1));
-                prenotazione.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                // prenotazione.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60)); // altezza fissa
+
+                Border lineaNera = BorderFactory.createLineBorder(Color.BLACK, 3);
+                Border paddingInterno = BorderFactory.createEmptyBorder(15, 15, 15, 15);
+                prenotazione.setBorder(BorderFactory.createCompoundBorder(lineaNera, paddingInterno));
+
 
                 prenotazione.add(new JLabel("ID: " + p.getIdPrenotazione().toUpperCase()));
                 prenotazione.add(new JLabel("NOME: " + p.getNome().toUpperCase()));
@@ -161,24 +169,21 @@ public class AreaPersonale {
 
                 ArrayList<Bagaglio> bagagli = p.getBagaglio();
                 if(bagagli != null){
-                    JPanel bagagliPanel = new JPanel();
-                    bagagliPanel.setLayout(new BoxLayout(bagagliPanel, BoxLayout.Y_AXIS));
-
-                    JPanel pesoBagagli = new JPanel();
+                    prenotazione.add(new JLabel(" "));
+                    prenotazione.add(new JLabel("BAGAGLI: "));
                     float pesoTotale = 0;
 
                     for(Bagaglio b : bagagli){
-                        bagagliPanel.add(new JLabel("CODICE BAGAGLIO: " + b.getCodice()));
+                        prenotazione.add(new JLabel("CODICE BAGAGLIO: " + b.getCodice()));
                         pesoTotale = b.getPeso();
                     }
-                    pesoBagagli.add(new JLabel("PESO TOTALE BAGAGLI: " + pesoTotale));
-                    prenotazione.add(bagagliPanel);
-                    prenotazione.add(pesoBagagli);
+                    prenotazione.add(new JLabel("PESO TOTALE DEI BAGAGLI: " + pesoTotale));
+
                 }
 
 
                 if(!p.getStatoPrenotazione().equals(StatoPrenotazione.CANCELLATA)){
-
+                    prenotazione.add(new JLabel(" "));
                     JButton modificaPrenotazione = new JButton("MODIFICA");
                     JButton cancellaPrenotazione = new JButton("CANCELLA");
                     prenotazione.add(modificaPrenotazione);
@@ -199,14 +204,9 @@ public class AreaPersonale {
                 }
 
 
-                prenotazione.setMaximumSize(new Dimension(Integer.MAX_VALUE,
-                        prenotazione.getPreferredSize().height));
                 listaPrenotazioni.add(prenotazione);
-                // listaPrenotazioni.add(Box.createVerticalStrut(5));
 
             }
-
-            listaPrenotazioni.add(Box.createVerticalGlue());
         }
 
         listaPrenotazioni.revalidate();

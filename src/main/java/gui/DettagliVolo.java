@@ -6,6 +6,7 @@ import model.Prenotazione;
 import model.Volo;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -30,7 +31,11 @@ public class DettagliVolo {
         JFrame frame = new JFrame("Dettagli Volo");
         frame.setContentPane(dettagliVoloContainer);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        dettagliVoloPanel.setLayout(new BoxLayout(dettagliVoloPanel, BoxLayout.Y_AXIS));
+        dettagliVoloPanel.setLayout(new GridLayout(0, 1, 5, 5));
+
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        wrapperPanel.add(dettagliVoloPanel, BorderLayout.NORTH);
+        dettagliVoloScrollPane.setViewportView(wrapperPanel);
 
         mostraInfo(volo);
 
@@ -60,16 +65,19 @@ public class DettagliVolo {
 
             for(Prenotazione p : prenotazioni){
                 JPanel prenotazioniPanel = new JPanel();
-                prenotazioniPanel.setLayout(new BoxLayout(prenotazioniPanel, BoxLayout.Y_AXIS));
+                prenotazioniPanel.setPreferredSize(new Dimension(300, 300));
+                prenotazioniPanel.setLayout(new GridLayout(0 , 1, 5, 5));
+
+                Border lineaNera = BorderFactory.createLineBorder(Color.BLACK, 3);
+                Border paddingInterno = BorderFactory.createEmptyBorder(15, 15, 15, 15);
+                prenotazioniPanel.setBorder(BorderFactory.createCompoundBorder(lineaNera, paddingInterno));
+
                 prenotazioniPanel.add(new JLabel("UTENTE:"));
                 prenotazioniPanel.add(new JLabel("Nome: " + p.getNome()));
                 prenotazioniPanel.add(new JLabel("Cognome: " + p.getCognome()));
                 prenotazioniPanel.add(new JLabel("Carta d'identità: " + p.getCartaIdentita()));
 
                 mostraBagagli(prenotazioniPanel, p);
-
-                prenotazioniPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                dettagliVoloPanel.add(Box.createVerticalStrut(5));
 
                 dettagliVoloPanel.add(prenotazioniPanel);
 
@@ -89,7 +97,10 @@ public class DettagliVolo {
      */
     public void mostraPanelVuoto() {
         JPanel prenotazioniVuote = new JPanel();
-        prenotazioniVuote.setLayout(new BoxLayout(prenotazioniVuote, BoxLayout.Y_AXIS));
+        prenotazioniVuote.setLayout(new GridLayout(0, 1));
+        Border lineaNera = BorderFactory.createLineBorder(Color.BLACK, 3);
+        Border paddingInterno = BorderFactory.createEmptyBorder(15, 15, 15, 15);
+        prenotazioniVuote.setBorder(BorderFactory.createCompoundBorder(lineaNera, paddingInterno));
         prenotazioniVuote.add(new JLabel("Non ci sono prenotazioni per questo volo"));
         dettagliVoloPanel.add(prenotazioniVuote);
     }
@@ -111,6 +122,7 @@ public class DettagliVolo {
         float pesoTotale = 0;
         if(!bagagli.isEmpty() && bagagli.get(0) != null) pesoTotale = bagagli.get(0).getPeso();
 
+        prenotazioniPanel.add(new JLabel(" "));
         prenotazioniPanel.add(new JLabel("BAGAGLI: "));
 
         if(bagagli.isEmpty()){

@@ -5,6 +5,7 @@ import model.StatoVolo;
 import model.Volo;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
@@ -29,6 +30,7 @@ public class Amministratore {
     private JButton logoutButton;
     private JTextField ricercaVoli;
     private JPanel listaVoliPanel;
+    private JScrollPane listaVoliScroll;
 
     private Controller controller;
 
@@ -46,8 +48,11 @@ public class Amministratore {
         frame.setContentPane(AmministratorePanel);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        listaVoliPanel.setLayout(new FlowLayout(FlowLayout.LEFT,20, 20));
+        listaVoliPanel.setLayout(new GridLayout(0, 4, 5, 5));
 
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        wrapperPanel.add(listaVoliPanel, BorderLayout.NORTH);
+        listaVoliScroll.setViewportView(wrapperPanel);
 
         initListeners(frameChiamante);
         frame.pack();
@@ -131,13 +136,16 @@ public class Amministratore {
                 JPanel pannelloVolo = new JPanel();
                 pannelloVolo.setPreferredSize(new Dimension(300, 300));
                 pannelloVolo.setLayout(new GridLayout(0, 1));
-                pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                // pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+
+                Border lineaNera = BorderFactory.createLineBorder(Color.BLACK, 3);
+                Border paddingInterno = BorderFactory.createEmptyBorder(15, 15, 15, 15);
+                pannelloVolo.setBorder(BorderFactory.createCompoundBorder(lineaNera, paddingInterno));
 
                 popolaDati(pannelloVolo, volo);
 
                 if(volo.getStatoVolo().equals(StatoVolo.CANCELLATO) || volo.getStatoVolo().equals(StatoVolo.IN_RITARDO)){
-                    pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.RED));
+                    Border lineaRossa = BorderFactory.createLineBorder(Color.RED, 3);
+                    pannelloVolo.setBorder(BorderFactory.createCompoundBorder(lineaRossa, paddingInterno));
                 }
 
                 if(!volo.getStatoVolo().equals(StatoVolo.CANCELLATO)){
@@ -153,7 +161,6 @@ public class Amministratore {
 
 
                 listaVoliPanel.add(pannelloVolo);
-                // listaVoliPanel.add(Box.createVerticalStrut(5));
 
             }
         }
@@ -171,14 +178,15 @@ public class Amministratore {
      */
     public void pannelloVuoto(){
         JPanel pannelloVolo = new JPanel();
-        pannelloVolo.setLayout(new GridLayout(1,9, 10, 10));
-        pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
+        pannelloVolo.setLayout(new GridLayout(0,4, 5, 5));
+
+        Border lineaNera = BorderFactory.createLineBorder(Color.BLACK, 3);
+        Border paddingInterno = BorderFactory.createEmptyBorder(15, 15, 15, 15);
+        pannelloVolo.setBorder(BorderFactory.createCompoundBorder(lineaNera, paddingInterno));
 
         pannelloVolo.add(new JLabel("Non ci sono voli attualmente disponibili. Ci scusiamo per il disagio!"));
 
         listaVoliPanel.add(pannelloVolo);
-        listaVoliPanel.add(Box.createVerticalStrut(5));
     }
 
 

@@ -5,6 +5,7 @@ import model.StatoVolo;
 import model.Volo;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
@@ -117,11 +118,9 @@ public class Utente {
                 JPanel pannelloVolo = new JPanel();
                 pannelloVolo.setPreferredSize(new Dimension(300, 300));
                 pannelloVolo.setLayout(new GridLayout(0, 1));
-                javax.swing.border.Border lineaNera = BorderFactory.createLineBorder(Color.BLACK, 3);
-                javax.swing.border.Border paddingInterno = BorderFactory.createEmptyBorder(15, 15, 15, 15);
+                Border lineaNera = BorderFactory.createLineBorder(Color.BLACK, 3);
+                Border paddingInterno = BorderFactory.createEmptyBorder(5, 5, 5, 5);
                 pannelloVolo.setBorder(BorderFactory.createCompoundBorder(lineaNera, paddingInterno));
-
-                // pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
 
                 aggiungiDatiAlVolo(pannelloVolo, volo);
 
@@ -133,7 +132,6 @@ public class Utente {
                 }
 
                 listaVoliPanel.add(pannelloVolo);
-                // listaVoliPanel.add(Box.createVerticalStrut(5));
 
             }
         }
@@ -169,9 +167,10 @@ public class Utente {
      */
     public void mostraListaVuota(){
         JPanel pannelloVolo = new JPanel();
-        pannelloVolo.setLayout(new GridLayout(1,9, 10, 10));
-        pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        pannelloVolo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // altezza fissa
+        pannelloVolo.setLayout(new GridLayout(0,4, 5, 5));
+        Border lineaNera = BorderFactory.createLineBorder(Color.BLACK, 3);
+        Border paddingInterno = BorderFactory.createEmptyBorder(15, 15, 15, 15);
+        pannelloVolo.setBorder(BorderFactory.createCompoundBorder(lineaNera, paddingInterno));
 
         pannelloVolo.add(new JLabel("Non ci sono voli attualmente disponibili. Ci scusiamo per il disagio!"));
 
