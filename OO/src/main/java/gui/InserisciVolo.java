@@ -48,7 +48,7 @@ public class InserisciVolo {
     public InserisciVolo(JFrame frameChiamante, Controller controller) {
         this.controller = controller;
 
-        frame = new JFrame("Schermata InserisciVolo");
+        frame = new JFrame("Inserisci Volo");
         frame.setContentPane(inserisciVoloPanel);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 

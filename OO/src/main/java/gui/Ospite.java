@@ -53,7 +53,7 @@ public class Ospite extends JFrame {
 
 
 
-        frame = new JFrame("La mia GUI Swing");
+        frame = new JFrame("Ospite");
         frame.setContentPane(ospiteContainer);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();

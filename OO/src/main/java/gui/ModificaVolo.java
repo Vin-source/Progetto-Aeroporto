@@ -49,7 +49,7 @@ public class ModificaVolo {
     public ModificaVolo(JFrame frameChiamante, Controller controller,Volo volo) {
         this.controller = controller;
 
-        frame = new JFrame("Aggiorna Volo");
+        frame = new JFrame("Modifica Volo");
         frame.setContentPane(aggiornaVoloPanel);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 

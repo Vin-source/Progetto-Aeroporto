@@ -44,7 +44,7 @@ public class Amministratore {
     public Amministratore(Controller controller, JFrame frameChiamante) {
 
         this.controller = controller;
-        frame = new JFrame("Pannello Amministratore TEST");
+        frame = new JFrame("Pannello Amministratore");
         frame.setContentPane(AmministratorePanel);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
