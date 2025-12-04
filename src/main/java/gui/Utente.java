@@ -125,7 +125,8 @@ public class Utente {
                 aggiungiDatiAlVolo(pannelloVolo, volo);
 
                 if(volo.getStatoVolo().equals(StatoVolo.CANCELLATO) || volo.getStatoVolo().equals(StatoVolo.IN_RITARDO)){
-                    pannelloVolo.setBorder(BorderFactory.createLineBorder(Color.RED));
+                    Border lineaRossa = BorderFactory.createLineBorder(Color.RED, 3);
+                    pannelloVolo.setBorder(BorderFactory.createCompoundBorder(lineaRossa, paddingInterno));
                 }
                 if(volo.getStatoVolo().equals(StatoVolo.PROGRAMMATO)){
                     aggiungiBottoniPrenotazione(pannelloVolo, volo);
