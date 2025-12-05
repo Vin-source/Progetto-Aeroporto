@@ -14,11 +14,11 @@ Ogni Amministratore del sistema può gestire i voli, crearli o modificarne i dat
 ## Codice & Documentazione
 
 Codice disponibile su GitHub:  
-https://github.com/Vin-source/Progetto-Aeroporto
+https://github.com/Vin-source/Progetto-OO-DB-Aeroporto
 
 
 Documentazione ufficiale OO:   
-
+OO/Documentazione
 
 
 ---
@@ -26,7 +26,7 @@ Documentazione ufficiale OO:
 ## Autori
 
 - Raia Vincenzo – N86002868  
-- Josuè Emanuel Pugliese – N86005374
+- Pugliese Josuè Emanuel – N86005374
 
 ---
 
